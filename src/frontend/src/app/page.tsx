@@ -340,7 +340,7 @@ export default function LandingPage() {
                   <div className="flex flex-col gap-4 lg:gap-6 font-label text-sm lg:text-base uppercase tracking-widest border-l-4 border-white/30 pl-6 lg:pl-10 py-2 lg:py-4">
                     <div className="flex items-center gap-4 lg:gap-6">
                       <span className="material-symbols-outlined text-2xl lg:text-3xl">pagos</span>
-                      <span className="font-black">Costo de entrada: $100 MXN</span>
+                      <span className="font-black">Costo de entrada: $110 MXN</span>
                     </div>
                     <div className="flex items-center gap-4 lg:gap-6">
                       <span className="material-symbols-outlined text-2xl lg:text-3xl">grupos</span>
@@ -350,7 +350,7 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col gap-6 lg:gap-8 items-start">
                   <div className="flex flex-wrap gap-2 lg:gap-4">
-                    {["HACKATHONS", "GAME JAMS", "PENTESTING"].map(tag => (
+                    {["HACKATHONS", "GAME JAMS", "PENTESTING", "Por lanzamiento, el premio en efectivo inicia en $2,000 MXN", "1 Registro = $100 MXN mas en la bolsa", "Impuesto de $10 MXN por registro"].map(tag => (
                       <span key={tag} className="px-4 py-1.5 bg-[#131313] text-[#ffb4a8] text-[10px] font-label font-bold uppercase tracking-[0.2em]">
                         {tag}
                       </span>
