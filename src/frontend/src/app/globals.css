@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #131313;
+  --on-background: #e5e2e1;
+  --primary: #ffb4a8;
+  --primary-container: #ff5540;
+  --on-primary-container: #5c0000;
+  --on-surface-variant: #ebbbb4;
+  --outline-variant: #603e39;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--on-background);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.terminal-grid, .ghost-grid {
+  background-image: radial-gradient(rgba(255, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.ghost-border {
+  border: 1px solid rgba(177, 135, 128, 0.2);
+}
+
+.block-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.2em;
+  background: #ff5540;
+  vertical-align: middle;
+}
+
+input:focus {
+  outline: none;
+  border-bottom: 2px solid #ff5540 !important;
+}
+
+.heatmap-cell {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+}
+
+/* Radical Architect Rule: 0px everywhere */
+* {
+  border-radius: 0 !important;
+}
+
+.glow-gold {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.5) !important;
+}
+
+.block-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.2em;
+  background: var(--primary-container);
+  vertical-align: middle;
+}

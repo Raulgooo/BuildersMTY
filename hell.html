@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BUILDERS MTY | RADICAL ARCHITECT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Mono&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#690100",
+                        "background": "#131313",
+                        "on-secondary-container": "#ff9f90",
+                        "tertiary-fixed-dim": "#acc7ff",
+                        "secondary-fixed": "#ffdad4",
+                        "secondary-container": "#970100",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "tertiary": "#acc7ff",
+                        "on-primary-container": "#5c0000",
+                        "on-secondary-fixed": "#410000",
+                        "surface-variant": "#353534",
+                        "surface-tint": "#ffb4a8",
+                        "on-primary-fixed-variant": "#930100",
+                        "secondary": "#ffb4a8",
+                        "on-tertiary": "#002f67",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed": "#001a40",
+                        "tertiary-container": "#488fff",
+                        "outline": "#b18780",
+                        "on-background": "#e5e2e1",
+                        "tertiary-fixed": "#d7e2ff",
+                        "on-surface-variant": "#ebbbb4",
+                        "on-tertiary-fixed-variant": "#004491",
+                        "surface-container": "#201f1f",
+                        "surface-bright": "#3a3939",
+                        "primary-fixed": "#ffdad4",
+                        "inverse-on-surface": "#313030",
+                        "on-error": "#690005",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary-fixed-dim": "#ffb4a8",
+                        "surface-dim": "#131313",
+                        "on-primary": "#690100",
+                        "inverse-primary": "#c00100",
+                        "primary-container": "#ff5540",
+                        "on-secondary-fixed-variant": "#930100",
+                        "inverse-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "surface": "#131313",
+                        "primary": "#ffb4a8",
+                        "on-primary-fixed": "#410000",
+                        "outline-variant": "#603e39",
+                        "on-tertiary-container": "#00285b",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Mono"]
+                    },
+                    borderRadius: { "DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .ghost-grid {
+            background-image: radial-gradient(circle, #ff000015 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .block-cursor::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #ffb4a8;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .glow-gold {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.6) !important;
+        }
+
+        .heatmap-cell {
+            width: 8px;
+            height: 8px;
+            border-radius: 1px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
+    <!-- Top Navigation Shell -->
+    <nav
+        class="fixed top-0 z-50 flex justify-between items-center w-full px-6 py-4 border-b border-[#FF0000]/10 bg-[#131313]">
+        <div class="text-xl font-bold tracking-tighter text-[#FF0000] font-headline">RADICAL_ARCHITECT</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#FF0000] border-b-2 border-[#FF0000] pb-1"
+                href="#">MISSION</a>
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#E5E2E1] opacity-70 hover:opacity-100 hover:text-[#FF0000] transition-opacity"
+                href="#">FINDMYPAL</a>
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#E5E2E1] opacity-70 hover:opacity-100 hover:text-[#FF0000] transition-opacity"
+                href="#">MANIFESTO</a>
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#E5E2E1] opacity-70 hover:opacity-100 hover:text-[#FF0000] transition-opacity"
+                href="#">EVENTS</a>
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#E5E2E1] opacity-70 hover:opacity-100 hover:text-[#FF0000] transition-opacity"
+                href="#">TOOLS</a>
+            <a class="font-headline uppercase tracking-tighter text-sm text-[#E5E2E1] opacity-70 hover:opacity-100 hover:text-[#FF0000] transition-opacity"
+                href="#">TERMINAL</a>
+        </div>
+        <button
+            class="bg-primary-container text-on-primary-container px-4 py-1.5 font-headline text-xs font-bold uppercase tracking-widest active:scale-95 duration-75">
+            JOIN_NETWORK
+        </button>
+    </nav>
+    <main class="pt-24 ghost-grid min-h-screen">
+        <!-- Hero Section -->
+        <section
+            class="px-6 py-12 md:py-24 max-w-7xl mx-auto border-x border-[#FF0000]/5 min-h-[819px] flex flex-col justify-center">
+            <div class="flex flex-col md:flex-row gap-8 items-end justify-between mb-16">
+                <div class="max-w-4xl">
+                    <div class="font-label text-primary text-xs tracking-[0.3em] mb-4 uppercase">System Status: Active
+                        // Node 81.MTY</div>
+                    <h1
+                        class="text-7xl md:text-9xl font-headline font-bold leading-[0.85] tracking-tighter uppercase mb-6">
+                        BUILD <span class="text-primary-container">OR</span> DIE
+                    </h1>
+                    <p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl font-light leading-relaxed">
+                        We are a high-density intelligence network based in Monterrey. Zero fluff. Pure engineering. We
+                        build the infrastructure of the next sovereign era.
+                    </p>
+                </div>
+                <div class="flex flex-col gap-2 font-label text-[10px] opacity-40 uppercase text-right">
+                    <span>Lat: 25.6866° N</span>
+                    <span>Lon: 100.3161° W</span>
+                    <span>Elev: 540m</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-outline-variant/30">
+                <div
+                    class="p-6 border-r border-outline-variant/30 bg-surface-container-low hover:bg-surface-container transition-colors">
+                    <span class="font-label text-xs text-primary block mb-4">01 // EXECUTION</span>
+                    <h3 class="font-headline font-bold text-lg mb-2 uppercase">RAPID PROTOTYPING</h3>
+                    <p class="text-sm opacity-60">From concept to production in hyper-compressed cycles. We value code
+                        over slide decks.</p>
+                </div>
+                <div
+                    class="p-6 border-r border-outline-variant/30 bg-surface-container-low hover:bg-surface-container transition-colors">
+                    <span class="font-label text-xs text-primary block mb-4">02 // ARCHITECTURE</span>
+                    <h3 class="font-headline font-bold text-lg mb-2 uppercase">SYSTEM DESIGN</h3>
+                    <p class="text-sm opacity-60">Hardened, scalable foundations for decentralized tools and sovereign
+                        SaaS solutions.</p>
+                </div>
+                <div class="p-6 bg-surface-container-low hover:bg-surface-container transition-colors">
+                    <span class="font-label text-xs text-primary block mb-4">03 // COALITION</span>
+                    <h3 class="font-headline font-bold text-lg mb-2 uppercase">FOUNDER MATCH</h3>
+                    <p class="text-sm opacity-60">High-signal peer networking for technical architects and radical
+                        product thinkers.</p>
+                </div>
+            </div>
+        </section>
+        <!-- 01 Core Mission Section -->
+        <section class="bg-surface-container-lowest border-y border-outline-variant/20">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row">
+                <div class="w-full md:w-1/3 p-12 border-r border-outline-variant/20">
+                    <div class="sticky top-32">
+                        <h2 class="text-5xl font-headline font-bold tracking-tighter uppercase mb-8">01
+                            CORE<br />MISSION</h2>
+                        <div class="space-y-4 font-label text-[11px] text-on-surface-variant">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 bg-primary"></span>
+                                <span>OPEN_SOURCE_FIRST</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 bg-primary"></span>
+                                <span>SAAS_INFRASTRUCTURE</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 bg-primary"></span>
+                                <span>TOOLING_PRECISION</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <div class="p-12 border-b border-outline-variant/10">
+                        <div class="aspect-video w-full bg-surface-container relative mb-12 overflow-hidden">
+                            <img class="w-full h-full object-cover grayscale brightness-50 contrast-125"
+                                data-alt="Monochrome cinematic wide shot of a brutalist architecture server room with red glowing status lights and industrial pipes"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ-ncYdB_n8nFigcTDKC744d32Uyn1k4hAGrMdLY41l5fT82CLPsqrrcObV1KWjerXfPTuyFNr7EAJ6YumwlBmfS9wuycAYGsTW4Kqu-1AchQj5ArIb7_nO_STV0eBZ22ia5qngz8xcF4X7irhSFI5e6rfGTzz3gU8tNNY91lsiqpJ2htqs9pcFq2Icn1lSAgk_MzAd3Z6jql4lPjm0sI3swbKCPqAKdfhyuTl-EFPEErpuvk4K7WgD0WO-k8xU9yf_xtMTNFzQ83M" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent">
+                            </div>
+                            <div
+                                class="absolute bottom-6 left-6 font-label text-xs uppercase tracking-widest text-primary">
+                                Live Infrastructure View</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div>
+                                <h4 class="font-headline font-bold text-xl uppercase mb-4 tracking-tight">Radical
+                                    Transparency</h4>
+                                <p class="text-on-surface-variant leading-relaxed text-sm">We believe in public
+                                    building. Our internal tools are eventually externalized as open-source standards.
+                                    We don't hide the blueprints; we invite you to improve them.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-headline font-bold text-xl uppercase mb-4 tracking-tight">Tooling over
+                                    Talent</h4>
+                                <p class="text-on-surface-variant leading-relaxed text-sm">Talent is common. Superior
+                                    tooling is rare. We build the hammers that make building simple. Our ecosystem
+                                    reduces friction from 0 to 1.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- FindMyPal Section -->
+        <section class="max-w-7xl mx-auto px-6 py-24 border-x border-[#FF0000]/5">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                <div class="lg:col-span-5">
+                    <div class="font-label text-primary text-xs tracking-[0.3em] mb-4 uppercase">Directorio de Élite
+                    </div>
+                    <h2 class="text-6xl font-headline font-black tracking-tighter uppercase mb-8 leading-none">
+                        FIND_MY_PAL</h2>
+                    <p class="text-lg text-on-surface-variant mb-12 font-light leading-relaxed">
+                        El directorio de élite para los desarrolladores que realmente están construyendo el futuro
+                        tecnológico de Monterrey. No somos LinkedIn. Somos el registro de ejecución de la ciudad.
+                    </p>
+                    <div class="space-y-10">
+                        <div class="flex gap-6">
+                            <div
+                                class="shrink-0 w-12 h-12 bg-surface-container flex items-center justify-center border border-outline-variant/30">
+                                <span class="material-symbols-outlined text-primary">sync_alt</span>
+                            </div>
+                            <div>
+                                <h4 class="font-headline font-bold uppercase tracking-tight mb-2">GitHub Sync</h4>
+                                <p class="text-sm opacity-60">Análisis profundo de repositorios, stack tecnológico y
+                                    consistencia de commits. Tu código es tu única referencia.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div
+                                class="shrink-0 w-12 h-12 bg-surface-container flex items-center justify-center border border-outline-variant/30">
+                                <span class="material-symbols-outlined text-primary">military_tech</span>
+                            </div>
+                            <div>
+                                <h4 class="font-headline font-bold uppercase tracking-tight mb-2">Hackathon History</h4>
+                                <p class="text-sm opacity-60">Insignias de Veteran y Elite basadas en participación y
+                                    victorias en eventos de alto rendimiento.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div
+                                class="shrink-0 w-12 h-12 bg-surface-container flex items-center justify-center border border-outline-variant/30">
+                                <span class="material-symbols-outlined text-primary">leaderboard</span>
+                            </div>
+                            <div>
+                                <h4 class="font-headline font-bold uppercase tracking-tight mb-2">Ranking System</h4>
+                                <p class="text-sm opacity-60">Algoritmo de ejecución propietario que mide la capacidad
+                                    de despliegue y calidad arquitectónica.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-16 grid grid-cols-3 gap-4">
+                        <div class="text-center p-4 border border-outline-variant/10">
+                            <div class="font-headline font-bold text-xl">CO-FOUND</div>
+                            <div class="font-label text-[9px] uppercase opacity-40">Matching</div>
+                        </div>
+                        <div class="text-center p-4 border border-outline-variant/10">
+                            <div class="font-headline font-bold text-xl">NETWORK</div>
+                            <div class="font-label text-[9px] uppercase opacity-40">High-Signal</div>
+                        </div>
+                        <div class="text-center p-4 border border-outline-variant/10">
+                            <div class="font-headline font-bold text-xl">EXPOSURE</div>
+                            <div class="font-label text-[9px] uppercase opacity-40">Talent Hub</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="font-label text-[10px] uppercase text-right opacity-30 tracking-widest mb-4">
+                        Sample_Builder_Nodes</div>
+                    <!-- Tier 1: Builder (Free) -->
+                    <div
+                        class="bg-surface-container-low border border-outline-variant/20 p-6 flex items-center gap-6 relative group">
+                        <div
+                            class="w-20 h-20 bg-surface-container shrink-0 border border-outline-variant/30 overflow-hidden">
+                            <img alt="Builder Avatar" class="w-full h-full object-cover grayscale opacity-80"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs9gSohrsAko2yntZ1dtD1p-4FZHoN4EKwYREbtWDq_42LIbm6UwQtPd49Gt__gbEeIGtAuqNuZMEHeafuVV53VKPgkYVCg0clzu0klx7nqDXdwGpbizmMy6KS54v7falvygPrCIPUB15CA8QuKcZLJ2JfOxbzAgd0Ls9_fzHw2q7muC1SPez_35005d2pe0U7ox_OPIS3vaWEDqW8nKywqbprLnDDNax1fuHlaZRk2Rfno-KJIw20uQmJtiNfwIZFrHl7__4J5Qw5" />
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-headline font-bold uppercase">ALEX_DEV_81</h5>
+                                    <p class="font-label text-[10px] text-primary">LEVEL: BUILDER (FREE)</p>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="heatmap-cell bg-primary/20"></div>
+                                    <div class="heatmap-cell bg-primary/40"></div>
+                                    <div class="heatmap-cell bg-primary/10"></div>
+                                    <div class="heatmap-cell bg-primary/60"></div>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                <span
+                                    class="text-[9px] font-label px-2 py-0.5 border border-outline-variant/30 uppercase opacity-60">React</span>
+                                <span
+                                    class="text-[9px] font-label px-2 py-0.5 border border-outline-variant/30 uppercase opacity-60">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tier 2: Verified Participant -->
+                    <div
+                        class="bg-surface-container-low border border-primary/30 p-6 flex items-center gap-6 relative group">
+                        <div class="w-20 h-20 bg-surface-container shrink-0 border border-primary/20 overflow-hidden">
+                            <img alt="Verified Avatar" class="w-full h-full object-cover grayscale contrast-125"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_jp8AYrSbIipfNbauDsGFNmqXE8w6Gd2uJfLudHyB7J_jdDcId0zvh34Iv4RAxvvsVEABY24ANS8mToxEKGwMKXDCJ3WhdHaqVjHku-OLP3Ru48hsYLDHuGqEYQ_VSvmj5Ug5Tt8B8fsFfChWuiFWxMlW22F_TOEs5KRFwfbq1nRKEzRLT1Pq0MvjqgjQaEdz53DeHRee792g1Zn_EYbhi1Rm2UaX0OUrojTPw2sp_SXZnxvEPs_FPWADzrY439rDojEhvI3uA3xB" />
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-headline font-bold uppercase">LUNA_CORE</h5>
+                                    <p class="font-label text-[10px] text-primary">LEVEL: VERIFIED_PARTICIPANT</p>
+                                </div>
+                                <div class="flex flex-col items-end gap-1">
+                                    <span class="material-symbols-outlined text-primary text-sm">verified</span>
+                                    <div class="flex gap-1">
+                                        <div class="heatmap-cell bg-primary/40"></div>
+                                        <div class="heatmap-cell bg-primary/80"></div>
+                                        <div class="heatmap-cell bg-primary/60"></div>
+                                        <div class="heatmap-cell bg-primary/90"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                <span
+                                    class="text-[9px] font-label px-2 py-0.5 border border-primary/30 text-primary uppercase">HACKATHON_VETERAN</span>
+                                <span
+                                    class="text-[9px] font-label px-2 py-0.5 border border-outline-variant/30 uppercase opacity-60">Rust</span>
+                                <span
+                                    class="text-[9px] font-label px-2 py-0.5 border border-outline-variant/30 uppercase opacity-60">Solana</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tier 3: Winner/Champion (Top 1%) -->
+                    <div
+                        class="bg-surface-container border-2 glow-gold p-8 flex items-center gap-8 relative group transform scale-[1.02]">
+                        <div
+                            class="absolute -top-3 -right-3 bg-[#FFD700] text-black font-label text-[9px] px-3 py-1 font-bold uppercase tracking-tighter">
+                            TOP_1_PERCENT
+                        </div>
+                        <div
+                            class="w-24 h-24 bg-surface-container-highest shrink-0 border border-[#FFD700]/50 overflow-hidden shadow-[0_0_20px_rgba(255,215,0,0.2)]">
+                            <img alt="Champion Avatar" class="w-full h-full object-cover contrast-150 brightness-110"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdaJdCczcQkklxxzgLFVRWkA5oJyPYu3rtP6WmBj1chjRPmPOgEVBhrIwXsfvn-Q0UAhKxrOYlveL8VgWCW0oljYYIGu0Eur0us8RuqRp-uYdSbit80VKcKhJkBMAQvZGWgYO5YxVcitfg80TroJWZZhCDD5mHDL2UybpB-1vcrF6tlXhNtBb3iQgz4Ad5KkHK-p0SV_WaxeDMdkfpITuIVRTqt-sghFqniEOVEAviVgiVVWPLbx85Rw6-zmdWwgZUiaQLx-imaQXK" />
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h5 class="font-headline font-black text-2xl uppercase tracking-tighter">
+                                        SYSTEM_GHOST</h5>
+                                    <p class="font-label text-[11px] text-[#FFD700] font-bold">LEVEL: WINNER_CHAMPION
+                                    </p>
+                                </div>
+                                <div class="flex flex-col items-end gap-2">
+                                    <span
+                                        class="material-symbols-outlined text-[#FFD700] text-2xl fill-1">workspace_premium</span>
+                                    <div class="flex gap-1">
+                                        <div class="heatmap-cell bg-[#FFD700]"></div>
+                                        <div class="heatmap-cell bg-[#FFD700]"></div>
+                                        <div class="heatmap-cell bg-[#FFD700]/80"></div>
+                                        <div class="heatmap-cell bg-[#FFD700]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span
+                                    class="text-[10px] font-label px-2 py-1 bg-[#FFD700] text-black font-bold uppercase">YC_VISIBILITY</span>
+                                <span
+                                    class="text-[10px] font-label px-2 py-1 border border-[#FFD700]/40 text-[#FFD700] uppercase">VOID_RUNNER_WINNER</span>
+                                <span
+                                    class="text-[10px] font-label px-2 py-1 border border-outline-variant/30 uppercase opacity-60">Go</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full py-4 border border-primary/20 hover:bg-primary/5 font-headline font-bold uppercase tracking-widest text-sm transition-all">
+                        ACCESS_FULL_DIRECTORY
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- Hackathon Section -->
+        <section class="bg-primary-container text-on-primary-container py-32 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <div class="grid grid-cols-12 h-full w-full">
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                    <div class="border-r border-background h-full"></div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row gap-12 items-start">
+                    <div class="md:w-1/2">
+                        <h2
+                            class="text-7xl md:text-8xl font-headline font-black leading-none uppercase tracking-tighter mb-8">
+                            TWELVE HOURS.<br />ONE WINNER.
+                        </h2>
+                        <div class="space-y-6 mb-12">
+                            <p class="text-2xl font-medium max-w-lg">
+                                The gauntlet. Hackathons, game jams, and pentesting arenas. No sleep. No mercy. Just the
+                                best code wins.
+                            </p>
+                            <div
+                                class="flex flex-col gap-4 font-label text-sm uppercase tracking-widest border-l-2 border-on-primary-container/30 pl-6 py-2">
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-lg">payments</span>
+                                    <span class="font-bold">Entry Fee: $100 USD / Person</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-lg">groups</span>
+                                    <span class="font-bold">Modes: Solo / Duo / Squad</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-6 items-start">
+                            <div class="flex flex-wrap gap-4">
+                                <span
+                                    class="px-3 py-1 bg-background text-primary text-[10px] font-label uppercase">HACKATHONS</span>
+                                <span
+                                    class="px-3 py-1 bg-background text-primary text-[10px] font-label uppercase">GAME_JAMS</span>
+                                <span
+                                    class="px-3 py-1 bg-background text-primary text-[10px] font-label uppercase">PENTESTING</span>
+                            </div>
+                            <button
+                                class="bg-background text-primary px-8 py-4 font-headline font-bold text-sm uppercase tracking-[0.2em] border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-300">
+                                Mail me when the first hack is live!
+                            </button>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 bg-background p-12 self-stretch border-l-8 border-on-primary-container">
+                        <div class="font-label text-sm mb-6 text-primary block-cursor uppercase tracking-widest">
+                            Incoming_Schedule</div>
+                        <ul class="space-y-6">
+                            <li class="flex justify-between items-center border-b border-surface-variant pb-4">
+                                <div>
+                                    <div class="font-headline font-bold text-lg uppercase">NEURAL_DUMP_01</div>
+                                    <div class="text-xs opacity-50 font-label">AI Agent Optimization</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-primary">DEC 12</div>
+                                    <div class="text-[10px] opacity-50 uppercase">Monterrey, MX</div>
+                                </div>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-surface-variant pb-4">
+                                <div>
+                                    <div class="font-headline font-bold text-lg uppercase">VOID_RUNNER</div>
+                                    <div class="text-xs opacity-50 font-label">WASM Game Jam</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-primary">JAN 05</div>
+                                    <div class="text-[10px] opacity-50 uppercase">Remote_Op</div>
+                                </div>
+                            </li>
+                            <li class="flex justify-between items-center pb-4 opacity-40">
+                                <div>
+                                    <div class="font-headline font-bold text-lg uppercase">PROTOCOL_WARS</div>
+                                    <div class="text-xs opacity-50 font-label">Security Audit Arena</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold">FEB 18</div>
+                                    <div class="text-[10px] uppercase">Classified</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="max-w-7xl mx-auto px-6 py-32 text-center">
+            <div class="bg-surface-container-low p-12 md:p-24 border border-[#FF0000]/10 relative">
+                <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary"></div>
+                <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary"></div>
+                <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary"></div>
+                <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary"></div>
+                <h2 class="text-5xl md:text-7xl font-headline font-bold tracking-tighter uppercase mb-6">THE NETWORK IS
+                    THE ALPHA</h2>
+                <p class="text-on-surface-variant text-xl max-w-xl mx-auto mb-12">
+                    Access encrypted channels. Connect with verified builders. Secure your slot in the next offensive.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <button
+                        class="w-full md:w-auto bg-primary-container text-on-primary-container px-12 py-5 font-headline font-bold text-lg uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                        ENTER_DISCORD
+                    </button>
+                    <button
+                        class="w-full md:w-auto border border-outline-variant px-12 py-5 font-headline font-bold text-lg uppercase tracking-widest hover:bg-surface-container active:scale-95 transition-all">
+                        SYSTEM_DOCS
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer Shell -->
+    <footer
+        class="w-full px-6 py-12 flex flex-col md:flex-row justify-between items-end gap-8 bg-[#0E0E0E] border-t border-[#201F1F]">
+        <div class="flex flex-col gap-4">
+            <div class="text-lg font-black text-[#E5E2E1] font-headline uppercase tracking-tighter">RADICAL ARCHITECT
+            </div>
+            <p class="font-label text-[10px] uppercase tracking-widest text-[#FF0000]">©2024 RADICAL ARCHITECT. ALL
+                SYSTEMS OPERATIONAL.</p>
+        </div>
+        <div class="flex flex-wrap gap-8 justify-end">
+            <a class="font-label text-[10px] uppercase tracking-widest text-[#E5E2E1]/40 hover:text-[#FF0000] transition-colors active:translate-x-1 duration-150"
+                href="#">GITHUB_REPO</a>
+            <a class="font-label text-[10px] uppercase tracking-widest text-[#E5E2E1]/40 hover:text-[#FF0000] transition-colors active:translate-x-1 duration-150"
+                href="#">DOCS_CORE</a>
+            <a class="font-label text-[10px] uppercase tracking-widest text-[#E5E2E1]/40 hover:text-[#FF0000] transition-colors active:translate-x-1 duration-150"
+                href="#">TELEGRAM_ENCRYPTED</a>
+            <a class="font-label text-[10px] uppercase tracking-widest text-[#E5E2E1]/40 hover:text-[#FF0000] transition-colors active:translate-x-1 duration-150"
+                href="#">X_COMMUNITY</a>
+            <a class="font-label text-[10px] uppercase tracking-widest text-[#E5E2E1]/40 hover:text-[#FF0000] transition-colors active:translate-x-1 duration-150"
+                href="#">SYSTEM_STATUS</a>
+        </div>
+    </footer>
+</body>
+
+</html>
