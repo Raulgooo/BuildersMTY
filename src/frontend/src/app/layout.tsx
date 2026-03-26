@@ -22,8 +22,8 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BUILDERS MTY | RADICAL ARCHITECT",
-  description: "High-density intelligence network based in Monterrey. Zero fluff. Pure engineering.",
+  title: "BuildersMTY",
+  description: "Una comunidad abierta de estudiantes y desarrolladores en Monterrey enfocada en construir software y compartir conocimiento.",
 };
 
 export default function RootLayout({
