@@ -11,7 +11,11 @@ export default function Footer() {
         </div>
         <div className="space-y-4">
           <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
-            Conecta conmigo directamente: <a href="mailto:raul@mail.buildersmty.com.mx" className="text-[#ff5540] hover:underline">raul@mail.buildersmty.com.mx</a>
+            Fundador: Raúl R. González
+            
+          </p>
+          <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
+            Conecta conmigo directamente: <a href="mailto:raul@buildersmty.com.mx" className="text-[#ff5540] hover:underline">raul@.buildersmty.com.mx</a>
           </p>
           <div className="flex gap-8">
             <Link href="https://www.linkedin.com/in/ra%C3%BAl-r-gonz%C3%A1lez-a39a03347/" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">
