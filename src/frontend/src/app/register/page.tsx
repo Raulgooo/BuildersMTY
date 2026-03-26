@@ -6,7 +6,7 @@ export default function RegisterPage() {
   useEffect(() => {
     // Redirect to Discord join link after a short delay
     const timer = setTimeout(() => {
-      window.location.href = "https://discord.gg/buildersmty"; // Placeholder Discord link
+      window.location.href = "https://discord.gg/RPqWgsN5H6"; // Placeholder Discord link
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -14,13 +14,13 @@ export default function RegisterPage() {
   return (
     <div className="redirect-page flex items-center justify-center min-h-[60vh]">
       <div className="terminal-box surface-container ghost-border p-12 text-center max-w-lg">
-        <h1 className="label-sm text-primary mb-4 animate-pulse">INITIATING_DISCORD_PROTOCOL...</h1>
+        <h1 className="label-sm text-primary mb-4 animate-pulse">INICIANDO_PROTOCOLO_DISCORD...</h1>
         <div className="terminal-loader mb-6">
           <div className="bar"></div>
         </div>
         <p className="body-md text-on-surface-variant">
-          Preparing your entry into the high-density intelligence network. 
-          Redirecting to BUILDERS MTY Discord...
+          Preparando tu entrada a la red de inteligencia de alta densidad.
+          Redirigiendo al Discord de BUILDERS MTY...
         </p>
       </div>
 

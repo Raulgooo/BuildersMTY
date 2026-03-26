@@ -23,17 +23,25 @@ export default function LandingPage() {
         className={`fixed top-0 z-50 w-full px-6 py-4 flex justify-between items-center transition-all duration-300 ${scrolled ? "bg-[#131313]/90 backdrop-blur-md border-b border-[#ffb4a8]/10" : "bg-transparent"
           }`}
       >
-        <div className="text-xl font-bold tracking-tighter text-[#ff5540] font-headline uppercase">
-          BUILDERS MTY
+        <div className="flex items-center gap-4">
+          <div className="text-xl font-bold tracking-tighter text-[#ff5540] font-headline uppercase">
+            BUILDERS MTY
+          </div>
+          <Image
+            src="/builderslogo.svg"
+            alt="Builders MTY Logo"
+            width={100}
+            height={100}
+            className="w-20 h-20 object-contain"
+          />
         </div>
         <div className="hidden lg:flex items-center gap-10">
           {[
-            ["MISSION", "#mission"],
-            ["FINDMYPAL", "/findmypal"],
-            ["MANIFESTO", "/manifesto"],
-            ["EVENTS", "#hackathon"],
-            ["TOOLS", "#"],
-            ["TERMINAL", "/notify"],
+            ["Inicio", "/"],
+            ["Builders Network (Próximamente)", "/buildersnetwork"],
+            ["Eventos", "#hackathon"],
+            ["Herramientas", "/herramientas"],
+            ["Contacto", "#contacto"],
           ].map(([label, href]) => (
             <Link
               key={label}
@@ -45,14 +53,23 @@ export default function LandingPage() {
           ))}
         </div>
         <button className="bg-[#ff5540] text-white px-5 py-2 font-headline text-[10px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-transform">
-          JOIN_NETWORK
+          <Link href="/notify">UNIRSE A LA RED</Link>
         </button>
       </nav>
 
       <main className="ghost-grid pt-20">
         {/* Hero Section */}
-        <section className="px-6 py-20 lg:py-32 max-w-[1440px] mx-auto min-h-[90vh] flex flex-col justify-center border-x border-[#ffb4a8]/10">
-          <div className="flex flex-col lg:flex-row gap-12 items-end justify-between mb-24">
+        <section className="px-6 py-20 lg:py-32 max-w-[1440px] mx-auto min-h-[90vh] flex flex-col justify-center border-x border-[#ffb4a8]/10 relative overflow-hidden">
+          {/* Gopher Mascot Mascot - New Approach */}
+          <div className="absolute right-[5%] top-0 pointer-events-none z-0 opacity-20">
+            <img
+              src="/gopher.svg"
+              alt="Gopher Mascot"
+              className="w-[650px] h-auto grayscale filter contrast-125"
+            />
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-12 items-end justify-between mb-24 relative z-10">
             <div className="max-w-5xl">
               <div className="font-label text-[#ffb4a8] text-[10px] tracking-[0.4em] mb-8 uppercase flex items-center gap-3">
                 <span className="w-2 h-2 bg-[#ff5540] animate-pulse"></span>
@@ -117,8 +134,8 @@ export default function LandingPage() {
         <section id="mission" className="bg-[#1c1b1b] border-y border-[#603e39]/20 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#ff5540]/5 to-transparent"></div>
           <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row">
-            <div className="w-full lg:w-[400px] p-12 lg:p-20 border-r border-[#603e39]/20 flex flex-col justify-between min-h-[600px]">
-              <h2 className="text-7xl font-headline font-black tracking-tighter uppercase leading-[0.85] mb-12">
+            <div className="w-full lg:w-[450px] p-12 lg:p-20 border-r border-[#603e39]/20 flex flex-col justify-between min-h-[550px]">
+              <h2 className="text-5xl lg:text-6xl font-headline font-black tracking-tighter uppercase leading-[0.85] mb-12">
                 01
                 <br />
                 NUESTRA
@@ -139,15 +156,15 @@ export default function LandingPage() {
                 <div className="aspect-[21/9] w-full bg-[#201f1f] relative mb-12 overflow-hidden border border-[#603e39]/30">
                   <Image
                     className="w-full h-full object-cover grayscale brightness-75 contrast-125 hover:scale-105 transition-transform duration-700"
-                    alt="Radical infrastructure"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ-ncYdB_n8nFigcTDKC744d32Uyn1k4hAGrMdLY41l5fT82CLPsqrrcObV1KWjerXfPTuyFNr7EAJ6YumwlBmfS9wuycAYGsTW4Kqu-1AchQj5ArIb7_nO_STV0eBZ22ia5?w=1280"
-                    width={1280}
-                    height={720}
+                    alt="Builders MTY Logo"
+                    src="/pr1.png"
+                    width={1920}
+                    height={1080}
                   />
                   <div className="absolute top-0 left-0 w-full h-full bg-black/20"></div>
                   <div className="absolute bottom-6 left-6 font-label text-[10px] uppercase tracking-[0.5em] text-[#ffb4a8] flex items-center gap-3">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
-                    Live Infrastructure View
+                    
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
@@ -227,7 +244,7 @@ export default function LandingPage() {
                   <Image
                     alt="Builder Avatar"
                     className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs9gSohrsAko2yntZ1dtD1p-4FZHoN4EKwYREbtWDq_42LIbm6UwQtPd49Gt__gbEeIGtAuqNuZMEHeafuVV53VKPgkYVCg0clzu0klx7nqDXdwGpbizmMy6KS54v7falvygPrCIPUB15CA8QuKcZLJ2JfOxbzAgd0Ls9_fzHw2q7muC1SPez_35005d2pe0U7ox_OPIS3vaWEDqW8nKywqbprLnDDNax1fuHlaZRk2Rfno-KJIw20uQmJtiNfwIZFrHl7__4J5Qw5"
+                    src="/image.png"
                     width={96}
                     height={96}
                   />
@@ -236,10 +253,10 @@ export default function LandingPage() {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h5 className="font-headline font-bold text-xl uppercase tracking-widest">
-                        Pedro Ramses
+                        PEDRO RAMSES
                       </h5>
                       <p className="font-label text-[10px] text-[#ffb4a8] tracking-widest mt-1">
-                        Nivel: Builder
+                        BUILDER
                       </p>
                     </div>
                     <div className="flex gap-1.5 pt-1">
@@ -264,7 +281,7 @@ export default function LandingPage() {
                   <Image
                     alt="Verified Avatar"
                     className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_jp8AYrSbIipfNbauDsGFNmqXE8w6Gd2uJfLudHyB7J_jdDcId0zvh34Iv4RAxvvsVEABY24ANS8mToxEKGwMKXDCJ3WhdHaqVjHku-OLP3Ru48hsYLDHuGqEYQ_VSvmj5Ug5Tt8B8fsFfChWuiFWxMlW22F_TOEs5KRFwfbq1nRKEzRLT1Pq0MvjqgjQaEdz53DeHRee792g1Zn_EYbhi1Rm2UaX0OUrojTPw2sp_SXZnxvEPs_FPWADzrY439rDojEhvI3uA3xB"
+                    src="/dog2.png"
                     width={96}
                     height={96}
                   />
@@ -273,10 +290,10 @@ export default function LandingPage() {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h5 className="font-headline font-bold text-xl uppercase tracking-widest">
-                        Axel Hernandez
+                        VILETHIAGO
                       </h5>
                       <p className="font-label text-[10px] text-[#ffb4a8] tracking-widest mt-1">
-                        NIVEL: BUILDER ELITE
+                        ELITE BUILDER
                       </p>
                     </div>
                     <div className="flex flex-col items-end gap-3 pt-1">
@@ -312,7 +329,7 @@ export default function LandingPage() {
                   <Image
                     alt="Champion Avatar"
                     className="w-full h-full object-cover contrast-150 brightness-110 group-hover:scale-110 transition-transform duration-500"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdaJdCczcQkklxxzgLFVRWkA5oJyPYu3rtP6WmBj1chjRPmPOgEVBhrIwXsfvn-Q0UAhKxrOYlveL8VgWCW0oljYYIGu0Eur0us8RuqRp-uYdSbit80VKcKhJkBMAQvZGWgYO5YxVcitfg80TroJWZZhCDD5mHDL2UybpB-1vcrF6tlXhNtBb3iQgz4Ad5KkHK-p0SV_WaxeDMdkfpITuIVRTqt-sghFqniEOVEAviVgiVVWPLbx85Rw6-zmdWwgZUiaQLx-imaQXK"
+                    src="/dog3.png"
                     width={128}
                     height={128}
                   />
@@ -321,10 +338,10 @@ export default function LandingPage() {
                   <div className="flex justify-between items-start mb-5">
                     <div>
                       <h5 className="font-headline font-black text-3xl uppercase tracking-tighter text-[#E5E2E1]">
-                        SANTIAGO VILLEGAS
+                        ROLANDO OBREGÓN
                       </h5>
                       <p className="font-label text-[12px] text-[#FFD700] font-bold tracking-[0.2em] mt-1">
-                        NIVEL: BUILDER LEGEND
+                        BUILDER LEGEND
                       </p>
                     </div>
                     <div className="flex flex-col items-end gap-3 pt-1">
@@ -393,15 +410,17 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col gap-8 items-start">
                   <div className="flex flex-wrap gap-4">
-                    {["HACKATHONS", "GAME_JAMS", "PENTESTING"].map(tag => (
+                    {["HACKATHONS", "GAME JAMS", "PENTESTING"].map(tag => (
                       <span key={tag} className="px-5 py-2 bg-[#131313] text-[#ffb4a8] text-[11px] font-label font-bold uppercase tracking-[0.2em]">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <button className="bg-[#131313] text-white px-10 py-6 font-headline font-bold text-sm uppercase tracking-[0.3em] border border-transparent hover:border-[#ffb4a8] transition-all duration-300 active:scale-95 shadow-2xl">
-                    Notificame para el primer evento!
-                  </button>
+                  <Link href="/notify">
+                    <button className="bg-[#131313] text-white px-10 py-6 font-headline font-bold text-sm uppercase tracking-[0.3em] border border-transparent hover:border-[#ffb4a8] transition-all duration-300 active:scale-95 shadow-2xl w-full sm:w-auto">
+                      Notificame para el primer evento!
+                    </button>
+                  </Link>
                 </div>
               </div>
               <div className="lg:w-1/2 bg-[#131313] p-12 lg:p-20 self-stretch border-l-[16px] border-[#ff5540] shadow-2xl">
@@ -455,43 +474,39 @@ export default function LandingPage() {
               Asegura tu lugar en la próxima competencia.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-10">
-              <button className="w-full md:w-auto bg-[#ff5540] text-white px-16 py-6 font-headline font-bold text-lg uppercase tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl">
-                Unete a Discord
-              </button>
-              <button className="w-full md:w-auto border border-[#603e39] text-[#E5E2E1] px-16 py-6 font-headline font-bold text-lg uppercase tracking-[0.3em] hover:bg-white/5 active:scale-95 transition-all">
-                Repositorio
-              </button>
+              <Link href="https://discord.gg/RPqWgsN5H6">
+                <button className="w-full md:w-auto bg-[#ff5540] text-white px-16 py-6 font-headline font-bold text-lg uppercase tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl">
+                  Unete a Discord
+                </button>
+              </Link>
+              <Link href="https://github.com/Raulgooo/BuildersMTY">
+                <button className="w-full md:w-auto border border-[#603e39] text-[#E5E2E1] px-16 py-6 font-headline font-bold text-lg uppercase tracking-[0.3em] hover:bg-white/5 active:scale-95 transition-all">
+                  Repositorio
+                </button>
+              </Link>
             </div>
           </div>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="w-full px-6 py-20 lg:py-32 flex flex-col lg:flex-row justify-between items-end gap-12 bg-[#0E0E0E] border-t border-[#201F1F]">
+      <footer id="contacto" className="w-full px-6 py-20 lg:py-32 flex flex-col lg:flex-row justify-between items-end gap-12 bg-[#0E0E0E] border-t border-[#201F1F]">
         <div className="flex flex-col gap-6">
           <div className="text-3xl font-black text-[#E5E2E1] font-headline uppercase tracking-tighter">
-            RADICAL ARCHITECT
+            Builders MTY
+          </div>
+          <div className="space-y-4">
+            <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
+              Conecta conmigo directamente: <a href="mailto:raul@mail.buildersmty.com.mx" className="text-[#ff5540] hover:underline">raul@mail.buildersmty.com.mx</a>
+            </p>
+            <div className="flex gap-8">
+              <a href="https://www.linkedin.com/in/ra%C3%BAl-r-gonz%C3%A1lez-a39a03347/" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">Linkedin</a>
+              <a href="https://github.com/Raulgooo" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">Github</a>
+            </div>
           </div>
           <p className="font-label text-[10px] uppercase tracking-[0.4em] text-[#ff5540]/60">
-            ©2024 RADICAL ARCHITECT. ALL SYSTEMS OPERATIONAL.
+            ©2026 Builders MTY
           </p>
-        </div>
-        <div className="flex flex-wrap gap-x-12 gap-y-6 justify-end max-w-3xl">
-          {[
-            "GITHUB_REPO",
-            "DOCS_CORE",
-            "TELEGRAM_ENCRYPTED",
-            "X_COMMUNITY",
-            "SYSTEM_STATUS"
-          ].map(link => (
-            <Link
-              key={link}
-              className="font-label text-[11px] uppercase tracking-[0.3em] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
-              href="#"
-            >
-              {link}
-            </Link>
-          ))}
         </div>
       </footer>
     </div>

@@ -18,48 +18,48 @@ export default function ManifestoPage() {
   const laws = [
     {
       id: "01",
-      title: "LAW_OF_SOVEREIGNTY",
-      headline: "CODE IS CASTLE",
-      desc: "Your code is your castle. We build systems that empower the individual, not the corporation.",
+      title: "LEY_DE_SOBERANÍA",
+      headline: "CÓDIGO ES CASTILLO",
+      desc: "Tu código es tu castillo. Construimos sistemas que empoderan al individuo, no a la corporación.",
       icon: "fort"
     },
     {
       id: "02",
-      title: "LAW_OF_TRUTH",
-      headline: "PROD OR NOTHING",
-      desc: "The only truth is the production environment. If it doesn't run, it doesn't exist.",
+      title: "LEY_DE_LA_VERDAD",
+      headline: "PROD O NADA",
+      desc: "La única verdad es el entorno de producción. Si no corre, no existe.",
       icon: "terminal"
     },
     {
       id: "03",
-      title: "LAW_OF_VELOCITY",
-      headline: "EXECUTION > IDEAS",
-      desc: "Ideas are cheap. Shipping is expensive. We prioritize the builder who fails fast over the dreamer who never starts.",
+      title: "LEY_DE_VELOCIDAD",
+      headline: "EJECUCIÓN > IDEAS",
+      desc: "Las ideas son baratas. El shipping es caro. Priorizamos al builder que falla rápido sobre el soñador que nunca empieza.",
       icon: "bolt"
     },
     {
       id: "04",
-      title: "LAW_OF_SYNDICATE",
-      headline: "THE NETWORK IS ALPHA",
-      desc: "Isolated builders are obsolete. We operate as a high-bandwidth collective of technical elite.",
+      title: "LEY_DEL_SINDICATO",
+      headline: "LA RED ES ALPHA",
+      desc: "Los builders aislados son obsoletos. Operamos como un colectivo de alta densidad de la élite técnica.",
       icon: "hub"
     }
   ];
 
   const systemManifest = [
     {
-      title: "VELOCITY FIRST",
-      desc: "Our default state is motion. We burn through roadblocks with extreme prejudice.",
+      title: "VELOCIDAD PRIMERO",
+      desc: "Nuestro estado por defecto es el movimiento. Atravesamos obstáculos con extrema determinación.",
       icon: "speed"
     },
     {
-      title: "OPEN ARCHITECTURE",
-      desc: "Silos are for legacy systems. We build modular, interoperable, and resilient protocols.",
+      title: "ARQUITECTURA ABIERTA",
+      desc: "Los silos son para sistemas legados. Construimos protocolos modulares, interoperables y resilientes.",
       icon: "settings_input_component"
     },
     {
-      title: "RADICAL CANDOR",
-      desc: "Direct feedback is the fastest path to optimization. Ego is a bug.",
+      title: "SINCERIDAD RADICAL",
+      desc: "El feedback directo es el camino más rápido a la optimización. El ego es un bug.",
       icon: "forum"
     }
   ];
@@ -72,17 +72,24 @@ export default function ManifestoPage() {
           scrolled ? "bg-[#131313]/90 backdrop-blur-md border-b border-[#ffb4a8]/10" : "bg-transparent"
         }`}
       >
-        <div className="text-xl font-bold tracking-tighter text-[#ff5540] font-headline uppercase">
-          RADICAL_ARCHITECT
+        <div className="flex items-center gap-4 text-xl font-bold tracking-tighter text-[#ff5540] font-headline uppercase">
+          BUILDERS MTY
+          <Image
+            src="/builderslogo.svg"
+            alt="Builders MTY Logo"
+            width={100}
+            height={100}
+            className="w-20 h-20 object-contain"
+          />
         </div>
         <div className="hidden lg:flex items-center gap-10">
           {[
-            ["MISSION", "/#mission"],
-            ["FINDMYPAL", "/findmypal"],
-            ["MANIFESTO", "/manifesto"],
-            ["EVENTS", "/#hackathon"],
-            ["TOOLS", "#"],
-            ["TERMINAL", "/notify"],
+            ["Inicio", "/"],
+            ["Builders Network (Próximamente)", "/buildersnetwork"],
+            ["Manifiesto", "/manifesto"],
+            ["Eventos", "/#hackathon"],
+            ["Herramientas", "/herramientas"],
+            ["Contacto", "/#contacto"],
           ].map(([label, href]) => (
             <Link
               key={label}
@@ -103,11 +110,11 @@ export default function ManifestoPage() {
           {/* Hero Section */}
           <header className="max-w-4xl border-l-[4px] border-[#ff5540] pl-8 py-4 mb-32">
             <h1 className="text-6xl lg:text-[100px] font-headline font-black tracking-tighter uppercase leading-[0.9] mb-8">
-              THE<br />
-              MANIFESTO<span className="text-[#ff5540]">.</span>
+              EL<br />
+              MANIFIESTO<span className="text-[#ff5540]">.</span>
             </h1>
             <p className="text-xl lg:text-2xl font-body font-light text-[#ebbbb4] leading-relaxed max-w-2xl">
-              We are not just a community. We are a decentralized engine for technical excellence. This is our protocol.
+              No somos solo una comunidad. Somos un motor descentralizado para la excelencia técnica. Este es nuestro protocolo.
             </p>
           </header>
 
@@ -178,31 +185,23 @@ export default function ManifestoPage() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full px-6 py-20 lg:py-32 flex flex-col lg:flex-row justify-between items-end gap-12 bg-[#0E0E0E] border-t border-[#201F1F]">
-        <div className="flex flex-col gap-6">
+      <footer id="contacto" className="w-full px-6 py-20 lg:py-32 flex flex-col lg:flex-row justify-between items-end gap-12 bg-[#0E0E0E] border-t border-[#201F1F]">
+        <div className="flex flex-col gap-6 text-left w-full lg:w-auto">
           <div className="text-3xl font-black text-[#E5E2E1] font-headline uppercase tracking-tighter">
-            RADICAL ARCHITECT
+            Builders MTY
+          </div>
+          <div className="space-y-4">
+            <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
+              Conecta conmigo directamente: <a href="mailto:raul@mail.buildersmty.com.mx" className="text-[#ff5540] hover:underline">raul@mail.buildersmty.com.mx</a>
+            </p>
+            <div className="flex gap-8">
+              <a href="#" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">Linkedin</a>
+              <a href="https://github.com/Raulgooo" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">Github</a>
+            </div>
           </div>
           <p className="font-label text-[10px] uppercase tracking-[0.4em] text-[#ff5540]/60">
-            ©2024 RADICAL ARCHITECT. ALL SYSTEMS OPERATIONAL.
+            ©2026 Builders MTY.
           </p>
-        </div>
-        <div className="flex flex-wrap gap-x-12 gap-y-6 justify-end max-w-3xl">
-          {[
-            "GITHUB_REPO",
-            "DOCS_CORE",
-            "TELEGRAM_ENCRYPTED",
-            "X_COMMUNITY",
-            "SYSTEM_STATUS"
-          ].map(link => (
-            <Link
-              key={link}
-              className="font-label text-[11px] uppercase tracking-[0.3em] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
-              href="#"
-            >
-              {link}
-            </Link>
-          ))}
         </div>
       </footer>
     </div>

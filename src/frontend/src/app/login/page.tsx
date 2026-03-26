@@ -14,13 +14,13 @@ export default function LoginPage() {
   return (
     <div className="redirect-page flex items-center justify-center min-h-[60vh]">
       <div className="terminal-box surface-container ghost-border p-12 text-center max-w-lg">
-        <h1 className="label-sm text-primary mb-4 animate-pulse">ESTABLISHING_SECURE_AUTH_SESSION...</h1>
+        <h1 className="label-sm text-primary mb-4 animate-pulse">ESTABLECIENDO_SESIÓN_AUTH_SEGURA...</h1>
         <div className="terminal-loader mb-6">
           <div className="bar"></div>
         </div>
         <p className="body-md text-on-surface-variant">
-          Handshaking with Discord Protocol...
-          Synchronizing builder credentials...
+          Handshake con Protocolo de Discord...
+          Sincronizando credenciales de builder...
         </p>
       </div>
 
