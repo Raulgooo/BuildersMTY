@@ -1,13 +1,13 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv-build >= 0.10.10, <0.11.0"]
+build-backend = "uv_build"
 
 [project]
 name = "buildersmty-backend"
 version = "0.1.0"
 description = "Backend for Builders MTY web and discord"
 authors = [
-    {name = "Raul R. Gonzalez", email = "[EMAIL_ADDRESS]"}
+    {name = "Raul R. Gonzalez", email = "raul@buildersmty.com.mx"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
@@ -30,6 +30,3 @@ dependencies = [
     "passlib[bcrypt]>=1.7.4",
     "python-jose[cryptography]>=3.3.0",
 ]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/app"]
