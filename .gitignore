@@ -32,6 +32,16 @@ dist
 *.tsbuildinfo
 next-env.d.ts
 
+# python
+.venv
+venv/
+.venv/
+
+# python cache
+__pycache__/
+*.pyc
+
+# 
 # IDEs
 .vscode/
 .idea/

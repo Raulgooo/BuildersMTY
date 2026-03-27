@@ -398,72 +398,289 @@ export default function LandingPage() {
         </section>
 
         {/* Onboarding Section */}
-        <section id="onboarding" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-32 border-x border-[#ffb4a8]/10 bg-[#131313]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
-            <div className="lg:col-span-5">
-              <div className="font-label text-[#ff5540] text-[10px] tracking-[0.4em] mb-4 uppercase flex items-center gap-2 font-bold">
-                <span className="w-4 h-[1px] bg-[#ff5540]"></span>
-                ONBOARDING
+        <section id="onboarding" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 border-x border-[#ffb4a8]/10 bg-[#131313] relative overflow-hidden">
+          {/* Background Decorative Element */}
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#ff5540]/5 to-transparent pointer-events-none"></div>
+
+          <div className="relative z-10 flex flex-col gap-16 lg:gap-24">
+            <div className="max-w-4xl">
+              <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
+                <span className="w-6 h-[1px] bg-[#ff5540]"></span>
+                EL_SISTEMA_DE_INGRESO
               </div>
-              <h2 className="text-[12vw] sm:text-[10vw] lg:text-[72px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.85]">
-                ¿CÓMO<br /><span className="text-[#ff5540]">FUNCIONA?</span>
+              <h2 className="text-[12vw] sm:text-[10vw] lg:text-[86px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8] mb-10 text-white">
+                ONBOARDING:<br /><span className="text-[#ff5540]">¿CÓMO FUNCIONA?</span>
               </h2>
-              <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed mb-10">
-                Al registrarte en nuestro servidor de Discord, nuestro sistema inicia un análisis profundo de tu trayectoria técnica para ubicarte en el nivel que te corresponde.
+              <p className="text-xl lg:text-3xl text-[#ebbbb4] font-light leading-relaxed max-w-3xl">
+                Al registrarte en Discord, nuestro sistema analiza tu trayectoria técnica para determinar tu nivel y desbloquear los canales adecuados a tu experiencia.
               </p>
-              <div className="flex flex-col gap-4">
-                <div className="p-6 border border-[#ff5540]/20 bg-[#1c1b1b] relative group hover:border-[#ff5540]/40 transition-all">
-                  <div className="font-label text-[10px] text-[#ffb4a8]/40 uppercase mb-2 tracking-widest">PROCESO_DE_NIVELACIÓN</div>
-                  <p className="text-sm text-[#ebbbb4]/80 leading-relaxed italic">
-                    "No importa quién dices ser, importa lo que has construido."
-                  </p>
-                </div>
-              </div>
             </div>
 
-            <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+              {/* Left Side: Steps (lg:col-span-5) */}
+              <div className="lg:col-span-5 space-y-4">
                 {[
                   {
                     step: "01",
-                    title: "Sincronización Total",
-                    desc: "Al entrar a Discord, vinculas tu GitHub. No es solo un login; es el inicio del escaneo de tus repositorios.",
+                    title: "Sincronización de Identidad",
+                    desc: "Al entrar, vinculas tu GitHub. No es solo un login; es el inicio del escaneo extensivo de tu impacto técnico.",
                     icon: "hub"
                   },
                   {
                     step: "02",
-                    title: "Análisis Extensivo",
-                    desc: "Nuestro sistema analiza tu stack tecnológico, la complejidad de tu código y tu impacto real en proyectos open source.",
+                    title: "Escaneo Técnico",
+                    desc: "Análisis de repositorios, complejidad de código y consistencia. Reconocemos tu stack y perfil real.",
                     icon: "troubleshoot"
                   },
                   {
                     step: "03",
-                    title: "Perfilado de Developer",
-                    desc: "Determinamos tu perfil según tu consistencia: ¿Eres un arquitecto de sistemas, un crack del frontend o un experto en bajo nivel?",
+                    title: "Nivelación Algorítmica",
+                    desc: "Determinamos tu nivel de acceso basado en el impacto y la consistencia de tu trabajo previo.",
                     icon: "psychology"
                   },
                   {
                     step: "04",
                     title: "Acceso Segmentado",
-                    desc: "Seccionamos canales privados y acceso a herramientas según tu nivel técnico. Calidad sobre cantidad.",
+                    desc: "Seccionamos canales VIP y herramientas exclusivas según tu nivel técnico. Calidad garantizada.",
                     icon: "lock_open"
                   }
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-6 p-6 lg:p-8 border border-[#603e39]/20 hover:border-[#ff5540]/30 hover:bg-[#ff5540]/5 transition-all group">
-                    <div className="shrink-0 w-12 h-12 lg:w-16 lg:h-16 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:bg-[#ff5540] group-hover:border-[#ff5540] transition-all">
-                      <span className="font-headline font-black text-xl lg:text-2xl text-[#ff5540] group-hover:text-white transition-colors">{item.step}</span>
+                  <div key={i} className="flex gap-6 p-6 border border-[#603e39]/20 hover:border-[#ff5540]/40 hover:bg-[#ff5540]/5 transition-all group">
+                    <div className="shrink-0 w-12 h-12 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:bg-[#ff5540] group-hover:border-[#ff5540] transition-all">
+                      <span className="font-headline font-black text-lg text-[#ff5540] group-hover:text-white transition-colors">{item.step}</span>
                     </div>
                     <div className="flex-grow">
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center gap-3 mb-1">
                         <span className="material-symbols-outlined text-[#ff5540] text-lg">{item.icon}</span>
-                        <h4 className="font-label font-bold text-sm lg:text-base uppercase tracking-[0.2em] text-[#E5E2E1]">{item.title}</h4>
+                        <h4 className="font-label font-bold text-xs lg:text-sm uppercase tracking-[0.2em] text-white">{item.title}</h4>
                       </div>
-                      <p className="text-sm lg:text-base text-[#E5E2E1]/50 leading-relaxed font-light">
+                      <p className="text-xs lg:text-sm text-[#E5E2E1]/50 leading-relaxed font-light">
                         {item.desc}
                       </p>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Right Side: Discord Premium Mockup (lg:col-span-7) */}
+              <div className="lg:col-span-7 relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#ff5540]/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+
+                {/* Discord UI Mockup Shell */}
+                <div className="relative bg-[#1e1f22] rounded-xl overflow-hidden shadow-2xl border border-white/5 aspect-[16/10] flex flex-col scale-[1.02] hover:scale-[1.03] transition-transform duration-500">
+                  {/* Top Bar */}
+                  <div className="h-12 border-b border-black/20 bg-[#1e1f22] flex items-center px-4 justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#949ba4] text-lg">tag</span>
+                      <span className="font-bold text-[#f2f3f5] text-sm uppercase tracking-wider font-label">hall-of-builders</span>
+                    </div>
+                    <div className="flex items-center gap-4 text-[#b5bac1]">
+                      <span className="material-symbols-outlined text-xl">notifications</span>
+                      <span className="material-symbols-outlined text-xl">push_pin</span>
+                      <span className="material-symbols-outlined text-xl">group</span>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="flex-grow flex overflow-hidden">
+                    {/* Sidebar Channels */}
+                    <div className="w-56 bg-[#2b2d31] hidden sm:flex flex-col p-3 gap-2 overflow-hidden shrink-0">
+                      <div className="h-6 w-3/4 bg-[#ff5540]/20 rounded mb-4 animate-pulse"></div>
+                      {[
+                        { icon: "tag", label: "GENERAL" },
+                        { icon: "tag", label: "RESOURCES" },
+                        { icon: "lock", label: "BUILDERS-ONLY", premium: true },
+                        { icon: "lock", label: "CORE-TEAM", premium: true },
+                        { icon: "rocket_launch", label: "HACKATHONS" }
+                      ].map((ch, i) => (
+                        <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md ${ch.premium ? "text-[#ff5540]/60" : "text-[#949ba4]"} group/ch cursor-default`}>
+                          <span className="material-symbols-outlined text-lg">{ch.icon}</span>
+                          <span className="text-[11px] font-bold uppercase tracking-widest">{ch.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Chat Area */}
+                    <div className="flex-grow bg-[#313338] p-6 flex flex-col justify-end gap-6 relative">
+                      {/* Decorative Mock Messages */}
+                      <div className="space-y-6">
+                        <div className="flex gap-4 items-start opacity-40">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 shrink-0"></div>
+                          <div className="space-y-2 w-full">
+                            <div className="h-3 w-1/4 bg-gray-700 rounded"></div>
+                            <div className="h-3 w-3/4 bg-gray-700 rounded"></div>
+                          </div>
+                        </div>
+
+                        {/* Analysis Trigger Message */}
+                        <div className="p-6 bg-[#ff5540]/10 border border-[#ff5540]/30 rounded-lg relative overflow-hidden backdrop-blur-md">
+                          <div className="flex gap-4 items-center mb-4">
+                            <div className="w-12 h-12 bg-[#ff5540] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(255,85,64,0.4)]">
+                              <span className="material-symbols-outlined text-white text-2xl">terminal</span>
+                            </div>
+                            <div>
+                              <div className="font-bold text-white text-sm font-label uppercase tracking-widest">System Analysis</div>
+                              <div className="text-[10px] text-[#ff5540] font-black uppercase tracking-[0.2em]">Authenticating Github...</div>
+                            </div>
+                          </div>
+                          <div className="space-y-2 font-mono text-[10px] text-[#ffb4a8]/80 leading-tight">
+                            <div>{">"} SCANNING_REPOS: 42_FOUND</div>
+                            <div>{">"} ANALYZING_COMPLEXITY: SUCCESS</div>
+                            <div>{">"} LEVEL_DETERMINED: [ ELITE_BUILDER ]</div>
+                          </div>
+                          <div className="absolute -right-8 -bottom-8 opacity-10">
+                            <img src="/gopher.svg" alt="" className="w-32 rotate-12 grayscale invert" />
+                          </div>
+                        </div>
+
+                        <div className="flex gap-4 items-start pb-4">
+                          <div className="w-10 h-10 rounded-full bg-[#ff5540] flex items-center justify-center shrink-0">
+                            <span className="material-symbols-outlined text-white text-xl">robot_2</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="font-bold text-white text-sm">Builders Assistant <span className="bg-[#5865f2] text-[10px] px-1.5 py-0.5 rounded ml-1">BOT</span></div>
+                            <p className="text-[#dbdee1] text-sm leading-relaxed">
+                              ¡Bienvenido! He analizado tu perfil. Tienes acceso a <span className="text-[#ff5540] font-bold">#builders-only</span> y <span className="text-[#ff5540] font-bold">#elite-devs</span>.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Input Bar Placeholder */}
+                      <div className="bg-[#383a40] h-10 rounded-lg flex items-center px-4 gap-4">
+                        <span className="material-symbols-outlined text-[#b5bac1]">add_circle</span>
+                        <div className="text-[11px] text-[#949ba4] font-label uppercase tracking-widest">Escribir en #hall-of-builders</div>
+                        <div className="flex-grow"></div>
+                        <span className="material-symbols-outlined text-[#b5bac1]">redeem</span>
+                        <span className="material-symbols-outlined text-[#b5bac1]">gif</span>
+                        <span className="material-symbols-outlined text-[#b5bac1]">sentiment_satisfied</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Badge (Extra Premium Detail) */}
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Proyectos Open Source Section */}
+        <section id="opensource" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 border-x border-[#ffb4a8]/10 bg-[#0E0E0E] relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none">
+            <div className="grid grid-cols-20 h-full w-full">
+              {Array.from({ length: 40 }).map((_, i) => (
+                <div key={i} className="border-r border-white h-full"></div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative z-10">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-20 lg:mb-24">
+              <div className="max-w-3xl">
+                <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
+                  <span className="w-8 h-[2px] bg-[#ff5540]"></span>
+                  CÓDIGO_ABIERTO_REAL
+                </div>
+                <h2 className="text-[12vw] sm:text-[10vw] lg:text-[80px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8] text-white">
+                  PROYECTOS<br /><span className="text-[#ff5540]">OPEN SOURCE</span>
+                </h2>
+                <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed max-w-2xl">
+                  ¿Quieres ganar experiencia real? Únete al equipo de BuildersMTY y colabora en herramientas que la comunidad usa a diario. Sin burocracia, solo código con impacto.
+                </p>
+              </div>
+              <div className="flex flex-col gap-4 border-l-2 border-[#ff5540]/20 pl-8 py-2">
+                <div className="font-label text-xs uppercase tracking-[0.2em] text-[#ffb4a8]">Áreas de Contribución:</div>
+                <div className="flex flex-wrap gap-3">
+                  {["BACKEND", "FRONTEND", "DEVOPS", "SECURITY", "AI_AGENTS"].map(tag => (
+                    <span key={tag} className="text-[10px] font-bold tracking-widest text-white/40 border border-white/10 px-3 py-1 bg-white/5">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  id: "Herramientas Internas",
+                  title: "BuildersMTY Infra",
+                  status: "ACTIVE",
+                  desc: "El motor de infraestructura para la red BuildersMTY: landing, Builders Network, integraciones de Discord/Github, Pasarela de pagos.",
+                  stack: ["Nextjs", "PostgreSQL/Supabase", "Python/FastAPI", "GraphQL"],
+                  level: "MEDIO",
+                  githubUrl: "https://github.com/raulgooo/BuildersMTY"
+                },
+                {
+                  id: "Herramienta Experimental",
+                  title: "Compilador Runes",
+                  status: "PRE-ALPHA",
+                  desc: "Compilador para el lenguaje de programación Runes. Runes es un lenguaje de programación de sistemas que utiliza un sistema de memory realms para el manejo de la memoria.",
+                  stack: ["C", "LLVM", "Runes"],
+                  level: "EXTREMO",
+                  githubUrl: "https://github.com/raulgooo/runes-programming-language"
+                },
+                {
+                  id: "DevTool",
+                  title: "latch",
+                  status: "PLANEACION: Unete para formar parte del Core-Team e influir en el diseño y stack!",
+                  desc: "Herramienta inspirada en pocketbase para tener autenticación ligera y self-hosted en un binario.",
+                  stack: ["Golang", "Typescript", "??"],
+                  level: "DIFICIL",
+                  githubUrl: "https://github.com/raulgooo/latch"
+                }
+              ].map((project, i) => (
+                <div key={i} className="bg-[#1c1b1b]/50 border border-[#603e39]/20 p-8 hover:border-[#ff5540]/50 transition-all duration-500 group relative flex flex-col justify-between group h-full">
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="material-symbols-outlined text-[#ff5540] text-sm">open_in_new</span>
+                  </a>
+                  <div>
+                    <div className="flex justify-between items-center mb-6">
+                      <span className="font-mono text-[10px] text-[#ffb4a8] tracking-[0.3em] uppercase">{project.id}</span>
+                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-sm ${project.status === "ACTIVE" ? "bg-green-500/10 text-green-500 border border-green-500/20" :
+                        project.status === "BETA" ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" :
+                          "bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20"
+                        }`}>{project.status}</span>
+                    </div>
+                    <h3 className="font-headline font-bold text-2xl uppercase tracking-tight text-white mb-4 group-hover:text-[#ff5540] transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-[#E5E2E1]/60 leading-relaxed mb-8">
+                      {project.desc}
+                    </p>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="flex flex-wrap gap-2">
+                      {project.stack.map(s => (
+                        <span key={s} className="text-[9px] font-label border border-[#603e39]/30 px-2 py-1 text-[#E5E2E1]/40 uppercase tracking-widest">{s}</span>
+                      ))}
+                    </div>
+                    <div className="pt-6 border-t border-[#603e39]/10 flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff5540] animate-pulse"></span>
+                        <span className="font-label text-[10px] text-[#ffb4a8] tracking-widest uppercase font-bold">Diff: {project.level}</span>
+                      </div>
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="font-label text-[10px] text-white/50 uppercase tracking-[0.2em] hover:text-[#ff5540] transition-all flex items-center gap-2">
+                        README <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Recruitment Card */}
+              <div className="bg-[#ff5540] border border-[#ff5540] p-8 flex flex-col justify-center items-center text-center gap-6 group hover:brightness-110 transition-all cursor-pointer">
+                <div className="w-16 h-16 bg-[#131313] flex items-center justify-center rounded-full mb-2">
+                  <span className="material-symbols-outlined text-[#ff5540] text-3xl animate-bounce">add_box</span>
+                </div>
+                <h3 className="font-headline font-black text-2xl uppercase tracking-tighter text-white">
+                  ¿TIENES UNA IDEA?<br />PITCH IT HERE.
+                </h3>
+                <p className="text-white/80 text-sm font-light leading-snug">
+                  Buscamos fundadores y mantenedores para nuevos proyectos. El equipo te apoya con recursos y red.
+                </p>
+                <div className="w-full h-[1px] bg-white/30 my-2"></div>
+                <div className="font-label text-[10px] font-black uppercase tracking-[0.3em] text-white">ÚNETE AL EQUIPO CORE</div>
               </div>
             </div>
           </div>
@@ -486,7 +703,7 @@ export default function LandingPage() {
               Asegura tu lugar en la próxima competencia.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 lg:gap-10 relative z-10">
-              <button 
+              <button
                 onClick={() => setShowDiscordModal(true)}
                 className="w-full sm:w-auto bg-[#ff5540] text-white px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl"
               >
@@ -505,7 +722,7 @@ export default function LandingPage() {
       {/* Discord Confirmation Modal */}
       {showDiscordModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
-          <div 
+          <div
             className="absolute inset-0 bg-[#0E0E0E]/90 backdrop-blur-sm"
             onClick={() => setShowDiscordModal(false)}
           ></div>
@@ -521,22 +738,22 @@ export default function LandingPage() {
               Necesitamos tu correo para poder tenerte en cuenta en la red. Si ya nos diste tu correo, solo ignora y continua al servidor.
             </p>
             <div className="flex flex-col gap-4">
-              <Link 
-                href="https://discord.gg/RPqWgsN5H6" 
+              <Link
+                href="https://discord.gg/RPqWgsN5H6"
                 className="w-full bg-[#ff5540] text-white py-4 font-headline font-bold uppercase tracking-[0.2em] hover:brightness-110 text-center transition-all"
                 onClick={() => setShowDiscordModal(false)}
               >
                 IR DIRECTAMENTE A DISCORD
               </Link>
-              <Link 
-                href="/notify" 
+              <Link
+                href="/notify"
                 className="w-full border border-[#603e39] text-[#E5E2E1] py-4 font-headline font-bold uppercase tracking-[0.2em] hover:bg-white/5 text-center transition-all"
                 onClick={() => setShowDiscordModal(false)}
               >
                 REGISTRAR MI CORREO
               </Link>
             </div>
-            <button 
+            <button
               onClick={() => setShowDiscordModal(false)}
               className="absolute top-6 right-6 text-[#E5E2E1]/40 hover:text-[#ff5540] transition-colors"
             >

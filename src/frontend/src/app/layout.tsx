@@ -24,6 +24,9 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "BuildersMTY",
   description: "Una comunidad abierta de estudiantes y desarrolladores en Monterrey enfocada en construir software y compartir conocimiento.",
+  icons: {
+    icon: "/builderslogo.svg",
+  },
 };
 
 export default function RootLayout({
