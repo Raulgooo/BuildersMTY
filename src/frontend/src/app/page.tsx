@@ -397,6 +397,78 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Onboarding Section */}
+        <section id="onboarding" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-32 border-x border-[#ffb4a8]/10 bg-[#131313]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+            <div className="lg:col-span-5">
+              <div className="font-label text-[#ff5540] text-[10px] tracking-[0.4em] mb-4 uppercase flex items-center gap-2 font-bold">
+                <span className="w-4 h-[1px] bg-[#ff5540]"></span>
+                ONBOARDING
+              </div>
+              <h2 className="text-[12vw] sm:text-[10vw] lg:text-[72px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.85]">
+                ¿CÓMO<br /><span className="text-[#ff5540]">FUNCIONA?</span>
+              </h2>
+              <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed mb-10">
+                Al registrarte en nuestro servidor de Discord, nuestro sistema inicia un análisis profundo de tu trayectoria técnica para ubicarte en el nivel que te corresponde.
+              </p>
+              <div className="flex flex-col gap-4">
+                <div className="p-6 border border-[#ff5540]/20 bg-[#1c1b1b] relative group hover:border-[#ff5540]/40 transition-all">
+                  <div className="font-label text-[10px] text-[#ffb4a8]/40 uppercase mb-2 tracking-widest">PROCESO_DE_NIVELACIÓN</div>
+                  <p className="text-sm text-[#ebbbb4]/80 leading-relaxed italic">
+                    "No importa quién dices ser, importa lo que has construido."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-1 gap-6">
+                {[
+                  {
+                    step: "01",
+                    title: "Sincronización Total",
+                    desc: "Al entrar a Discord, vinculas tu GitHub. No es solo un login; es el inicio del escaneo de tus repositorios.",
+                    icon: "hub"
+                  },
+                  {
+                    step: "02",
+                    title: "Análisis Extensivo",
+                    desc: "Nuestro sistema analiza tu stack tecnológico, la complejidad de tu código y tu impacto real en proyectos open source.",
+                    icon: "troubleshoot"
+                  },
+                  {
+                    step: "03",
+                    title: "Perfilado de Developer",
+                    desc: "Determinamos tu perfil según tu consistencia: ¿Eres un arquitecto de sistemas, un crack del frontend o un experto en bajo nivel?",
+                    icon: "psychology"
+                  },
+                  {
+                    step: "04",
+                    title: "Acceso Segmentado",
+                    desc: "Seccionamos canales privados y acceso a herramientas según tu nivel técnico. Calidad sobre cantidad.",
+                    icon: "lock_open"
+                  }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 p-6 lg:p-8 border border-[#603e39]/20 hover:border-[#ff5540]/30 hover:bg-[#ff5540]/5 transition-all group">
+                    <div className="shrink-0 w-12 h-12 lg:w-16 lg:h-16 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:bg-[#ff5540] group-hover:border-[#ff5540] transition-all">
+                      <span className="font-headline font-black text-xl lg:text-2xl text-[#ff5540] group-hover:text-white transition-colors">{item.step}</span>
+                    </div>
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="material-symbols-outlined text-[#ff5540] text-lg">{item.icon}</span>
+                        <h4 className="font-label font-bold text-sm lg:text-base uppercase tracking-[0.2em] text-[#E5E2E1]">{item.title}</h4>
+                      </div>
+                      <p className="text-sm lg:text-base text-[#E5E2E1]/50 leading-relaxed font-light">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 text-center border-x border-[#ffb4a8]/10">
           <div className="bg-[#1c1b1b] p-8 lg:p-32 border border-[#ff5540]/10 relative group overflow-hidden">
