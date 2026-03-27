@@ -12,9 +12,9 @@ load_dotenv()
 
 router = APIRouter()
 
-GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
-GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI")
+
+print(f"DEBUG: GITHUB_REDIRECT_URI is loaded as: '{GITHUB_REDIRECT_URI}'")
 
 @router.get("/github")
 async def github_login(discord_id: str = Query(..., description="The Discord ID to link with GitHub")):
@@ -39,6 +39,9 @@ async def github_login(discord_id: str = Query(..., description="The Discord ID 
         f"state={state}&"
         f"scope=user:email,repo"
     )
+    
+    print(f"DEBUG: Starting GitHub OAuth for discord_id: {discord_id}")
+    print(f"DEBUG: Redirecting to GitHub with URI: {GITHUB_REDIRECT_URI}")
     
     return RedirectResponse(url=github_url)
 
