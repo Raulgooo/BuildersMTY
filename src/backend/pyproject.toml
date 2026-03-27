@@ -9,7 +9,7 @@ description = "Backend for Builders MTY web and discord"
 authors = [
     {name = "Raul R. Gonzalez", email = "raul@buildersmty.com.mx"}
 ]
-readme = "README.md"
+
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.104.1",
