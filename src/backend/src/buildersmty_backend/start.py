@@ -2,32 +2,44 @@ import multiprocessing
 import subprocess
 import os
 import sys
-
-def run_api():
-    print("🚀 Starting FastAPI Server...")
-    port = os.getenv("PORT", "8000")
-    # Using the module path since we are in the context of src/backend
-    subprocess.run([
-        "uvicorn", 
-        "buildersmty_backend.main:app", 
-        "--host", "0.0.0.0", 
-        "--port", port
-    ])
+import time
 
 def run_bot():
-    print("🤖 Starting Discord Bot...")
-    # Using path from the root of the build (src/backend/)
-    subprocess.run(["python", "src/buildersmty_backend/bot.py"])
+    print("🤖 Starting Discord Bot in background...")
+    src_path = os.path.join(os.getcwd(), "src")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = src_path + (":" + env.get("PYTHONPATH", "") if env.get("PYTHONPATH") else "")
+    try:
+        subprocess.run([sys.executable, "src/buildersmty_backend/bot.py"], env=env)
+    except Exception as e:
+        print(f"❌ Discord Bot crashed: {e}")
 
 if __name__ == "__main__":
-    # Add current src directory to path for imports
-    sys.path.append(os.path.join(os.getcwd(), "src"))
+    # 1. Launch the BOT in a separate process (background)
+    bot_process = multiprocessing.Process(target=run_bot)
+    bot_process.start()
+
+    # 2. Run the API in the MAIN PROCESS (foreground)
+    # This is vital for Railway's port detection
+    print("🚀 Starting FastAPI Server (Main Process)...")
+    port = os.getenv("PORT", "8000")
+    print(f"📡 Binding to port: {port}")
     
-    p1 = multiprocessing.Process(target=run_api)
-    p2 = multiprocessing.Process(target=run_bot)
+    src_path = os.path.join(os.getcwd(), "src")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = src_path + (":" + env.get("PYTHONPATH", "") if env.get("PYTHONPATH") else "")
     
-    p1.start()
-    p2.start()
-    
-    p1.join()
-    p2.join()
+    try:
+        # We use sys.executable -m uvicorn to ensure correct import resolution
+        subprocess.run([
+            sys.executable, "-m", "uvicorn", 
+            "buildersmty_backend.main:app", 
+            "--host", "0.0.0.0", 
+            "--port", port
+        ], env=env)
+    finally:
+        # Cleanup bot process on exit
+        if bot_process.is_alive():
+            print("🛑 Terminating Discord Bot...")
+            bot_process.terminate()
+            bot_process.join()
