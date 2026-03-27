@@ -1,6 +1,6 @@
 import httpx
 from typing import List, Dict, Any
-from app.schemas.user import UserData, RepoData
+from buildersmty_backend.schemas.user import UserData, RepoData
 
 async def fetch_user_data(access_token: str) -> UserData:
     """

@@ -6,7 +6,7 @@ import httpx
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from dotenv import load_dotenv
-from app.services import discord, github
+from buildersmty_backend.services import discord, github
 
 load_dotenv()
 

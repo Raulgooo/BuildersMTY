@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import auth
+from buildersmty_backend.routers import auth
 
 app = FastAPI(title="Builders MTY Backend")
 

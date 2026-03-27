@@ -2,7 +2,7 @@ import os
 import discord
 from discord import app_commands
 from dotenv import load_dotenv
-from app.services import discord as discord_service
+from buildersmty_backend.services import discord as discord_service
 
 load_dotenv()
 

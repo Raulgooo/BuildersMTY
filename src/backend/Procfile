@@ -1,2 +1,2 @@
-web: uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
-bot: python src/app/bot.py
+web: uvicorn buildersmty_backend.main:app --host 0.0.0.0 --port ${PORT:-8000}
+bot: python src/buildersmty_backend/bot.py
