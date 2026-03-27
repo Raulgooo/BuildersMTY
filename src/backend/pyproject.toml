@@ -10,7 +10,7 @@ author = [
     {name = "Raul R. Gonzalez", email = "[EMAIL_ADDRESS]"}
 ]
 license = {file = "LICENSE"}
-readme = "README.md"
+
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.104.1",
