@@ -1,6 +1,6 @@
 [build-system]
-requires = ["uv-build >= 0.10.10, <0.11.0"]
-build-backend = "uv_build"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "buildersmty-backend"
@@ -9,6 +9,7 @@ description = "Backend for Builders MTY web and discord"
 authors = [
     {name = "Raul R. Gonzalez", email = "raul@buildersmty.com.mx"}
 ]
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.104.1",
@@ -29,3 +30,9 @@ dependencies = [
     "passlib[bcrypt]>=1.7.4",
     "python-jose[cryptography]>=3.3.0",
 ]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
