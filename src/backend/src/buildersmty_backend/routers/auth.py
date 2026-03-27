@@ -12,6 +12,8 @@ load_dotenv()
 
 router = APIRouter()
 
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI")
 
 print(f"DEBUG: GITHUB_REDIRECT_URI is loaded as: '{GITHUB_REDIRECT_URI}'")
