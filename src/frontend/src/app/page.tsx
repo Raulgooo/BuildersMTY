@@ -623,7 +623,7 @@ export default function LandingPage() {
                 {
                   id: "DevTool",
                   title: "latch",
-                  status: "PLANEACION: Unete para formar parte del Core-Team e influir en el diseño y stack!",
+                  status: "PLANEACION: Unete para formar parte del Core-Team.",
                   desc: "Herramienta inspirada en pocketbase para tener autenticación ligera y self-hosted en un binario.",
                   stack: ["Golang", "Typescript", "??"],
                   level: "DIFICIL",

@@ -16,10 +16,12 @@ dist
 # misc
 .DS_Store
 *.pem
+*.pen
 *.log*
 
 # local env files
 .env
+**/.env
 .env.local
 .env.development.local
 .env.test.local
@@ -45,3 +47,5 @@ __pycache__/
 # IDEs
 .vscode/
 .idea/
+
+*.pem
