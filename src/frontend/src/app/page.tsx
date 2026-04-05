@@ -11,6 +11,15 @@ export default function LandingPage() {
       <main className="ghost-grid pt-20">
         {/* Hero Section */}
         <section className="px-6 py-20 lg:py-32 max-w-[1440px] mx-auto min-h-[90vh] flex flex-col justify-center border-x border-[#ffb4a8]/10 relative overflow-hidden">
+          {/* Gopher Mascot */}
+          <div className="absolute -right-20 lg:right-[5%] top-10 lg:top-0 pointer-events-none z-0 opacity-10 lg:opacity-20 transition-all duration-[4000ms]">
+            <img
+              src="/gopher.svg"
+              alt="Gopher Mascot"
+              className="w-[300px] sm:w-[500px] lg:w-[650px] h-auto grayscale filter contrast-125 transition-all"
+            />
+          </div>
+
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-end justify-between mb-24 relative z-10">
             <div className="max-w-5xl">
               <div className="font-label text-[#ffb4a8] text-[9px] sm:text-[10px] tracking-[0.4em] mb-8 uppercase flex items-center gap-3">
