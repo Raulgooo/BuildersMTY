@@ -31,15 +31,30 @@ export default function NotifyPage() {
         .from('leads')
         .insert([{ name, email }]);
 
-      if (supabaseError) throw supabaseError;
+      if (supabaseError) {
+        if (supabaseError.code === '23505') {
+          // Duplicate email — treat as success
+          setSubmitted(true);
+          if (joinDiscord) {
+            window.open("https://discord.gg/RPqWgsN5H6", "_blank");
+          }
+          return;
+        }
+        throw supabaseError;
+      }
 
       setSubmitted(true);
       if (joinDiscord) {
         window.open("https://discord.gg/RPqWgsN5H6", "_blank");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error submitting lead:", err);
-      setError("Error al registrar: " + (err.message || "Inténtalo de nuevo."));
+      const message = err instanceof Error ? err.message : "Inténtalo de nuevo.";
+      if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
+        setError("Error de conexión. Verifica tu internet e inténtalo de nuevo.");
+      } else {
+        setError("Error al registrar: " + message);
+      }
     } finally {
       setLoading(false);
     }
