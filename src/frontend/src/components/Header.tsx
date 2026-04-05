@@ -18,9 +18,9 @@ export default function Header() {
 
   const navLinks = [
     ["Inicio", "/"],
+    ["Cursos", "/#cursos"],
     ["Builders Network", "/buildersnetwork"],
     ["Eventos", "/#hackathon"],
-    ["Herramientas", "/herramientas"],
     ["Contacto", "/#contacto"],
   ];
 
@@ -59,9 +59,9 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link href="/notify">
+          <Link href="https://discord.gg/RPqWgsN5H6">
             <button className="bg-[#ff5540] text-white px-5 py-2 font-headline text-[10px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-transform hover:brightness-110">
-              UNIRSE
+              DISCORD
             </button>
           </Link>
         </div>
@@ -95,9 +95,9 @@ export default function Header() {
             {label}
           </Link>
         ))}
-        <Link href="/notify" onClick={() => setIsMenuOpen(false)}>
+        <Link href="https://discord.gg/RPqWgsN5H6" onClick={() => setIsMenuOpen(false)}>
           <button className="bg-[#ff5540] text-white px-10 py-5 font-headline font-bold uppercase tracking-[0.3em] active:scale-95 transition-transform mt-6">
-            UNIRSE A LA RED
+            UNIRSE A DISCORD
           </button>
         </Link>
         

@@ -1,13 +1,42 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from buildersmty_backend.routers import auth
+from buildersmty_backend.db.supabase import get_user_profile, get_user_by_github
 
 app = FastAPI(title="Builders MTY Backend")
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/health")
 async def health_check():
     return {"status": "ok", "service": "builders-mty-backend"}
+
+
+@app.get("/api/profile/{discord_id}")
+async def get_profile_by_discord(discord_id: str):
+    """Fetch a builder profile by Discord ID."""
+    profile = get_user_profile(discord_id)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return profile
+
+
+@app.get("/api/profile/github/{username}")
+async def get_profile_by_github(username: str):
+    """Fetch a builder profile by GitHub username."""
+    profile = get_user_by_github(username)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return profile
+
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 

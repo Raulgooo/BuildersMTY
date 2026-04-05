@@ -7,6 +7,9 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from dotenv import load_dotenv
 from buildersmty_backend.services import discord, github
+from buildersmty_backend.services.scoring import calculate_builder_score
+from buildersmty_backend.services.llm import analyze_builder_profile
+from buildersmty_backend.db.supabase import upsert_user_profile
 
 load_dotenv()
 
@@ -16,18 +19,13 @@ GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI")
 
-print(f"DEBUG: GITHUB_REDIRECT_URI is loaded as: '{GITHUB_REDIRECT_URI}'")
 
 @router.get("/github")
 async def github_login(discord_id: str = Query(..., description="The Discord ID to link with GitHub")):
-    """
-    Step 1: Initiate GitHub OAuth flow.
-    Encodes discord_id into the state parameter.
-    """
+    """Step 1: Initiate GitHub OAuth flow."""
     if not discord_id:
         raise HTTPException(status_code=400, detail="discord_id is required")
 
-    # Generate a random state and append discord_id
     state_data = {
         "discord_id": discord_id,
         "nonce": secrets.token_urlsafe(16)
@@ -41,20 +39,21 @@ async def github_login(discord_id: str = Query(..., description="The Discord ID 
         f"state={state}&"
         f"scope=user:email,repo"
     )
-    
-    print(f"DEBUG: Starting GitHub OAuth for discord_id: {discord_id}")
-    print(f"DEBUG: Redirecting to GitHub with URI: {GITHUB_REDIRECT_URI}")
-    
+
     return RedirectResponse(url=github_url)
+
 
 @router.get("/github/callback")
 async def github_callback(code: str = None, state: str = None):
     """
     Step 2: Receive callback from GitHub.
-    Exchanges code for access token and runs the pipeline.
+    Exchanges code for access token, runs scoring + LLM analysis,
+    persists to Supabase, and notifies Discord.
     """
     if not code or not state:
         raise HTTPException(status_code=400, detail="Missing code or state")
+
+    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
     # 1. Decode state to get discord_id
     try:
@@ -76,32 +75,65 @@ async def github_callback(code: str = None, state: str = None):
             headers={"Accept": "application/json"}
         )
         token_data = token_response.json()
-        
+
     access_token = token_data.get("access_token")
     if not access_token:
-        FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
-    # 3. Fetch full user data using the new service
+    # 3. Fetch user data from GitHub
     try:
         user_data = await github.fetch_user_data(access_token)
     except Exception as e:
         print(f"Error fetching user data: {e}")
-        FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
-    # 4. Notify Discord
-    await discord.notify_linked_account(user_data.username, discord_id)
+    # 4. Run scoring algorithm
+    scoring = calculate_builder_score(user_data)
 
-    # 5. Pipeline Logic (Potential for scoring here)
-    # The user_data object now contains all the info needed for scoring!
-    
-    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+    # 5. Run LLM analysis
+    analysis = await analyze_builder_profile(user_data, scoring)
+
+    # 6. Persist to Supabase
+    try:
+        profile_data = {
+            "discord_id": discord_id,
+            "github_username": user_data.username,
+            "github_id": user_data.github_id,
+            "avatar_url": user_data.avatar_url,
+            "email": user_data.email,
+            "bio": user_data.bio,
+            "public_repos_count": user_data.public_repos_count,
+            "private_repos_count": user_data.private_repos_count,
+            "total_stars": user_data.total_stars,
+            "total_forks": user_data.total_forks,
+            "total_commits": user_data.total_commits,
+            "total_prs": user_data.total_prs,
+            "top_languages": user_data.top_languages,
+            "language_tags": user_data.language_tags,
+            "repositories": [r.model_dump() for r in user_data.repositories[:50]],
+            "score": scoring.score,
+            "rank": scoring.rank,
+            "score_breakdown": scoring.breakdown,
+            "llm_summary": analysis.summary,
+            "llm_strengths": analysis.strengths,
+            "llm_recommendations": analysis.recommendations,
+            "developer_archetype": analysis.developer_archetype,
+        }
+        upsert_user_profile(profile_data)
+    except Exception as e:
+        print(f"Error persisting to Supabase: {e}")
+
+    # 7. Send rich analysis to Discord webhook
+    await discord.send_analysis_webhook(discord_id, user_data, scoring, analysis)
+
+    # 8. Redirect to frontend with results
     final_redirect_url = (
         f"{FRONTEND_URL}/auth/github/callback?"
         f"discord_id={discord_id}&"
         f"github_user={user_data.username}&"
-        f"status=analyzing"
+        f"status=complete&"
+        f"score={scoring.score}&"
+        f"rank={scoring.rank}"
     )
-    
+
     return RedirectResponse(url=final_redirect_url)

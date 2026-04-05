@@ -1,13 +1,9 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function LandingPage() {
-  const [showDiscordModal, setShowDiscordModal] = useState(false);
   return (
     <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen">
       <Header />
@@ -15,15 +11,6 @@ export default function LandingPage() {
       <main className="ghost-grid pt-20">
         {/* Hero Section */}
         <section className="px-6 py-20 lg:py-32 max-w-[1440px] mx-auto min-h-[90vh] flex flex-col justify-center border-x border-[#ffb4a8]/10 relative overflow-hidden">
-          {/* Gopher Mascot - New Approach */}
-          <div className="absolute -right-20 lg:right-[5%] top-10 lg:top-0 pointer-events-none z-0 opacity-10 lg:opacity-20 transition-all duration-[4000ms]">
-            <img
-              src="/gopher.svg"
-              alt="Gopher Mascot"
-              className="w-[300px] sm:w-[500px] lg:w-[650px] h-auto grayscale filter contrast-125 transition-all"
-            />
-          </div>
-
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-end justify-between mb-24 relative z-10">
             <div className="max-w-5xl">
               <div className="font-label text-[#ffb4a8] text-[9px] sm:text-[10px] tracking-[0.4em] mb-8 uppercase flex items-center gap-3">
@@ -139,6 +126,101 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Courses Section */}
+        <section id="cursos" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-32 border-x border-[#ffb4a8]/10">
+          <div className="max-w-3xl mb-16 lg:mb-20">
+            <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
+              <span className="w-6 h-[1px] bg-[#ff5540]"></span>
+              CURSOS_COMUNITARIOS
+            </div>
+            <h2 className="text-[12vw] sm:text-[10vw] lg:text-[80px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8]">
+              APRENDE<br /><span className="text-[#ff5540]">CONSTRUYENDO</span>
+            </h2>
+            <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed max-w-2xl">
+              Cursos gratuitos creados por la comunidad. Aprende las herramientas que los builders usan en producción.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "merge_type",
+                title: "Git & GitHub desde Cero",
+                difficulty: "BÁSICO",
+                desc: "Fundamentos de control de versiones, branching, pull requests y colaboración en equipo.",
+              },
+              {
+                icon: "api",
+                title: "Backend con FastAPI",
+                difficulty: "INTERMEDIO",
+                desc: "APIs REST, autenticación, bases de datos, testing y deploy a producción con Python.",
+              },
+              {
+                icon: "web",
+                title: "Frontend Moderno con Next.js",
+                difficulty: "INTERMEDIO",
+                desc: "React, Server-Side Rendering, Tailwind CSS, componentes y arquitectura moderna.",
+              },
+              {
+                icon: "terminal",
+                title: "Introducción a Go",
+                difficulty: "INTERMEDIO",
+                desc: "Sintaxis, concurrencia, goroutines, CLI tools y servidores HTTP desde cero.",
+              },
+              {
+                icon: "dns",
+                title: "Linux y Terminal",
+                difficulty: "BÁSICO",
+                desc: "Bash, permisos, administración de servidores, SSH y fundamentos de DevOps.",
+              },
+              {
+                icon: "shield",
+                title: "Seguridad Ofensiva 101",
+                difficulty: "AVANZADO",
+                desc: "OWASP Top 10, pentesting básico, CTFs y metodología de análisis de vulnerabilidades.",
+              },
+            ].map((course, i) => (
+              <div
+                key={i}
+                className="bg-[#1c1b1b]/50 border border-[#603e39]/20 p-6 lg:p-8 hover:border-[#ff5540]/30 transition-all group relative flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-10 h-10 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:border-[#ff5540] transition-colors">
+                      <span className="material-symbols-outlined text-[#ff5540] text-xl">
+                        {course.icon}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-black px-2 py-0.5 bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20 font-label tracking-widest">
+                      {course.difficulty}
+                    </span>
+                  </div>
+                  <h3 className="font-headline font-bold text-lg uppercase tracking-tight text-white mb-3 group-hover:text-[#ff5540] transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="text-sm text-[#E5E2E1]/50 leading-relaxed mb-6">
+                    {course.desc}
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-[#603e39]/10 flex items-center justify-between">
+                  <span className="text-[9px] font-label font-bold text-[#ffb4a8]/40 tracking-[0.2em] uppercase">
+                    PRÓXIMAMENTE
+                  </span>
+                  <span className="w-1.5 h-1.5 bg-[#ff5540]/30 animate-pulse"></span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link href="https://discord.gg/RPqWgsN5H6">
+              <button className="border border-[#603e39]/30 text-[#E5E2E1]/60 px-8 py-4 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#ff5540]/40 hover:text-[#ff5540] transition-all">
+                Quiero contribuir un curso
+              </button>
+            </Link>
           </div>
         </section>
 
@@ -703,12 +785,11 @@ export default function LandingPage() {
               Asegura tu lugar en la próxima competencia.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 lg:gap-10 relative z-10">
-              <button
-                onClick={() => setShowDiscordModal(true)}
-                className="w-full sm:w-auto bg-[#ff5540] text-white px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl"
-              >
-                Discord Directamente
-              </button>
+              <Link href="https://discord.gg/RPqWgsN5H6" className="w-full sm:w-auto">
+                <button className="w-full bg-[#ff5540] text-white px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl">
+                  Unirse a Discord
+                </button>
+              </Link>
               <Link href="https://github.com/Raulgooo/BuildersMTY" className="w-full sm:w-auto">
                 <button className="w-full border border-[#603e39] text-[#E5E2E1] px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:bg-white/5 active:scale-95 transition-all">
                   Repositorio
@@ -718,50 +799,6 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-
-      {/* Discord Confirmation Modal */}
-      {showDiscordModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
-          <div
-            className="absolute inset-0 bg-[#0E0E0E]/90 backdrop-blur-sm"
-            onClick={() => setShowDiscordModal(false)}
-          ></div>
-          <div className="max-w-xl w-full bg-[#1c1b1b] border border-[#ff5540] p-8 lg:p-12 relative z-10 shadow-[0_0_50px_rgba(255,85,64,0.2)]">
-            <div className="font-label text-[#ff5540] text-[10px] tracking-[0.4em] mb-6 uppercase flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-[#ff5540]"></span>
-              VERIFICACIÓN_DE_SEGURIDAD
-            </div>
-            <h3 className="font-headline text-3xl lg:text-4xl font-black uppercase tracking-tighter text-[#E5E2E1] mb-6">
-              ¿Estás seguro?
-            </h3>
-            <p className="text-[#ebbbb4] text-lg mb-10 font-light leading-relaxed">
-              Necesitamos tu correo para poder tenerte en cuenta en la red. Si ya nos diste tu correo, solo ignora y continua al servidor.
-            </p>
-            <div className="flex flex-col gap-4">
-              <Link
-                href="https://discord.gg/RPqWgsN5H6"
-                className="w-full bg-[#ff5540] text-white py-4 font-headline font-bold uppercase tracking-[0.2em] hover:brightness-110 text-center transition-all"
-                onClick={() => setShowDiscordModal(false)}
-              >
-                IR DIRECTAMENTE A DISCORD
-              </Link>
-              <Link
-                href="/notify"
-                className="w-full border border-[#603e39] text-[#E5E2E1] py-4 font-headline font-bold uppercase tracking-[0.2em] hover:bg-white/5 text-center transition-all"
-                onClick={() => setShowDiscordModal(false)}
-              >
-                REGISTRAR MI CORREO
-              </Link>
-            </div>
-            <button
-              onClick={() => setShowDiscordModal(false)}
-              className="absolute top-6 right-6 text-[#E5E2E1]/40 hover:text-[#ff5540] transition-colors"
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
-          </div>
-        </div>
-      )}
 
       <Footer />
     </div>
