@@ -271,15 +271,13 @@ def calculate_builder_score(user_data: UserData) -> ScoringResult:
 
 def apply_llm_rating(scoring: ScoringResult, llm_rating: int) -> ScoringResult:
     """
-    Combines algorithmic score (90%) with LLM qualitative rating (10%).
-    LLM rating 1-5 maps to 0-10 points: (rating - 1) * 2.5
-    Final score = algorithmic * 0.9 + llm_bonus
+    Adds LLM qualitative bonus on top of the algorithmic score.
+    LLM can only help, never hurt. Rating 1-5 maps to 0-5 bonus points.
     """
     clamped_rating = max(1, min(5, llm_rating))
-    llm_bonus = (clamped_rating - 1) * 2.5  # 0, 2.5, 5, 7.5, 10
+    llm_bonus = {1: 0, 2: 1, 3: 2.5, 4: 4, 5: 5}[clamped_rating]
 
-    algorithmic_scaled = scoring.score * 0.9
-    final_score = round(min(100.0, algorithmic_scaled + llm_bonus), 2)
+    final_score = round(min(100.0, scoring.score + llm_bonus), 2)
 
     # Re-determine rank with combined score
     if final_score >= 72:

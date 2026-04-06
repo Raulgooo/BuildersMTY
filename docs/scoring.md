@@ -89,19 +89,21 @@ el LLM asigna una calificación del 1 al 5 evaluando lo que el algoritmo no pued
 | rating | significado | bonus |
 |--------|-------------|-------|
 | 1 | principiante con actividad mínima | +0 pts |
-| 2 | builder temprano, empieza a construir | +2.5 pts |
-| 3 | developer sólido con proyectos reales | +5 pts |
-| 4 | builder fuerte con impacto demostrado | +7.5 pts |
-| 5 | developer excepcional con portfolio sobresaliente | +10 pts |
+| 2 | builder temprano, empieza a construir | +1 pt |
+| 3 | developer sólido con proyectos reales | +2.5 pts |
+| 4 | builder fuerte con impacto demostrado | +4 pts |
+| 5 | developer excepcional con portfolio sobresaliente | +5 pts |
 
 ### fórmula final
 
 ```
-score_final = (score_algorítmico × 0.9) + bonus_llm
+score_final = score_algorítmico + bonus_llm
 ```
 
-ejemplo: un developer con 60 pts algorítmico y rating 4 del LLM:
-- `60 × 0.9 = 54` + `7.5` = **61.5 puntos finales**
+el LLM solo puede **sumar**, nunca restar. es un bonus adicional que reconoce lo que el algoritmo no mide.
+
+ejemplo: un developer con 67 pts algorítmico y rating 4 del LLM:
+- `67 + 4` = **71 puntos finales** (cerca de LEGEND)
 
 ### qué evalúa el LLM que el algoritmo no puede
 
