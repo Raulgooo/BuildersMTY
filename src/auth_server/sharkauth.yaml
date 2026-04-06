@@ -12,7 +12,7 @@ auth:
 
 passkeys:
   rp_name: "BuildersMTY"
-  rp_id: ""
+  rp_id: "auth.buildersmty.com.mx"
   origin: "https://auth.buildersmty.com.mx"
   attestation: "none"
   resident_key: "preferred"
