@@ -741,6 +741,7 @@ export default function LandingPage() {
                 {
                   id: "Auth Server",
                   title: "Shark",
+                  logo: "/shark_blackbg_whitelogo_text_logo.svg",
                   status: "PLANEACION: Unete para formar parte del Core-Team.",
                   desc: "Servidor de autenticación open-source en un solo binario: passkeys, MFA, SSO, RBAC. Self-host en 3 minutos.",
                   stack: ["Golang", "Typescript", "SQLite"],
@@ -760,6 +761,9 @@ export default function LandingPage() {
                           "bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20"
                         }`}>{project.status}</span>
                     </div>
+                    {project.logo && (
+                      <Image src={project.logo} alt={project.title} width={100} height={40} className="mb-4" />
+                    )}
                     <h3 className="font-headline font-bold text-2xl uppercase tracking-tight text-white mb-4 group-hover:text-[#ff5540] transition-colors">
                       {project.title}
                     </h3>
