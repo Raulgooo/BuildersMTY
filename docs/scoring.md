@@ -74,7 +74,7 @@ el algoritmo identifica repos que probablemente son proyectos originales vs fork
 
 ---
 
-## integración con LLM (10% del score)
+## integración con LLM (+0 a 5 pts bonus)
 
 el LLM no solo genera el análisis — también contribuye al score final. recibe:
 - datos crudos del perfil de GitHub
