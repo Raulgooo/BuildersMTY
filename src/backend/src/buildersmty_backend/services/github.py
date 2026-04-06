@@ -37,7 +37,7 @@ query($reposCursor: String, $fromDate: DateTime!, $toDate: DateTime!) {
     repositories(
       first: 100
       after: $reposCursor
-      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]
+      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER, COLLABORATOR]
       orderBy: { field: UPDATED_AT, direction: DESC }
     ) {
       totalCount
@@ -76,7 +76,7 @@ query($reposCursor: String!) {
     repositories(
       first: 100
       after: $reposCursor
-      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]
+      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER, COLLABORATOR]
       orderBy: { field: UPDATED_AT, direction: DESC }
     ) {
       pageInfo {
@@ -158,7 +158,7 @@ async def _graphql_request(client: httpx.AsyncClient, headers: dict, query: str,
 async def fetch_user_data(access_token: str) -> UserData:
     """
     Fetches comprehensive user data from GitHub using the GraphQL API.
-    - Owned repos include personal + org repos (ownerAffiliations: OWNER + ORGANIZATION_MEMBER)
+    - Owned repos include personal + org + collaborator repos
     - Contributed repos are repos the user contributed to but doesn't own
     - Commits are scoped to the current calendar year (Jan 1 → now)
     """
@@ -178,6 +178,12 @@ async def fetch_user_data(access_token: str) -> UserData:
         )
         viewer = data["viewer"]
         username = viewer["login"]
+
+        # Debug: log repo counts
+        total_repo_count = viewer["repositories"]["totalCount"]
+        first_page_count = len(viewer["repositories"]["nodes"])
+        private_in_first_page = sum(1 for r in viewer["repositories"]["nodes"] if r["isPrivate"])
+        print(f"[GitHub] User: {username}, Total repos: {total_repo_count}, First page: {first_page_count}, Private in page: {private_in_first_page}")
 
         # Paginate owned repos (up to 300) using lightweight query
         all_repo_nodes = list(viewer["repositories"]["nodes"])
@@ -315,5 +321,7 @@ async def fetch_user_data(access_token: str) -> UserData:
             repositories=repo_list,
             contributed_repos=contributed_list,
         )
+
+        print(f"[GitHub] Result: {public_count} public, {private_count} private, {len(contributed_list)} contributed, {total_commits} contributions, {total_prs} PRs, {total_stars} stars")
 
         return user_data
