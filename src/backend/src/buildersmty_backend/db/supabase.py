@@ -1,5 +1,6 @@
 import os
 from supabase import create_client, Client
+from supabase.lib.client_options import SyncClientOptions
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,7 +16,14 @@ def get_client() -> Client:
     if _client is None:
         if not SUPABASE_URL or not SUPABASE_SERVICE_KEY:
             raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set")
-        _client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+        _client = create_client(
+            SUPABASE_URL,
+            SUPABASE_SERVICE_KEY,
+            options=SyncClientOptions(
+                auto_refresh_token=False,
+                persist_session=False,
+            ),
+        )
     return _client
 
 
