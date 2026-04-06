@@ -7,13 +7,25 @@ from buildersmty_backend.db.supabase import get_user_profile, get_user_by_github
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 
+# Build allowed origins list from FRONTEND_URL
+_allowed_origins = ["http://localhost:3000"]
+if FRONTEND_URL and FRONTEND_URL not in _allowed_origins:
+    _allowed_origins.append(FRONTEND_URL)
+    # Also allow www variant
+    if "://" in FRONTEND_URL:
+        scheme, rest = FRONTEND_URL.split("://", 1)
+        if rest.startswith("www."):
+            _allowed_origins.append(f"{scheme}://{rest[4:]}")
+        else:
+            _allowed_origins.append(f"{scheme}://www.{rest}")
+
 app = FastAPI(title="Builders MTY Backend")
 app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000"],
+    allow_origins=_allowed_origins,
     allow_credentials=False,
-    allow_methods=["GET"],
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
 
