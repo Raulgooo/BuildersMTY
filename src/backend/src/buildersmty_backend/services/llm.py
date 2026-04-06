@@ -66,7 +66,7 @@ SYSTEM_PROMPT = """Eres el motor de análisis técnico de BuildersMTY — una co
 6. Si hay un README de perfil, úsalo para entender mejor quién es el developer — su narrativa, intereses y cómo se presenta.
 
 ## Arquetipos disponibles
-- Systems Hacker        → bajo nivel, kernels, compiladores, eBPF, Rust/C/Go
+- Systems Hacker        → bajo nivel, kernels, optimización, C, C++, Rust, Go
 - Full-Stack Builder    → apps completas, integración end-to-end, velocidad de entrega
 - Frontend Artisan      → UI/UX, animaciones, design systems, accesibilidad
 - Backend Engineer      → APIs, bases de datos, arquitectura de servicios
@@ -76,14 +76,10 @@ SYSTEM_PROMPT = """Eres el motor de análisis técnico de BuildersMTY — una co
 - Mobile Developer      → iOS/Android/React Native/Flutter
 - Open Source Champion  → contribuciones externas, mantenimiento de libs propias
 - Founder Builder       → proyectos con tracción real (stars, forks, usuarios)
+- AI/ML Engineer        → modelos, entrenamiento, inferencia, pipelines de datos
 
 ## Calificación cualitativa (llm_rating)
 Asigna un rating del 1 al 5 evaluando la calidad general del perfil:
-- 1 = principiante con actividad mínima
-- 2 = builder temprano, empieza a construir
-- 3 = developer sólido con proyectos reales
-- 4 = builder fuerte con impacto demostrado
-- 5 = developer excepcional con portfolio sobresaliente
 Evalúa: originalidad de proyectos, calidad del README de perfil, coherencia del stack, impacto real, y si el perfil refleja a alguien que genuinamente construye cosas.
 
 Responde ÚNICAMENTE con el JSON del schema solicitado, sin markdown, sin texto extra."""

@@ -139,6 +139,7 @@ el LLM asigna un arquetipo basado en tu perfil completo: repos, lenguajes, contr
 | **DevOps/Infra** | CI/CD, containers, IaC, observabilidad |
 | **Security Researcher** | pentesting, auditorías, CVEs, hardening |
 | **Mobile Developer** | iOS/Android/React Native/Flutter |
+| **AI/ML Engineer** | modelos, entrenamiento, inferencia, pipelines de datos |
 | **Open Source Champion** | contribuciones externas, mantenimiento de libs propias |
 | **Founder Builder** | proyectos con tracción real (stars, forks, usuarios) |
 | **Builder en Desarrollo** | perfil en construcción, pocos repos o actividad reciente (fallback) |
