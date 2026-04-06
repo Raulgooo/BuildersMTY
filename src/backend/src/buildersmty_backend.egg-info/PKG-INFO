@@ -21,3 +21,5 @@ Requires-Dist: python-multipart>=0.0.20
 Requires-Dist: email-validator>=2.1.0.post1
 Requires-Dist: passlib[bcrypt]>=1.7.4
 Requires-Dist: python-jose[cryptography]>=3.3.0
+Requires-Dist: supabase>=2.0.0
+Requires-Dist: openai>=1.0.0
