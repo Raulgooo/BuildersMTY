@@ -26,13 +26,11 @@ export default function AuthCoursesPage() {
             <span className="text-[7px] font-label text-[#E5E2E1]/20 tracking-[0.15em] uppercase">
               Auth by
             </span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/shark_blackbg_whitelogo_text_logo.svg"
               alt="Shark Auth"
               width={60}
               height={24}
-              style={{ mixBlendMode: "screen" }}
             />
           </div>
         </div>
