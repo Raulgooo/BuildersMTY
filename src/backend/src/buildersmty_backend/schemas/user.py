@@ -33,6 +33,7 @@ class UserData(BaseModel):
     top_languages: Dict[str, int] = Field(default_factory=dict)
     language_tags: List[str] = Field(default_factory=list)
     repositories: List[RepoData] = Field(default_factory=list)
+    contributed_repos: List[RepoData] = Field(default_factory=list)
 
     # Extension for scoring
     score: float = 0.0

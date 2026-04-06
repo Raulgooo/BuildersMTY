@@ -111,6 +111,7 @@ async def github_callback(code: str = None, state: str = None):
             "top_languages": user_data.top_languages,
             "language_tags": user_data.language_tags,
             "repositories": [r.model_dump() for r in user_data.repositories[:50]],
+            "contributed_repos": [r.model_dump() for r in user_data.contributed_repos[:30]],
             "score": scoring.score,
             "rank": scoring.rank,
             "score_breakdown": scoring.breakdown,

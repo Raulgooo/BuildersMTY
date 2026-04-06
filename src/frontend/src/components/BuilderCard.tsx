@@ -3,6 +3,16 @@
 import { useRef, useCallback, useState } from "react";
 import { toPng } from "html-to-image";
 
+interface RepoData {
+  name: string;
+  full_name: string;
+  description?: string | null;
+  html_url: string;
+  language?: string | null;
+  stargazers_count: number;
+  forks_count: number;
+}
+
 interface BuilderProfile {
   github_username: string;
   avatar_url?: string;
@@ -18,8 +28,12 @@ interface BuilderProfile {
   top_languages?: Record<string, number> | null;
   total_stars?: number;
   total_forks?: number;
+  total_commits?: number;
+  total_prs?: number;
   public_repos_count?: number;
   private_repos_count?: number;
+  repositories?: RepoData[] | null;
+  contributed_repos?: RepoData[] | null;
   score_breakdown?: Record<string, number> | null;
 }
 
@@ -59,6 +73,31 @@ function ScoreBar({ score }: { score: number }) {
   );
 }
 
+function RepoItem({ repo }: { repo: RepoData }) {
+  return (
+    <a
+      href={repo.html_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-between gap-3 py-1.5 group"
+    >
+      <div className="flex items-center gap-2 min-w-0">
+        <span className="text-[10px] font-label text-[#E5E2E1]/80 truncate group-hover:text-[#ff5540] transition-colors">
+          {repo.full_name || repo.name}
+        </span>
+        {repo.language && (
+          <span className="text-[8px] font-label px-1.5 py-0.5 border border-[#603e39]/20 text-[#ffb4a8]/50 uppercase tracking-widest shrink-0">
+            {repo.language}
+          </span>
+        )}
+      </div>
+      <span className="text-[9px] font-label text-[#ffb4a8]/40 shrink-0">
+        {repo.stargazers_count}★
+      </span>
+    </a>
+  );
+}
+
 export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState(false);
@@ -70,14 +109,21 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
   const languageTags = profile.language_tags ?? [];
   const avatarUrl = profile.discord_avatar_url || profile.avatar_url || "/builderslogo.svg";
 
+  // Top owned repos sorted by stars
+  const ownedRepos = (profile.repositories ?? [])
+    .filter((r) => !r.full_name || r.full_name.split("/")[0].toLowerCase() === profile.github_username.toLowerCase())
+    .sort((a, b) => b.stargazers_count - a.stargazers_count)
+    .slice(0, 5);
+
+  // Contributed repos (not owned)
+  const contributedRepos = (profile.contributed_repos ?? []).slice(0, 5);
+
   const handleDownloadPng = useCallback(async () => {
     if (!cardRef.current) return;
     setSaving(true);
     try {
-      // Run toPng twice — first pass warms up font/image caches
       await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
       const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
-
       const link = document.createElement("a");
       link.download = `${profile.github_username}-buildersmty.png`;
       link.href = dataUrl;
@@ -91,7 +137,6 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Card — this is what gets captured as PNG */}
       <div
         ref={cardRef}
         className={`${rank.bg} border ${rank.border} ${rank.glow} p-6 lg:p-8`}
@@ -100,7 +145,6 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
         {/* Header: Avatar + Name + Rank */}
         <div className="flex items-start gap-5 mb-6">
           <div className={`w-20 h-20 shrink-0 border ${rank.border} overflow-hidden`}>
-            {/* Use img instead of next/image for html-to-image compatibility */}
             <img
               src={avatarUrl}
               alt={profile.github_username}
@@ -173,13 +217,13 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           ))}
         </div>
 
-        {/* Stats Row */}
-        <div className="flex gap-6 mb-5 py-3 border-t border-b border-[#603e39]/15">
+        {/* Stats Row — Commits, PRs, Stars, Repos */}
+        <div className="grid grid-cols-4 gap-4 mb-5 py-3 border-t border-b border-[#603e39]/15">
           {[
-            { label: "Repos", value: (profile.public_repos_count ?? 0) + (profile.private_repos_count ?? 0) },
-            { label: "Stars", value: profile.total_stars ?? 0 },
-            { label: "Forks", value: profile.total_forks ?? 0 },
-            { label: "Públicos", value: profile.public_repos_count ?? 0 },
+            { label: "Commits", value: profile.total_commits ?? 0, icon: "commit" },
+            { label: "PRs", value: profile.total_prs ?? 0, icon: "merge" },
+            { label: "Stars", value: profile.total_stars ?? 0, icon: "star" },
+            { label: "Repos", value: (profile.public_repos_count ?? 0) + (profile.private_repos_count ?? 0), icon: "folder" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="font-headline font-bold text-lg text-[#E5E2E1]">
@@ -191,6 +235,34 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
             </div>
           ))}
         </div>
+
+        {/* Top Repos (owned) */}
+        {ownedRepos.length > 0 && (
+          <div className="mb-4">
+            <span className="font-label text-[10px] text-[#ffb4a8]/40 tracking-[0.3em] uppercase block mb-2">
+              Top Repos
+            </span>
+            <div className="space-y-0.5">
+              {ownedRepos.map((r) => (
+                <RepoItem key={r.full_name || r.name} repo={r} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Contributed Repos (not owned) */}
+        {contributedRepos.length > 0 && (
+          <div className="mb-4">
+            <span className="font-label text-[10px] text-[#ff5540]/60 tracking-[0.3em] uppercase block mb-2">
+              Contribuciones Externas
+            </span>
+            <div className="space-y-0.5">
+              {contributedRepos.map((r) => (
+                <RepoItem key={r.full_name || r.name} repo={r} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Strengths */}
         <div className="mb-4">
@@ -239,7 +311,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
         </div>
       </div>
 
-      {/* Share Button — outside the card so it doesn't appear in the PNG */}
+      {/* Share Button */}
       <button
         onClick={handleDownloadPng}
         disabled={saving}
