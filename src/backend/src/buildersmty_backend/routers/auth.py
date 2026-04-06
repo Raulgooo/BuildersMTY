@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from dotenv import load_dotenv
 from buildersmty_backend.services import discord, github
-from buildersmty_backend.services.scoring import calculate_builder_score
+from buildersmty_backend.services.scoring import calculate_builder_score, apply_llm_rating
 from buildersmty_backend.services.llm import analyze_builder_profile
 from buildersmty_backend.db.supabase import upsert_user_profile
 
@@ -87,13 +87,17 @@ async def github_callback(code: str = None, state: str = None):
         print(f"Error fetching user data: {e}")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
-    # 4. Run scoring algorithm
-    scoring = calculate_builder_score(user_data)
+    # 4. Run algorithmic scoring (90% of final score)
+    algorithmic_scoring = calculate_builder_score(user_data)
 
-    # 5. Run LLM analysis
-    analysis = await analyze_builder_profile(user_data, scoring)
+    # 5. Run LLM analysis (includes qualitative 1-5 rating)
+    analysis = await analyze_builder_profile(user_data, algorithmic_scoring)
 
-    # 6. Persist to Supabase
+    # 6. Combine algorithmic score (90%) + LLM rating (10%)
+    scoring = apply_llm_rating(algorithmic_scoring, analysis.llm_rating)
+    print(f"[Scoring] Algorithmic: {algorithmic_scoring.score}, LLM rating: {analysis.llm_rating}/5, Final: {scoring.score}")
+
+    # 7. Persist to Supabase
     try:
         profile_data = {
             "discord_id": discord_id,
@@ -125,13 +129,13 @@ async def github_callback(code: str = None, state: str = None):
         print(f"Error persisting to Supabase: {e}")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
-    # 7. Assign Discord role based on rank
+    # 8. Assign Discord role based on rank
     await discord.assign_rank_role(discord_id, scoring.rank)
 
-    # 8. Send rich analysis to Discord webhook
+    # 9. Send rich analysis to Discord webhook
     await discord.send_analysis_webhook(discord_id, user_data, scoring, analysis)
 
-    # 9. Redirect to frontend with results
+    # 10. Redirect to frontend with results
     final_redirect_url = (
         f"{FRONTEND_URL}/auth/github/callback?"
         f"discord_id={discord_id}&"

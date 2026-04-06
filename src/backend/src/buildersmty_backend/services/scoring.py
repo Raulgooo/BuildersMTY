@@ -267,3 +267,34 @@ def calculate_builder_score(user_data: UserData) -> ScoringResult:
         breakdown=breakdown,
         highlights=all_highlights[:8],  # Cap at 8 most relevant
     )
+
+
+def apply_llm_rating(scoring: ScoringResult, llm_rating: int) -> ScoringResult:
+    """
+    Combines algorithmic score (90%) with LLM qualitative rating (10%).
+    LLM rating 1-5 maps to 0-10 points: (rating - 1) * 2.5
+    Final score = algorithmic * 0.9 + llm_bonus
+    """
+    clamped_rating = max(1, min(5, llm_rating))
+    llm_bonus = (clamped_rating - 1) * 2.5  # 0, 2.5, 5, 7.5, 10
+
+    algorithmic_scaled = scoring.score * 0.9
+    final_score = round(min(100.0, algorithmic_scaled + llm_bonus), 2)
+
+    # Re-determine rank with combined score
+    if final_score >= 72:
+        rank = "BUILDER_LEGEND"
+    elif final_score >= 40:
+        rank = "ELITE_BUILDER"
+    else:
+        rank = "BUILDER"
+
+    breakdown = dict(scoring.breakdown)
+    breakdown["llm_qualitative"] = round(llm_bonus, 2)
+
+    return ScoringResult(
+        score=final_score,
+        rank=rank,
+        breakdown=breakdown,
+        highlights=scoring.highlights,
+    )

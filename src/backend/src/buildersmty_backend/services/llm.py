@@ -43,9 +43,13 @@ BUILDER_ANALYSIS_SCHEMA = {
                     "type": "array",
                     "items": {"type": "string"},
                     "description": "Top 3 repository names worth highlighting"
+                },
+                "llm_rating": {
+                    "type": "integer",
+                    "description": "Qualitative rating 1-5 of this developer's overall profile. 1=beginner with minimal activity, 2=early builder, 3=solid developer, 4=strong builder with real impact, 5=exceptional developer with outstanding portfolio"
                 }
             },
-            "required": ["summary", "strengths", "recommendations", "developer_archetype", "notable_projects"],
+            "required": ["summary", "strengths", "recommendations", "developer_archetype", "notable_projects", "llm_rating"],
             "additionalProperties": False
         }
     }
@@ -59,6 +63,7 @@ SYSTEM_PROMPT = """Eres el motor de análisis técnico de BuildersMTY — una co
 3. Las fortalezas deben ser específicas y evidenciadas (citar repo o métrica), no genéricas.
 4. Las recomendaciones deben ser accionables para alguien en una comunidad de builders, no consejos de carrera genéricos.
 5. El resumen debe sonar como lo escribiría un tech lead que leyó el perfil, no un bot.
+6. Si hay un README de perfil, úsalo para entender mejor quién es el developer — su narrativa, intereses y cómo se presenta.
 
 ## Arquetipos disponibles
 - Systems Hacker        → bajo nivel, kernels, compiladores, eBPF, Rust/C/Go
@@ -71,6 +76,15 @@ SYSTEM_PROMPT = """Eres el motor de análisis técnico de BuildersMTY — una co
 - Mobile Developer      → iOS/Android/React Native/Flutter
 - Open Source Champion  → contribuciones externas, mantenimiento de libs propias
 - Founder Builder       → proyectos con tracción real (stars, forks, usuarios)
+
+## Calificación cualitativa (llm_rating)
+Asigna un rating del 1 al 5 evaluando la calidad general del perfil:
+- 1 = principiante con actividad mínima
+- 2 = builder temprano, empieza a construir
+- 3 = developer sólido con proyectos reales
+- 4 = builder fuerte con impacto demostrado
+- 5 = developer excepcional con portfolio sobresaliente
+Evalúa: originalidad de proyectos, calidad del README de perfil, coherencia del stack, impacto real, y si el perfil refleja a alguien que genuinamente construye cosas.
 
 Responde ÚNICAMENTE con el JSON del schema solicitado, sin markdown, sin texto extra."""
 
@@ -87,6 +101,14 @@ def _build_user_prompt(user_data: UserData, scoring: ScoringResult) -> str:
 
     repos_text = "\n".join(repos_summary) if repos_summary else "Sin repositorios"
 
+    # Include profile README if available
+    readme_section = ""
+    if user_data.readme_content:
+        readme_section = f"""
+## README del perfil ({user_data.username}/{user_data.username})
+{user_data.readme_content}
+"""
+
     return f"""## Input: Perfil GitHub
 
 **Usuario:** {user_data.username}
@@ -95,7 +117,7 @@ def _build_user_prompt(user_data: UserData, scoring: ScoringResult) -> str:
 **Estrellas totales:** {user_data.total_stars} | **Forks:** {user_data.total_forks}
 **Commits último año:** {user_data.total_commits} | **PRs totales:** {user_data.total_prs}
 **Top lenguajes:** {json.dumps(user_data.top_languages, ensure_ascii=False)}
-
+{readme_section}
 ## Repositorios
 {repos_text}
 
@@ -121,14 +143,13 @@ async def analyze_builder_profile(user_data: UserData, scoring: ScoringResult) -
                 {"role": "user", "content": _build_user_prompt(user_data, scoring)},
             ],
             response_format=BUILDER_ANALYSIS_SCHEMA,
-            temperature=0.4,  # era 0.7 — demasiado alto para outputs estructurados
+            temperature=0.4,
             max_tokens=1000,
         )
         content = response.choices[0].message.content
         return BuilderAnalysis.model_validate_json(content)
     except Exception as e:
         print(f"LLM analysis failed: {e}")
-        # Fallback: generate a basic analysis without LLM
         return BuilderAnalysis(
             summary=f"{user_data.username} es un desarrollador con {user_data.public_repos_count} repositorios públicos y experiencia en {', '.join(list(user_data.top_languages.keys())[:3]) or 'varios lenguajes'}.",
             strengths=[
@@ -142,5 +163,6 @@ async def analyze_builder_profile(user_data: UserData, scoring: ScoringResult) -
                 "Documentar proyectos con READMEs detallados"
             ],
             developer_archetype="Builder en Desarrollo",
-            notable_projects=[r.name for r in user_data.repositories[:3]]
+            notable_projects=[r.name for r in user_data.repositories[:3]],
+            llm_rating=3,
         )

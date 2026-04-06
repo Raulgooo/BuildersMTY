@@ -104,6 +104,19 @@ query($reposCursor: String!) {
 }
 """
 
+# Fetch user profile README (username/username repo)
+README_QUERY = """
+query($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    object(expression: "HEAD:README.md") {
+      ... on Blob {
+        text
+      }
+    }
+  }
+}
+"""
+
 # Repos the user contributed to but does NOT own/belong to
 CONTRIBUTED_REPOS_QUERY = """
 query($cursor: String) {
@@ -214,6 +227,23 @@ async def fetch_user_data(access_token: str) -> UserData:
                 contrib_page2["viewer"]["repositoriesContributedTo"]["nodes"]
             )
 
+        # 3. Fetch user profile README (username/username repo)
+        readme_content = None
+        try:
+            readme_data = await _graphql_request(
+                client, headers, README_QUERY,
+                variables={"owner": username, "name": username},
+            )
+            repo_obj = readme_data.get("repository")
+            if repo_obj and repo_obj.get("object"):
+                readme_content = repo_obj["object"].get("text", "")
+                # Truncate to 2000 chars to keep LLM prompt reasonable
+                if readme_content and len(readme_content) > 2000:
+                    readme_content = readme_content[:2000] + "..."
+                print(f"[GitHub] Fetched profile README: {len(readme_content or '')} chars")
+        except Exception as e:
+            print(f"[GitHub] No profile README found: {e}")
+
         # Build set of owned repo full names (for filtering contributed repos)
         owned_full_names = {r["nameWithOwner"].lower() for r in all_repo_nodes}
 
@@ -320,6 +350,7 @@ async def fetch_user_data(access_token: str) -> UserData:
             language_tags=language_tags,
             repositories=repo_list,
             contributed_repos=contributed_list,
+            readme_content=readme_content,
         )
 
         print(f"[GitHub] Result: {public_count} public, {private_count} private, {len(contributed_list)} contributed, {total_commits} contributions, {total_prs} PRs, {total_stars} stars")

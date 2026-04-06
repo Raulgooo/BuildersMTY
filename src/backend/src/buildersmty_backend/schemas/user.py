@@ -37,6 +37,9 @@ class UserData(BaseModel):
     repositories: List[RepoData] = Field(default_factory=list)
     contributed_repos: List[RepoData] = Field(default_factory=list)
 
+    # Profile README (username/username repo)
+    readme_content: Optional[str] = None
+
     # Extension for scoring
     score: float = 0.0
     rank: Optional[str] = None
@@ -55,3 +58,4 @@ class BuilderAnalysis(BaseModel):
     recommendations: List[str]
     developer_archetype: str
     notable_projects: List[str]
+    llm_rating: int = 3  # 1-5 qualitative rating from LLM
