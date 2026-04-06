@@ -125,10 +125,13 @@ async def github_callback(code: str = None, state: str = None):
         print(f"Error persisting to Supabase: {e}")
         return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
-    # 7. Send rich analysis to Discord webhook
+    # 7. Assign Discord role based on rank
+    await discord.assign_rank_role(discord_id, scoring.rank)
+
+    # 8. Send rich analysis to Discord webhook
     await discord.send_analysis_webhook(discord_id, user_data, scoring, analysis)
 
-    # 8. Redirect to frontend with results
+    # 9. Redirect to frontend with results
     final_redirect_url = (
         f"{FRONTEND_URL}/auth/github/callback?"
         f"discord_id={discord_id}&"

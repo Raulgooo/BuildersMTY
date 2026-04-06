@@ -12,6 +12,8 @@ class RepoData(BaseModel):
     stargazers_count: int
     forks_count: int
     updated_at: str
+    is_fork: bool = False
+    is_org_repo: bool = False
 
 
 class UserData(BaseModel):

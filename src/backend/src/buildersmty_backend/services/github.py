@@ -3,6 +3,7 @@ from buildersmty_backend.schemas.user import UserData, RepoData
 
 GRAPHQL_URL = "https://api.github.com/graphql"
 
+# Main query: profile + contributions + owned repos (paginated)
 PROFILE_QUERY = """
 query($reposCursor: String) {
   viewer {
@@ -43,6 +44,7 @@ query($reposCursor: String) {
         forkCount
         updatedAt
         isFork
+        owner { login }
         languages(first: 5, orderBy: { field: SIZE, direction: DESC }) {
           nodes { name }
         }
@@ -55,7 +57,42 @@ query($reposCursor: String) {
 }
 """
 
-# Separate query for repos the user contributed to but does NOT own
+# Pagination-only query (skips re-fetching contributions)
+REPOS_PAGE_QUERY = """
+query($reposCursor: String!) {
+  viewer {
+    repositories(
+      first: 100
+      after: $reposCursor
+      ownerAffiliations: OWNER
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        name
+        nameWithOwner
+        description
+        isPrivate
+        url
+        primaryLanguage { name }
+        stargazerCount
+        forkCount
+        updatedAt
+        isFork
+        owner { login }
+        languages(first: 5, orderBy: { field: SIZE, direction: DESC }) {
+          nodes { name }
+        }
+      }
+    }
+  }
+}
+"""
+
+# Repos the user contributed to but does NOT own
 CONTRIBUTED_REPOS_QUERY = """
 query($cursor: String) {
   viewer {
@@ -109,7 +146,7 @@ async def _graphql_request(client: httpx.AsyncClient, headers: dict, query: str,
 async def fetch_user_data(access_token: str) -> UserData:
     """
     Fetches comprehensive user data from GitHub using the GraphQL API.
-    Gets profile, owned repositories, contributed repositories, commits, PRs.
+    Separates personal repos from org repos and forks.
     """
     async with httpx.AsyncClient(timeout=30.0) as client:
         headers = {
@@ -117,19 +154,19 @@ async def fetch_user_data(access_token: str) -> UserData:
             "Content-Type": "application/json",
         }
 
-        # 1. Fetch profile + owned repos
+        # 1. Fetch profile + first page of owned repos + contributions
         data = await _graphql_request(client, headers, PROFILE_QUERY)
         viewer = data["viewer"]
         username = viewer["login"]
 
-        # Paginate owned repos (up to 300)
+        # Paginate owned repos (up to 300) using lightweight query
         all_repo_nodes = list(viewer["repositories"]["nodes"])
         page_info = viewer["repositories"]["pageInfo"]
         pages_fetched = 1
 
         while page_info["hasNextPage"] and pages_fetched < 3:
             data_page = await _graphql_request(
-                client, headers, PROFILE_QUERY,
+                client, headers, REPOS_PAGE_QUERY,
                 variables={"reposCursor": page_info["endCursor"]},
             )
             page_nodes = data_page["viewer"]["repositories"]["nodes"]
@@ -141,7 +178,6 @@ async def fetch_user_data(access_token: str) -> UserData:
         contrib_data = await _graphql_request(client, headers, CONTRIBUTED_REPOS_QUERY)
         contrib_nodes_raw = contrib_data["viewer"]["repositoriesContributedTo"]["nodes"]
 
-        # Paginate contributed repos (up to 2 pages = 100)
         contrib_page_info = contrib_data["viewer"]["repositoriesContributedTo"]["pageInfo"]
         if contrib_page_info["hasNextPage"]:
             contrib_page2 = await _graphql_request(
@@ -152,13 +188,13 @@ async def fetch_user_data(access_token: str) -> UserData:
                 contrib_page2["viewer"]["repositoriesContributedTo"]["nodes"]
             )
 
-        # Filter: only repos where user is NOT the owner
+        # Filter contributed: only repos where user is NOT the owner
         contrib_nodes = [
             r for r in contrib_nodes_raw
             if r["owner"]["login"].lower() != username.lower()
         ]
 
-        # 3. Process owned repos
+        # 3. Process owned repos — separate personal repos from org repos and forks
         repo_list = []
         total_stars = 0
         total_forks = 0
@@ -167,6 +203,9 @@ async def fetch_user_data(access_token: str) -> UserData:
         public_count = 0
 
         for r in all_repo_nodes:
+            owner_login = r["owner"]["login"]
+            is_personal = owner_login.lower() == username.lower()
+            is_fork = r.get("isFork", False)
             primary_lang = r["primaryLanguage"]["name"] if r["primaryLanguage"] else None
 
             repo_data = RepoData(
@@ -179,16 +218,22 @@ async def fetch_user_data(access_token: str) -> UserData:
                 stargazers_count=r["stargazerCount"],
                 forks_count=r["forkCount"],
                 updated_at=r["updatedAt"],
+                is_fork=is_fork,
+                is_org_repo=not is_personal,
             )
             repo_list.append(repo_data)
-            total_stars += r["stargazerCount"]
-            total_forks += r["forkCount"]
+
+            # Only count stars/forks from personal non-fork repos
+            if is_personal and not is_fork:
+                total_stars += r["stargazerCount"]
+                total_forks += r["forkCount"]
 
             if r["isPrivate"]:
                 private_count += 1
             else:
                 public_count += 1
 
+            # Count languages from all repos (including org)
             if primary_lang:
                 languages[primary_lang] = languages.get(primary_lang, 0) + 1
             for lang_node in r.get("languages", {}).get("nodes", []):
@@ -210,8 +255,9 @@ async def fetch_user_data(access_token: str) -> UserData:
                 stargazers_count=r["stargazerCount"],
                 forks_count=r["forkCount"],
                 updated_at=r["updatedAt"],
+                is_fork=False,
+                is_org_repo=True,
             ))
-            # Count contributed repo languages too
             if primary_lang:
                 languages[primary_lang] = languages.get(primary_lang, 0) + 1
 
@@ -220,7 +266,7 @@ async def fetch_user_data(access_token: str) -> UserData:
         top_languages = dict(list(sorted_langs.items())[:10])
         language_tags = list(sorted_langs.keys())
 
-        # Extract contribution stats
+        # Contribution stats (last year for commits, all-time for PRs)
         contributions = viewer["contributionsCollection"]
         total_commits = contributions["totalCommitContributions"]
         total_prs = viewer["pullRequests"]["totalCount"]
