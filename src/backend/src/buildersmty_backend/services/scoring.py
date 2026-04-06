@@ -119,21 +119,35 @@ def _score_consistency(user_data: UserData) -> tuple[float, list[str]]:
     if not repos:
         return 0.0, highlights
 
-    # Repo recency: updated in last 90 days (max 8)
+    # Repo recency: updated in last 90 days (max 5)
     recent_repos = sum(1 for r in repos if _days_since(r.updated_at) <= 90)
-    recency_score = min(8.0, recent_repos * 2.0)
+    recency_score = min(5.0, recent_repos * 1.5)
     score += recency_score
 
-    # Total repo count with log scale (max 6)
+    # Total repo count with log scale (max 3)
     total_repos = len(repos)
-    repo_count_score = min(6.0, math.log2(total_repos + 1) * 2.0)
+    repo_count_score = min(3.0, math.log2(total_repos + 1) * 1.0)
     score += repo_count_score
 
-    # Long-term builder: has repos older than 365 days AND recent repos (max 6)
+    # Commit volume with log scale (max 5)
+    if user_data.total_commits > 0:
+        commit_score = min(5.0, math.log2(user_data.total_commits + 1) * 0.7)
+        score += commit_score
+        if user_data.total_commits >= 500:
+            highlights.append(f"{user_data.total_commits} commits en el último año")
+
+    # PR activity (max 3)
+    if user_data.total_prs > 0:
+        pr_score = min(3.0, math.log2(user_data.total_prs + 1) * 0.8)
+        score += pr_score
+        if user_data.total_prs >= 20:
+            highlights.append(f"{user_data.total_prs} pull requests creados")
+
+    # Long-term builder: has repos older than 365 days AND recent repos (max 4)
     has_old = any(_days_since(r.updated_at) > 365 for r in repos)
     has_recent = recent_repos > 0
     if has_old and has_recent:
-        score += 6.0
+        score += 4.0
         highlights.append("Builder de largo plazo: actividad sostenida por más de un año")
 
     if recent_repos >= 5:

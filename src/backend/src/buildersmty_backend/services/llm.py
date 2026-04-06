@@ -74,6 +74,8 @@ Analiza el siguiente perfil de GitHub y genera un análisis profesional EN ESPA�
 - Repos privados: {user_data.private_repos_count}
 - Estrellas totales: {user_data.total_stars}
 - Forks totales: {user_data.total_forks}
+- Commits (último año): {user_data.total_commits}
+- Pull requests totales: {user_data.total_prs}
 - Top lenguajes: {json.dumps(user_data.top_languages)}
 
 ## Repositorios
