@@ -1,6 +1,6 @@
 # scoring algorithm
 
-el algoritmo de scoring de BuildersMTY evalúa perfiles de GitHub con un sistema multi-factor de 5 dimensiones. usa escala logarítmica y rendimientos decrecientes para que no se pueda gamear fácil.
+el algoritmo de scoring de BuildersMTY evalúa perfiles de GitHub con un sistema híbrido: 5 dimensiones algorítmicas (90%) + evaluación cualitativa del LLM (10%). usa escala logarítmica y rendimientos decrecientes para que no se pueda gamear fácil.
 
 > **¿cómo subo de rango?** ve directo a [guía de progresión](#cómo-progresar) al final del documento.
 
@@ -74,12 +74,44 @@ el algoritmo identifica repos que probablemente son proyectos originales vs fork
 
 ---
 
-## integración con LLM
+## integración con LLM (10% del score)
 
-después del scoring, el LLM (vía OpenRouter) recibe:
+el LLM no solo genera el análisis — también contribuye al score final. recibe:
 - datos crudos del perfil de GitHub
-- score + desglose por dimensión
+- **README del perfil** (repo `username/username`) si existe
+- score algorítmico + desglose por dimensión
 - highlights detectados por el scoring
+
+### calificación cualitativa (llm_rating)
+
+el LLM asigna una calificación del 1 al 5 evaluando lo que el algoritmo no puede medir: originalidad, coherencia del stack, calidad del README del perfil, y si el perfil refleja a alguien que genuinamente construye cosas.
+
+| rating | significado | bonus |
+|--------|-------------|-------|
+| 1 | principiante con actividad mínima | +0 pts |
+| 2 | builder temprano, empieza a construir | +2.5 pts |
+| 3 | developer sólido con proyectos reales | +5 pts |
+| 4 | builder fuerte con impacto demostrado | +7.5 pts |
+| 5 | developer excepcional con portfolio sobresaliente | +10 pts |
+
+### fórmula final
+
+```
+score_final = (score_algorítmico × 0.9) + bonus_llm
+```
+
+ejemplo: un developer con 60 pts algorítmico y rating 4 del LLM:
+- `60 × 0.9 = 54` + `7.5` = **61.5 puntos finales**
+
+### qué evalúa el LLM que el algoritmo no puede
+
+- **README del perfil**: ¿tiene uno? ¿está bien escrito? ¿muestra quién es?
+- **coherencia**: ¿el stack tiene sentido o son repos random?
+- **originalidad**: ¿los proyectos resuelven problemas reales?
+- **presentación**: ¿las descripciones de repos son claras?
+- **narrativa**: ¿el perfil cuenta una historia de builder?
+
+### output del LLM
 
 genera (en español, structured output):
 - resumen de 2-3 oraciones
@@ -87,6 +119,7 @@ genera (en español, structured output):
 - 3 recomendaciones
 - arquetipo de desarrollador
 - 3 repos notables
+- calificación 1-5 (contribuye al score)
 
 ---
 
@@ -96,15 +129,17 @@ el LLM asigna un arquetipo basado en tu perfil completo: repos, lenguajes, contr
 
 | arquetipo | perfil típico |
 |-----------|---------------|
-| **Full-Stack Builder** | trabaja en frontend y backend, tiene repos con múltiples tecnologías (React + Node, Django + Vue, etc.) |
-| **Systems Hacker** | domina lenguajes de bajo nivel (C, C++, Rust, Go, Zig), trabaja en herramientas, CLIs o infraestructura |
-| **Frontend Artisan** | enfocado en UI/UX, repos con JavaScript/TypeScript, frameworks como React, Vue, Svelte |
-| **Data Engineer** | trabaja con Python, R, SQL, pipelines de datos, notebooks, repos de análisis o ML |
-| **DevOps Specialist** | repos de infraestructura, Dockerfiles, CI/CD configs, Terraform, Kubernetes |
-| **Security Researcher** | herramientas de seguridad, análisis de vulnerabilidades, CTF writeups |
-| **Mobile Developer** | repos con Swift, Kotlin, Dart/Flutter, React Native |
-| **Open Source Contributor** | contribuciones activas a proyectos externos, PRs a repos de terceros |
-| **Builder en Desarrollo** | perfil en construcción, pocos repos o actividad reciente (arquetipo por defecto) |
+| **Systems Hacker** | bajo nivel, kernels, compiladores, eBPF, Rust/C/Go |
+| **Full-Stack Builder** | apps completas, integración end-to-end, velocidad de entrega |
+| **Frontend Artisan** | UI/UX, animaciones, design systems, accesibilidad |
+| **Backend Engineer** | APIs, bases de datos, arquitectura de servicios |
+| **Data Engineer** | pipelines, ML, análisis, visualización |
+| **DevOps/Infra** | CI/CD, containers, IaC, observabilidad |
+| **Security Researcher** | pentesting, auditorías, CVEs, hardening |
+| **Mobile Developer** | iOS/Android/React Native/Flutter |
+| **Open Source Champion** | contribuciones externas, mantenimiento de libs propias |
+| **Founder Builder** | proyectos con tracción real (stars, forks, usuarios) |
+| **Builder en Desarrollo** | perfil en construcción, pocos repos o actividad reciente (fallback) |
 
 el arquetipo no es fijo — se recalcula cada vez que vinculas tu GitHub. a medida que tu perfil evoluciona, tu arquetipo cambia.
 
@@ -139,6 +174,14 @@ este salto requiere impacto real y diversidad:
 | **builder DNA** | ten 5+ proyectos originales en dominios diferentes | +5 a +8 |
 
 **tip:** la clave de LEGEND es la combinación. no basta ser bueno en una dimensión — necesitas ser consistente en todas. un builder con 1000 commits pero solo en un lenguaje y sin estrellas no llega a LEGEND.
+
+### el README de perfil importa
+
+el LLM lee tu README de perfil (el repo `tu-usuario/tu-usuario`). un buen README puede subir tu rating de 3 a 4 o de 4 a 5. incluye:
+- quién eres y qué construyes
+- tu stack principal
+- proyectos destacados con links
+- no necesita ser largo — claridad > extensión
 
 ### acciones que NO suman (o suman poco)
 
