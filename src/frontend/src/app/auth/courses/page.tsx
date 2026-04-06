@@ -10,17 +10,32 @@ export default function AuthCoursesPage() {
   return (
     <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen flex flex-col items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-10">
+        {/* Header: BuildersMTY logo + Auth powered by Shark */}
+        <div className="flex items-center justify-center gap-4 mb-4">
           <Link href="/">
             <Image
               src="/builderslogo.svg"
               alt="BuildersMTY"
-              width={48}
-              height={48}
-              className="mx-auto mb-6"
+              width={40}
+              height={40}
             />
           </Link>
+          <div className="w-px h-8 bg-[#603e39]/20"></div>
+          <div className="flex items-center gap-2">
+            <span className="text-[8px] font-label text-[#E5E2E1]/25 tracking-[0.2em] uppercase">
+              Auth by
+            </span>
+            <Image
+              src="/shark_blackbg_whitelogo_text_logo.svg"
+              alt="Shark Auth"
+              width={80}
+              height={32}
+              className="mix-blend-lighten"
+            />
+          </div>
+        </div>
+
+        <div className="text-center mb-10">
           <h1 className="font-headline font-black text-2xl uppercase tracking-tight mb-2">
             {mode === "login" ? "Inicia Sesión" : "Crea tu Cuenta"}
           </h1>
@@ -126,19 +141,6 @@ export default function AuthCoursesPage() {
           </button>
         </div>
 
-        {/* Auth powered by Shark */}
-        <div className="flex flex-col items-center gap-3 pt-8 border-t border-[#603e39]/10">
-          <span className="text-[9px] font-label text-[#E5E2E1]/15 tracking-[0.3em] uppercase">
-            Auth powered by
-          </span>
-          <Image
-            src="/shark_blackbg_whitelogo_text_logo.svg"
-            alt="Shark Auth"
-            width={120}
-            height={50}
-            className="opacity-40 hover:opacity-60 transition-opacity"
-          />
-        </div>
       </div>
     </div>
   );
