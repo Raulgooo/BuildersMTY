@@ -4,22 +4,22 @@ import Image from "next/image";
 
 interface BuilderProfile {
   github_username: string;
-  avatar_url: string;
+  avatar_url?: string;
   discord_display_name?: string;
   discord_avatar_url?: string;
-  score: number;
-  rank: string;
-  developer_archetype: string;
-  llm_summary: string;
-  llm_strengths: string[];
-  llm_recommendations: string[];
-  language_tags: string[];
-  top_languages: Record<string, number>;
-  total_stars: number;
-  total_forks: number;
-  public_repos_count: number;
-  private_repos_count: number;
-  score_breakdown: Record<string, number>;
+  score?: number;
+  rank?: string;
+  developer_archetype?: string;
+  llm_summary?: string;
+  llm_strengths?: string[] | null;
+  llm_recommendations?: string[] | null;
+  language_tags?: string[] | null;
+  top_languages?: Record<string, number> | null;
+  total_stars?: number;
+  total_forks?: number;
+  public_repos_count?: number;
+  private_repos_count?: number;
+  score_breakdown?: Record<string, number> | null;
 }
 
 const RANK_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; glow: string }> = {
@@ -59,7 +59,13 @@ function ScoreBar({ score }: { score: number }) {
 }
 
 export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
-  const rank = RANK_CONFIG[profile.rank] || RANK_CONFIG.BUILDER;
+  const rank = RANK_CONFIG[profile.rank || "BUILDER"] || RANK_CONFIG.BUILDER;
+  const score = profile.score ?? 0;
+  const strengths = profile.llm_strengths ?? [];
+  const recommendations = profile.llm_recommendations ?? [];
+  const languageTags = profile.language_tags ?? [];
+  const topLanguages = profile.top_languages ?? {};
+  const avatarUrl = profile.discord_avatar_url || profile.avatar_url || "/builderslogo.svg";
 
   return (
     <div className={`${rank.bg} border ${rank.border} ${rank.glow} p-6 lg:p-8 w-full max-w-2xl mx-auto`}>
@@ -67,7 +73,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
       <div className="flex items-start gap-5 mb-6">
         <div className={`w-20 h-20 shrink-0 border ${rank.border} overflow-hidden`}>
           <Image
-            src={profile.discord_avatar_url || profile.avatar_url}
+            src={avatarUrl}
             alt={profile.github_username}
             width={80}
             height={80}
@@ -99,7 +105,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
         </div>
         <div className="text-right shrink-0">
           <div className="font-headline font-black text-3xl text-[#E5E2E1]">
-            {profile.score}
+            {score}
           </div>
           <div className="font-label text-[9px] text-[#ffb4a8]/40 tracking-widest uppercase">
             /100
@@ -108,7 +114,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
       </div>
 
       {/* Score Bar */}
-      <ScoreBar score={profile.score} />
+      <ScoreBar score={score} />
 
       {/* Archetype */}
       <div className="mt-5 mb-4">
@@ -116,18 +122,18 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           Arquetipo
         </span>
         <p className={`font-headline font-bold text-base ${rank.color} uppercase tracking-wide mt-1`}>
-          {profile.developer_archetype}
+          {profile.developer_archetype || "Builder"}
         </p>
       </div>
 
       {/* LLM Summary */}
       <p className="text-sm text-[#ebbbb4] leading-relaxed mb-5 font-light">
-        {profile.llm_summary}
+        {profile.llm_summary || "Perfil en análisis..."}
       </p>
 
       {/* Language Tags */}
       <div className="flex flex-wrap gap-2 mb-5">
-        {profile.language_tags.slice(0, 8).map((lang) => (
+        {languageTags.slice(0, 8).map((lang) => (
           <span
             key={lang}
             className="text-[9px] font-label px-2 py-1 border border-[#603e39]/30 text-[#ffb4a8] uppercase tracking-widest"
@@ -140,10 +146,10 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
       {/* Stats Row */}
       <div className="flex gap-6 mb-5 py-3 border-t border-b border-[#603e39]/15">
         {[
-          { label: "Repos", value: profile.public_repos_count + profile.private_repos_count },
-          { label: "Stars", value: profile.total_stars },
-          { label: "Forks", value: profile.total_forks },
-          { label: "Públicos", value: profile.public_repos_count },
+          { label: "Repos", value: (profile.public_repos_count ?? 0) + (profile.private_repos_count ?? 0) },
+          { label: "Stars", value: profile.total_stars ?? 0 },
+          { label: "Forks", value: profile.total_forks ?? 0 },
+          { label: "Públicos", value: profile.public_repos_count ?? 0 },
         ].map((stat) => (
           <div key={stat.label} className="text-center">
             <div className="font-headline font-bold text-lg text-[#E5E2E1]">
@@ -162,7 +168,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           Fortalezas
         </span>
         <div className="space-y-1.5">
-          {profile.llm_strengths.slice(0, 3).map((s, i) => (
+          {strengths.slice(0, 3).map((s, i) => (
             <div key={i} className="flex items-start gap-2 text-sm text-[#E5E2E1]/70">
               <span className="text-[#ff5540] shrink-0 mt-0.5">+</span>
               <span>{s}</span>
@@ -177,7 +183,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           Recomendaciones
         </span>
         <div className="space-y-1.5">
-          {profile.llm_recommendations.slice(0, 3).map((r, i) => (
+          {recommendations.slice(0, 3).map((r, i) => (
             <div key={i} className="flex items-start gap-2 text-sm text-[#E5E2E1]/50">
               <span className="text-[#ffb4a8] shrink-0 mt-0.5">→</span>
               <span>{r}</span>

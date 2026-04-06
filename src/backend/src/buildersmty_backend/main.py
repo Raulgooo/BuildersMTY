@@ -20,7 +20,7 @@ async def health_check():
     return {"status": "ok", "service": "builders-mty-backend"}
 
 
-@app.get("/api/profile/{discord_id}")
+@app.get("/api/profile/discord/{discord_id}")
 async def get_profile_by_discord(discord_id: str):
     """Fetch a builder profile by Discord ID."""
     profile = get_user_profile(discord_id)

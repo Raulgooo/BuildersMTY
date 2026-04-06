@@ -29,7 +29,8 @@ def get_client() -> Client:
 
 def upsert_user_profile(profile: dict) -> dict:
     client = get_client()
-    profile["updated_at"] = "now()"
+    # Remove updated_at — let Supabase handle it via default or trigger
+    profile.pop("updated_at", None)
     result = (
         client.table("builder_profiles")
         .upsert(profile, on_conflict="discord_id")

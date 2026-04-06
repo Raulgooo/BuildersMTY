@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import ProfileClient from "./ProfileClient";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+// Server-side: use BACKEND_URL (not NEXT_PUBLIC_ which is client-only)
+const BACKEND_URL = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -17,20 +18,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!res.ok) throw new Error("Not found");
     const profile = await res.json();
 
+    const title = `${profile.github_username} — ${(profile.rank || "BUILDER").replace("_", " ")} | BuildersMTY`;
+    const description = profile.llm_summary || `Perfil de builder de ${profile.github_username}. Score: ${profile.score}/100`;
+
     return {
-      title: `${profile.github_username} — ${profile.rank} | BuildersMTY`,
-      description: profile.llm_summary || `Perfil de builder de ${profile.github_username}`,
+      title,
+      description,
       openGraph: {
-        title: `${profile.github_username} — ${profile.rank} | BuildersMTY`,
-        description: profile.llm_summary || `Score: ${profile.score}/100`,
-        images: [profile.avatar_url],
+        title,
+        description,
+        images: profile.avatar_url ? [profile.avatar_url] : [],
         siteName: "BuildersMTY",
       },
       twitter: {
         card: "summary",
-        title: `${profile.github_username} — ${profile.rank}`,
-        description: profile.llm_summary || `Score: ${profile.score}/100`,
-        images: [profile.avatar_url],
+        title,
+        description,
+        images: profile.avatar_url ? [profile.avatar_url] : [],
       },
     };
   } catch {
