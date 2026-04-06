@@ -15,20 +15,23 @@ interface ProfileClientProps {
 export default function ProfileClient({ username }: ProfileClientProps) {
   const [profile, setProfile] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/profile/github/${username}`)
+    const url = `${BACKEND_URL}/api/profile/github/${username}`;
+    console.log("[BuildersMTY] Fetching profile from:", url);
+    fetch(url)
       .then((res) => {
-        if (!res.ok) throw new Error("Not found");
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         return res.json();
       })
       .then((data) => {
         setProfile(data);
         setLoading(false);
       })
-      .catch(() => {
-        setError(true);
+      .catch((err) => {
+        console.error("[BuildersMTY] Profile fetch error:", err);
+        setError(`${err.message}. BACKEND_URL=${BACKEND_URL}`);
         setLoading(false);
       });
   }, [username]);
@@ -61,6 +64,11 @@ export default function ProfileClient({ username }: ProfileClientProps) {
                 El usuario <span className="text-[#E5E2E1] font-bold">@{username}</span> no ha sido analizado aún.
                 Únete a Discord y usa <span className="text-[#ff5540] font-mono">/analyzegit</span> para comenzar.
               </p>
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/20 p-3 font-mono text-[10px] text-red-400 max-w-sm w-full text-left">
+                  {error}
+                </div>
+              )}
               <Link href="https://discord.gg/RPqWgsN5H6">
                 <button className="bg-[#ff5540] text-white px-8 py-4 font-headline text-xs font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all">
                   Unirse a Discord

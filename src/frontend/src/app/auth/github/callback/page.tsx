@@ -27,12 +27,31 @@ function CallbackContent() {
     }
   }, [status]);
 
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
   useEffect(() => {
     if (status === "complete" && githubUser) {
-      fetch(`${BACKEND_URL}/api/profile/github/${githubUser}`)
-        .then((res) => res.ok ? res.json() : null)
-        .then((data) => setProfile(data))
-        .catch(() => {});
+      const url = `${BACKEND_URL}/api/profile/github/${githubUser}`;
+      console.log("[BuildersMTY] Fetching profile from:", url);
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) {
+            console.error("[BuildersMTY] Profile fetch failed:", res.status, res.statusText);
+            setFetchError(`API error: ${res.status}`);
+            return null;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (data) {
+            console.log("[BuildersMTY] Profile loaded:", data.github_username);
+            setProfile(data);
+          }
+        })
+        .catch((err) => {
+          console.error("[BuildersMTY] Profile fetch error:", err);
+          setFetchError(`${err.message}. BACKEND_URL=${BACKEND_URL}`);
+        });
     }
   }, [status, githubUser]);
 
@@ -62,6 +81,14 @@ function CallbackContent() {
 
             {/* Profile Card */}
             {profile && <BuilderCard profile={profile} />}
+
+            {/* Debug: show fetch error if profile didn't load */}
+            {fetchError && !profile && (
+              <div className="bg-red-500/10 border border-red-500/20 p-4 font-mono text-xs text-red-400">
+                <p className="font-bold mb-1">Error cargando perfil:</p>
+                <p>{fetchError}</p>
+              </div>
+            )}
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
