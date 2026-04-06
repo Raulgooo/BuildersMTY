@@ -231,6 +231,10 @@ async def fetch_user_data(access_token: str) -> UserData:
             is_fork = r.get("isFork", False)
             primary_lang = r["primaryLanguage"]["name"] if r["primaryLanguage"] else None
 
+            # Skip user profile repo (e.g. Raulgooo/Raulgooo)
+            if is_personal and r["name"].lower() == username.lower():
+                continue
+
             repo_data = RepoData(
                 name=r["name"],
                 full_name=r["nameWithOwner"],
@@ -288,9 +292,10 @@ async def fetch_user_data(access_token: str) -> UserData:
         top_languages = dict(list(sorted_langs.items())[:10])
         language_tags = list(sorted_langs.keys())
 
-        # Contribution stats: current calendar year for commits, all-time for PRs
+        # Contribution stats: current calendar year
         contributions = viewer["contributionsCollection"]
-        total_commits = contributions["totalCommitContributions"]
+        # Use totalContributions (matches GitHub profile count: commits + PRs + issues + reviews)
+        total_commits = contributions["contributionCalendar"]["totalContributions"]
         total_prs = viewer["pullRequests"]["totalCount"]
 
         user_data = UserData(
