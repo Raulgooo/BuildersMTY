@@ -51,10 +51,33 @@ BUILDER_ANALYSIS_SCHEMA = {
     }
 }
 
+SYSTEM_PROMPT = """Eres el motor de análisis técnico de BuildersMTY — una comunidad de élite para developers en Monterrey, México. Tu trabajo es leer un perfil de GitHub y producir un análisis estructurado que sirva para categorizar y onboardear al developer.
 
-def _build_prompt(user_data: UserData, scoring: ScoringResult) -> str:
+## Tu proceso de razonamiento (hazlo internamente, NO lo incluyas en el output)
+1. Lee las métricas brutas y los repos para inferir patrones reales de trabajo.
+2. Determina el arquetipo ANTES de escribir las fortalezas — el arquetipo guía el tono del análisis.
+3. Las fortalezas deben ser específicas y evidenciadas (citar repo o métrica), no genéricas.
+4. Las recomendaciones deben ser accionables para alguien en una comunidad de builders, no consejos de carrera genéricos.
+5. El resumen debe sonar como lo escribiría un tech lead que leyó el perfil, no un bot.
+
+## Arquetipos disponibles
+- Systems Hacker        → bajo nivel, kernels, compiladores, eBPF, Rust/C/Go
+- Full-Stack Builder    → apps completas, integración end-to-end, velocidad de entrega
+- Frontend Artisan      → UI/UX, animaciones, design systems, accesibilidad
+- Backend Engineer      → APIs, bases de datos, arquitectura de servicios
+- Data Engineer         → pipelines, ML, análisis, visualización
+- DevOps/Infra          → CI/CD, containers, IaC, observabilidad
+- Security Researcher   → pentesting, auditorías, CVEs, hardening
+- Mobile Developer      → iOS/Android/React Native/Flutter
+- Open Source Champion  → contribuciones externas, mantenimiento de libs propias
+- Founder Builder       → proyectos con tracción real (stars, forks, usuarios)
+
+Responde ÚNICAMENTE con el JSON del schema solicitado, sin markdown, sin texto extra."""
+
+
+def _build_user_prompt(user_data: UserData, scoring: ScoringResult) -> str:
     repos_summary = []
-    for r in user_data.repositories[:20]:  # Limit to top 20 repos for context
+    for r in user_data.repositories[:20]:
         repos_summary.append(
             f"- {r.name}: {r.language or 'N/A'}, "
             f"{'privado' if r.is_private else 'público'}, "
@@ -64,37 +87,25 @@ def _build_prompt(user_data: UserData, scoring: ScoringResult) -> str:
 
     repos_text = "\n".join(repos_summary) if repos_summary else "Sin repositorios"
 
-    return f"""Eres un analista técnico de BuildersMTY, una comunidad de desarrolladores en Monterrey, México.
-Analiza el siguiente perfil de GitHub y genera un análisis profesional EN ESPAÑOL.
+    return f"""## Input: Perfil GitHub
 
-## Perfil de GitHub
-- Usuario: {user_data.username}
-- Bio: {user_data.bio or 'Sin bio'}
-- Repos públicos: {user_data.public_repos_count}
-- Repos privados: {user_data.private_repos_count}
-- Estrellas totales: {user_data.total_stars}
-- Forks totales: {user_data.total_forks}
-- Commits (último año): {user_data.total_commits}
-- Pull requests totales: {user_data.total_prs}
-- Top lenguajes: {json.dumps(user_data.top_languages)}
+**Usuario:** {user_data.username}
+**Bio:** {user_data.bio or '—'}
+**Repos públicos:** {user_data.public_repos_count} | **Privados:** {user_data.private_repos_count}
+**Estrellas totales:** {user_data.total_stars} | **Forks:** {user_data.total_forks}
+**Commits último año:** {user_data.total_commits} | **PRs totales:** {user_data.total_prs}
+**Top lenguajes:** {json.dumps(user_data.top_languages, ensure_ascii=False)}
 
 ## Repositorios
 {repos_text}
 
-## Puntuación Builder
-- Score total: {scoring.score}/100
+## Builder Score (pre-calculado)
+- Score: {scoring.score}/100
 - Rango: {scoring.rank}
-- Desglose: {json.dumps(scoring.breakdown)}
-- Logros detectados: {', '.join(scoring.highlights) if scoring.highlights else 'Ninguno destacado'}
+- Breakdown: {json.dumps(scoring.breakdown, ensure_ascii=False)}
+- Highlights: {', '.join(scoring.highlights) if scoring.highlights else 'ninguno'}
 
-## Instrucciones
-1. Escribe un resumen de 2-3 oraciones sobre este desarrollador (en español).
-2. Lista exactamente 3 fortalezas principales.
-3. Lista exactamente 3 recomendaciones de crecimiento.
-4. Asigna un arquetipo de desarrollador (ej: "Full-Stack Builder", "Systems Hacker", "Frontend Artisan", "Data Engineer", "DevOps Specialist", "Security Researcher", "Mobile Developer", "Open Source Contributor").
-5. Selecciona hasta 3 repositorios notables de su perfil.
-
-Responde SOLO con el JSON estructurado."""
+Genera el análisis siguiendo exactamente el schema estructurado."""
 
 
 async def analyze_builder_profile(user_data: UserData, scoring: ScoringResult) -> BuilderAnalysis:
@@ -102,20 +113,19 @@ async def analyze_builder_profile(user_data: UserData, scoring: ScoringResult) -
     Uses OpenRouter (via OpenAI SDK) to generate a structured analysis of a builder's profile.
     Always uses structured outputs for reliable JSON responses.
     """
-    prompt = _build_prompt(user_data, scoring)
-
     try:
         response = await client.chat.completions.create(
             model="google/gemini-2.0-flash-001",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": _build_user_prompt(user_data, scoring)},
+            ],
             response_format=BUILDER_ANALYSIS_SCHEMA,
-            temperature=0.7,
+            temperature=0.4,  # era 0.7 — demasiado alto para outputs estructurados
             max_tokens=1000,
         )
         content = response.choices[0].message.content
-        analysis = BuilderAnalysis.model_validate_json(content)
-        return analysis
-
+        return BuilderAnalysis.model_validate_json(content)
     except Exception as e:
         print(f"LLM analysis failed: {e}")
         # Fallback: generate a basic analysis without LLM
