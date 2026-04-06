@@ -24,12 +24,10 @@ def _shannon_entropy(distribution: dict[str, int]) -> float:
 
 
 def _is_original_project(repo) -> bool:
-    """Heuristic: is this repo likely an original project (not a fork/tutorial/org)?"""
+    """Heuristic: is this repo likely an original project (not a fork/tutorial)?
+    Org repos the user owns ARE counted as original."""
     # Actual GitHub forks are never original
     if getattr(repo, "is_fork", False):
-        return False
-    # Org repos are not personal projects
-    if getattr(repo, "is_org_repo", False):
         return False
     name_lower = repo.name.lower()
     if any(pattern in name_lower for pattern in FORK_PATTERNS):

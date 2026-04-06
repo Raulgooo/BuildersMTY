@@ -1,11 +1,23 @@
 import httpx
+from datetime import datetime, timezone
 from buildersmty_backend.schemas.user import UserData, RepoData
 
 GRAPHQL_URL = "https://api.github.com/graphql"
 
-# Main query: profile + contributions + owned repos (paginated)
+
+def _year_start_iso() -> str:
+    """Returns Jan 1 of current year as ISO string."""
+    return f"{datetime.now(timezone.utc).year}-01-01T00:00:00Z"
+
+
+def _now_iso() -> str:
+    """Returns current UTC time as ISO string."""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+# Main query: profile + contributions for current year + owned repos (paginated)
 PROFILE_QUERY = """
-query($reposCursor: String) {
+query($reposCursor: String, $fromDate: DateTime!, $toDate: DateTime!) {
   viewer {
     id
     databaseId
@@ -13,7 +25,7 @@ query($reposCursor: String) {
     avatarUrl
     email
     bio
-    contributionsCollection {
+    contributionsCollection(from: $fromDate, to: $toDate) {
       totalCommitContributions
       totalPullRequestContributions
       totalIssueContributions
@@ -25,7 +37,7 @@ query($reposCursor: String) {
     repositories(
       first: 100
       after: $reposCursor
-      ownerAffiliations: OWNER
+      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]
       orderBy: { field: UPDATED_AT, direction: DESC }
     ) {
       totalCount
@@ -64,7 +76,7 @@ query($reposCursor: String!) {
     repositories(
       first: 100
       after: $reposCursor
-      ownerAffiliations: OWNER
+      ownerAffiliations: [OWNER, ORGANIZATION_MEMBER]
       orderBy: { field: UPDATED_AT, direction: DESC }
     ) {
       pageInfo {
@@ -92,7 +104,7 @@ query($reposCursor: String!) {
 }
 """
 
-# Repos the user contributed to but does NOT own
+# Repos the user contributed to but does NOT own/belong to
 CONTRIBUTED_REPOS_QUERY = """
 query($cursor: String) {
   viewer {
@@ -146,7 +158,9 @@ async def _graphql_request(client: httpx.AsyncClient, headers: dict, query: str,
 async def fetch_user_data(access_token: str) -> UserData:
     """
     Fetches comprehensive user data from GitHub using the GraphQL API.
-    Separates personal repos from org repos and forks.
+    - Owned repos include personal + org repos (ownerAffiliations: OWNER + ORGANIZATION_MEMBER)
+    - Contributed repos are repos the user contributed to but doesn't own
+    - Commits are scoped to the current calendar year (Jan 1 → now)
     """
     async with httpx.AsyncClient(timeout=30.0) as client:
         headers = {
@@ -154,8 +168,14 @@ async def fetch_user_data(access_token: str) -> UserData:
             "Content-Type": "application/json",
         }
 
-        # 1. Fetch profile + first page of owned repos + contributions
-        data = await _graphql_request(client, headers, PROFILE_QUERY)
+        from_date = _year_start_iso()
+        to_date = _now_iso()
+
+        # 1. Fetch profile + first page of repos + current year contributions
+        data = await _graphql_request(
+            client, headers, PROFILE_QUERY,
+            variables={"fromDate": from_date, "toDate": to_date},
+        )
         viewer = data["viewer"]
         username = viewer["login"]
 
@@ -188,13 +208,16 @@ async def fetch_user_data(access_token: str) -> UserData:
                 contrib_page2["viewer"]["repositoriesContributedTo"]["nodes"]
             )
 
-        # Filter contributed: only repos where user is NOT the owner
+        # Build set of owned repo full names (for filtering contributed repos)
+        owned_full_names = {r["nameWithOwner"].lower() for r in all_repo_nodes}
+
+        # Filter contributed: only repos NOT in the owned set
         contrib_nodes = [
             r for r in contrib_nodes_raw
-            if r["owner"]["login"].lower() != username.lower()
+            if r["nameWithOwner"].lower() not in owned_full_names
         ]
 
-        # 3. Process owned repos — separate personal repos from org repos and forks
+        # 3. Process owned repos (personal + org — all count as "owned")
         repo_list = []
         total_stars = 0
         total_forks = 0
@@ -223,8 +246,8 @@ async def fetch_user_data(access_token: str) -> UserData:
             )
             repo_list.append(repo_data)
 
-            # Only count stars/forks from personal non-fork repos
-            if is_personal and not is_fork:
+            # Count stars/forks from all owned repos (personal + org), but NOT forks
+            if not is_fork:
                 total_stars += r["stargazerCount"]
                 total_forks += r["forkCount"]
 
@@ -233,7 +256,6 @@ async def fetch_user_data(access_token: str) -> UserData:
             else:
                 public_count += 1
 
-            # Count languages from all repos (including org)
             if primary_lang:
                 languages[primary_lang] = languages.get(primary_lang, 0) + 1
             for lang_node in r.get("languages", {}).get("nodes", []):
@@ -266,7 +288,7 @@ async def fetch_user_data(access_token: str) -> UserData:
         top_languages = dict(list(sorted_langs.items())[:10])
         language_tags = list(sorted_langs.keys())
 
-        # Contribution stats (last year for commits, all-time for PRs)
+        # Contribution stats: current calendar year for commits, all-time for PRs
         contributions = viewer["contributionsCollection"]
         total_commits = contributions["totalCommitContributions"]
         total_prs = viewer["pullRequests"]["totalCount"]
