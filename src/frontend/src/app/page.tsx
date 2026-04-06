@@ -156,40 +156,46 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                icon: "merge_type",
-                title: "Git & GitHub desde Cero",
-                difficulty: "BÁSICO",
-                desc: "Fundamentos de control de versiones, branching, pull requests y colaboración en equipo.",
-              },
-              {
-                icon: "api",
-                title: "Backend con FastAPI",
-                difficulty: "INTERMEDIO",
-                desc: "APIs REST, autenticación, bases de datos, testing y deploy a producción con Python.",
-              },
-              {
-                icon: "web",
-                title: "Frontend Moderno con Next.js",
-                difficulty: "INTERMEDIO",
-                desc: "React, Server-Side Rendering, Tailwind CSS, componentes y arquitectura moderna.",
-              },
-              {
-                icon: "terminal",
-                title: "Introducción a Go",
-                difficulty: "INTERMEDIO",
-                desc: "Sintaxis, concurrencia, goroutines, CLI tools y servidores HTTP desde cero.",
+                icon: "memory",
+                title: "Crea tu Propio Alocador de Memoria en C",
+                difficulty: "AVANZADO",
+                desc: "Construye un memory allocator desde cero. Entiende cómo funciona malloc, free y la gestión de memoria a nivel de sistema operativo.",
+                learns: [
+                  "Gestión de memoria virtual y páginas",
+                  "Implementación de malloc/free con listas libres",
+                  "Fragmentación, coalescing y alineamiento",
+                  "Debugging con Valgrind y AddressSanitizer",
+                ],
+                href: "/auth/courses",
+                cta: "Ir al curso",
               },
               {
                 icon: "dns",
-                title: "Linux y Terminal",
-                difficulty: "BÁSICO",
-                desc: "Bash, permisos, administración de servidores, SSH y fundamentos de DevOps.",
+                title: "Crea tu Servidor HTTP con Go",
+                difficulty: "INTERMEDIO",
+                desc: "Implementa un servidor HTTP desde el socket TCP hasta el routing. Sin frameworks, sin magia — solo Go y la standard library.",
+                learns: [
+                  "Sockets TCP y el protocolo HTTP/1.1",
+                  "Goroutines y concurrencia para conexiones simultáneas",
+                  "Parsing de requests y construcción de responses",
+                  "Middleware, routing y manejo de archivos estáticos",
+                ],
+                href: "/auth/courses",
+                cta: "Ir al curso",
               },
               {
-                icon: "shield",
-                title: "Seguridad Ofensiva 101",
+                icon: "smart_toy",
+                title: "Crea tu Propio Claude Code",
                 difficulty: "AVANZADO",
-                desc: "OWASP Top 10, pentesting básico, CTFs y metodología de análisis de vulnerabilidades.",
+                desc: "Construye un agente de código con IA que lee, edita y ejecuta en tu terminal. Aprende cómo funcionan los coding agents por dentro.",
+                learns: [
+                  "Arquitectura de agentes con tool-use y loops",
+                  "Integración con APIs de LLMs (Claude, OpenAI)",
+                  "Sandboxing y ejecución segura de comandos",
+                  "Context management y streaming de respuestas",
+                ],
+                href: null,
+                cta: "Próximamente",
               },
             ].map((course, i) => (
               <div
@@ -210,15 +216,36 @@ export default function LandingPage() {
                   <h3 className="font-headline font-bold text-lg uppercase tracking-tight text-white mb-3 group-hover:text-[#ff5540] transition-colors">
                     {course.title}
                   </h3>
-                  <p className="text-sm text-[#E5E2E1]/50 leading-relaxed mb-6">
+                  <p className="text-sm text-[#E5E2E1]/50 leading-relaxed mb-4">
                     {course.desc}
                   </p>
+                  <div className="mb-6">
+                    <span className="text-[9px] font-label font-bold text-[#ff5540] tracking-[0.2em] uppercase mb-2 block">
+                      APRENDERÁS
+                    </span>
+                    <ul className="space-y-1.5">
+                      {course.learns.map((item, j) => (
+                        <li key={j} className="text-xs text-[#E5E2E1]/40 flex items-start gap-2">
+                          <span className="text-[#ff5540]/60 mt-0.5 text-[8px]">&#9654;</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="pt-4 border-t border-[#603e39]/10 flex items-center justify-between">
-                  <span className="text-[9px] font-label font-bold text-[#ffb4a8]/40 tracking-[0.2em] uppercase">
-                    PRÓXIMAMENTE
-                  </span>
-                  <span className="w-1.5 h-1.5 bg-[#ff5540]/30 animate-pulse"></span>
+                <div className="pt-4 border-t border-[#603e39]/10">
+                  {course.href ? (
+                    <Link href={course.href}>
+                      <button className="w-full border border-[#ff5540]/30 text-[#ff5540] px-6 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540] hover:text-white transition-all">
+                        {course.cta}
+                      </button>
+                    </Link>
+                  ) : (
+                    <button disabled className="w-full border border-[#603e39]/20 text-[#E5E2E1]/20 px-6 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed flex items-center justify-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-[#ff5540]/30 animate-pulse"></span>
+                      {course.cta}
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
