@@ -26,7 +26,7 @@ smtp:
   host: "smtp.resend.com"
   port: 465
   username: "resend"
-  password: "${RESEND_API_KEY}"
+  password: ""
   from: "raul@mail.buildersmty.com.mx"
   from_name: "BuildersMTY"
 
