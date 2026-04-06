@@ -739,13 +739,13 @@ export default function LandingPage() {
                   githubUrl: "https://github.com/raulgooo/runes-programming-language"
                 },
                 {
-                  id: "DevTool",
-                  title: "latch",
+                  id: "Auth Server",
+                  title: "Shark",
                   status: "PLANEACION: Unete para formar parte del Core-Team.",
-                  desc: "Herramienta inspirada en pocketbase para tener autenticación ligera y self-hosted en un binario.",
-                  stack: ["Golang", "Typescript", "??"],
+                  desc: "Servidor de autenticación open-source en un solo binario: passkeys, MFA, SSO, RBAC. Self-host en 3 minutos.",
+                  stack: ["Golang", "Typescript", "SQLite"],
                   level: "DIFICIL",
-                  githubUrl: "https://github.com/raulgooo/latch"
+                  githubUrl: "https://github.com/raulgooo/shark"
                 }
               ].map((project, i) => (
                 <div key={i} className="bg-[#1c1b1b]/50 border border-[#603e39]/20 p-8 hover:border-[#ff5540]/50 transition-all duration-500 group relative flex flex-col justify-between group h-full">
