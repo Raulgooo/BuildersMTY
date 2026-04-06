@@ -15,6 +15,7 @@ async def fetch_user_data(access_token: str) -> UserData:
 
         # 1. Fetch Profile
         profile_res = await client.get("https://api.github.com/user", headers=headers)
+        profile_res.raise_for_status()
         profile = profile_res.json()
 
         # 2. Fetch Repositories with pagination (up to 300 repos)
@@ -25,8 +26,9 @@ async def fetch_user_data(access_token: str) -> UserData:
                 f"https://api.github.com/user/repos?per_page=100&visibility=all&sort=updated&page={page}",
                 headers=headers,
             )
+            repos_res.raise_for_status()
             repos = repos_res.json()
-            if not repos:
+            if not repos or not isinstance(repos, list):
                 break
             all_repos.extend(repos)
             if len(repos) < 100:

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useCallback, useState } from "react";
 import { toPng } from "html-to-image";
 

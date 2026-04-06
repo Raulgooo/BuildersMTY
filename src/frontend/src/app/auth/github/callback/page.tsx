@@ -50,7 +50,8 @@ function CallbackContent() {
         })
         .catch((err) => {
           console.error("[BuildersMTY] Profile fetch error:", err);
-          setFetchError(`${err.message}. BACKEND_URL=${BACKEND_URL}`);
+          console.error("[BuildersMTY] BACKEND_URL:", BACKEND_URL);
+          setFetchError("No se pudo cargar el perfil. Intenta de nuevo.");
         });
     }
   }, [status, githubUser]);

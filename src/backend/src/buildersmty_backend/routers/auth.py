@@ -122,6 +122,7 @@ async def github_callback(code: str = None, state: str = None):
         upsert_user_profile(profile_data)
     except Exception as e:
         print(f"Error persisting to Supabase: {e}")
+        return RedirectResponse(url=f"{FRONTEND_URL}/auth/github/callback?status=error")
 
     # 7. Send rich analysis to Discord webhook
     await discord.send_analysis_webhook(discord_id, user_data, scoring, analysis)
