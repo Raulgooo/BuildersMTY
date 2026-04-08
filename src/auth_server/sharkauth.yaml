@@ -8,7 +8,7 @@
 # Multi-word keys:   SHARKAUTH_SERVER__BASE_URL, SHARKAUTH_AUTH__SESSION_LIFETIME
 
 server:
-  port: 8080
+  port: 8081
   secret: "${SHARKAUTH_SECRET}"
   base_url: "https://auth.buildersmty.com.mx"
   cors_origins:

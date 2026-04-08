@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import QRCode from "qrcode";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/context/AuthContext";
@@ -14,6 +15,7 @@ export default function MfaPage() {
 
   const [step, setStep] = useState<"idle" | "enroll" | "verify" | "codes" | "view-codes">("idle");
   const [enrollment, setEnrollment] = useState<MfaEnrollment | null>(null);
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [code, setCode] = useState("");
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [error, setError] = useState("");
@@ -38,6 +40,12 @@ export default function MfaPage() {
     try {
       const data = await mfaEnroll();
       setEnrollment(data);
+      const dataUrl = await QRCode.toDataURL(data.uri, {
+        width: 256,
+        margin: 2,
+        color: { dark: "#000000", light: "#ffffff" },
+      });
+      setQrDataUrl(dataUrl);
       setStep("enroll");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al iniciar MFA");
@@ -177,10 +185,12 @@ export default function MfaPage() {
                 <p className="text-xs text-[#E5E2E1]/50 mb-4">
                   Escanea este codigo QR con tu app de autenticacion:
                 </p>
-                <div className="bg-white p-3 inline-block mb-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={enrollment.qr_code} alt="QR Code MFA" className="w-48 h-48" />
-                </div>
+                {qrDataUrl && (
+                  <div className="bg-white p-3 inline-block mb-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={qrDataUrl} alt="QR Code MFA" className="w-48 h-48" />
+                  </div>
+                )}
                 <div className="text-[9px] text-[#E5E2E1]/30 mb-2 font-label uppercase tracking-wider">
                   O ingresa este codigo manualmente:
                 </div>
