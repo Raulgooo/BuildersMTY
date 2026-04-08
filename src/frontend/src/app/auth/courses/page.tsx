@@ -58,7 +58,7 @@ export default function AuthCoursesPage() {
           </Link>
           <div className="w-px h-5 bg-[#603e39]/30"></div>
           <div className="flex items-center gap-1.5">
-            <span className="text-[7px] font-label text-[#E5E2E1]/20 tracking-[0.15em] uppercase">Auth by</span>
+            <span className="text-[7px] font-label text-[#E5E2E1] tracking-[0.15em] uppercase">Auth by</span>
             <Image src="/shark_blackbg_whitelogo_text_logo.svg" alt="Shark Auth" width={60} height={24} />
           </div>
         </div>
