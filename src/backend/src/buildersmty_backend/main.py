@@ -1,5 +1,6 @@
 import os
-from fastapi import FastAPI, HTTPException
+import httpx
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from buildersmty_backend.routers import auth
@@ -24,8 +25,8 @@ app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed_origins,
-    allow_credentials=False,
-    allow_methods=["GET", "OPTIONS"],
+    allow_credentials=True,
+    allow_methods=["GET", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -51,6 +52,44 @@ async def get_profile_by_github(username: str):
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     return profile
+
+
+SHARK_AUTH_URL = os.getenv("SHARK_AUTH_URL", "https://auth.buildersmty.com.mx/api/v1")
+SHARK_ADMIN_KEY = os.getenv("SHARKAUTH_ADMIN_KEY", "")
+
+
+@app.delete("/api/account")
+async def delete_account(request: Request):
+    """Delete the authenticated user's account via Shark Auth admin API."""
+    session_cookie = request.cookies.get("shark_session")
+    if not session_cookie:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    if not SHARK_ADMIN_KEY:
+        raise HTTPException(status_code=500, detail="Servicio no configurado")
+
+    async with httpx.AsyncClient() as client:
+        # Identify user from session
+        me_res = await client.get(
+            f"{SHARK_AUTH_URL}/auth/me",
+            cookies={"shark_session": session_cookie},
+        )
+        if me_res.status_code != 200:
+            raise HTTPException(status_code=401, detail="Sesion invalida")
+
+        user_id = me_res.json().get("id")
+        if not user_id:
+            raise HTTPException(status_code=500, detail="No se pudo identificar al usuario")
+
+        # Delete via admin API
+        del_res = await client.delete(
+            f"{SHARK_AUTH_URL}/users/{user_id}",
+            headers={"X-Admin-Key": SHARK_ADMIN_KEY},
+        )
+        if del_res.status_code not in (200, 204):
+            raise HTTPException(status_code=500, detail="Error al eliminar cuenta")
+
+    return {"ok": True}
 
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])

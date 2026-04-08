@@ -67,12 +67,20 @@ export default function Header() {
             </button>
           </Link>
           {user ? (
-            <button
-              onClick={logout}
-              className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
-            >
-              Cerrar Sesión
-            </button>
+            <>
+              <Link
+                href="/account"
+                className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
+              >
+                Mi Cuenta
+              </Link>
+              <button
+                onClick={logout}
+                className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
+              >
+                Cerrar Sesión
+              </button>
+            </>
           ) : (
             <Link
               href="/auth/courses"
@@ -113,12 +121,21 @@ export default function Header() {
           </Link>
         ))}
         {user ? (
-          <button
-            onClick={() => { logout(); setIsMenuOpen(false); }}
-            className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
-          >
-            Cerrar Sesión
-          </button>
+          <>
+            <Link
+              href="/account"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-2xl font-headline font-black uppercase tracking-tighter text-[#E5E2E1] hover:text-[#ff5540] transition-colors"
+            >
+              Mi Cuenta
+            </Link>
+            <button
+              onClick={() => { logout(); setIsMenuOpen(false); }}
+              className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
+            >
+              Cerrar Sesión
+            </button>
+          </>
         ) : (
           <Link
             href="/auth/courses"

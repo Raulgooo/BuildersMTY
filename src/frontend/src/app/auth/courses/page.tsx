@@ -107,7 +107,14 @@ export default function AuthCoursesPage() {
             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors" />
           </div>
           <div>
-            <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">Password</label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase">Password</label>
+              {mode === "login" && (
+                <Link href="/auth/forgot-password" className="text-[9px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
+                  Olvidaste tu contrasena?
+                </Link>
+              )}
+            </div>
             <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors" />
           </div>
           <button type="submit" disabled={submitting} className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
