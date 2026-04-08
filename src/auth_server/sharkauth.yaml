@@ -11,7 +11,9 @@ server:
   port: 8080
   secret: "${SHARKAUTH_SECRET}"
   base_url: "https://auth.buildersmty.com.mx"
-  cors_origins: []
+  cors_origins:
+    - "http://localhost:3000"
+    - "https://buildersmty.com.mx"
 
 storage:
   path: "./data/sharkauth.db"
@@ -75,4 +77,3 @@ audit:
 
 admin:
   api_key: "${SHARKAUTH_ADMIN_KEY}"
-
