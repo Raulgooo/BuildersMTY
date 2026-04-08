@@ -3,10 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,6 +66,21 @@ export default function Header() {
               DISCORD
             </button>
           </Link>
+          {user ? (
+            <button
+              onClick={logout}
+              className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
+            >
+              Cerrar Sesión
+            </button>
+          ) : (
+            <Link
+              href="/auth/courses"
+              className="font-headline uppercase tracking-widest text-[11px] text-[#ff5540] opacity-80 hover:opacity-100 transition-all"
+            >
+              Login
+            </Link>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -95,6 +112,22 @@ export default function Header() {
             {label}
           </Link>
         ))}
+        {user ? (
+          <button
+            onClick={() => { logout(); setIsMenuOpen(false); }}
+            className="font-headline uppercase tracking-widest text-[11px] text-[#E5E2E1] opacity-40 hover:text-[#ff5540] hover:opacity-100 transition-all"
+          >
+            Cerrar Sesión
+          </button>
+        ) : (
+          <Link
+            href="/auth/courses"
+            onClick={() => setIsMenuOpen(false)}
+            className="font-headline uppercase tracking-widest text-[11px] text-[#ff5540] opacity-80 hover:opacity-100 transition-all"
+          >
+            Login
+          </Link>
+        )}
         <Link href="https://discord.gg/RPqWgsN5H6" onClick={() => setIsMenuOpen(false)}>
           <button className="bg-[#ff5540] text-white px-10 py-5 font-headline font-bold uppercase tracking-[0.3em] active:scale-95 transition-transform mt-6">
             UNIRSE A DISCORD
