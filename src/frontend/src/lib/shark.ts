@@ -18,13 +18,13 @@ interface SharkError {
   message: string;
 }
 
-async function sharkFetch<T>(path: string, options?: RequestInit): Promise<T> {
+async function sharkFetch<T>(path: string, post?: RequestInit): Promise<T> {
   const res = await fetch(`${SHARK_URL}${path}`, {
-    ...options,
+    ...post,
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      ...options?.headers,
+      ...post?.headers,
     },
   });
 
