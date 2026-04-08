@@ -19,7 +19,7 @@ server:
     - "https://www.buildersmty.com.mx"
 
 storage:
-  path: "./data/sharkauth.db"
+  path: "/data/sharkauth.db"
 
 auth:
   session_lifetime: "30d"
