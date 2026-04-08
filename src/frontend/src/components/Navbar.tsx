@@ -12,7 +12,7 @@ export default function Navbar() {
     { label: 'MANIFESTO', href: '/manifesto' },
     { label: 'EVENTS', href: '#events' },
     { label: 'TERMINAL', href: '/notify' },
-    { label: 'OAUTH', href: '/login' }
+    { label: 'OAUTH', href: '/auth/courses' }
   ];
 
   return (
