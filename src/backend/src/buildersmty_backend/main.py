@@ -1,6 +1,7 @@
 import os
 import httpx
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from buildersmty_backend.routers import auth
@@ -26,7 +27,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET", "DELETE", "OPTIONS"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -58,32 +59,23 @@ SHARK_AUTH_URL = os.getenv("SHARK_AUTH_URL", "https://auth.buildersmty.com.mx/ap
 SHARK_ADMIN_KEY = os.getenv("SHARKAUTH_ADMIN_KEY", "")
 
 
-@app.delete("/api/account")
-async def delete_account(request: Request):
-    """Delete the authenticated user's account via Shark Auth admin API."""
-    session_cookie = request.cookies.get("shark_session")
-    if not session_cookie:
-        raise HTTPException(status_code=401, detail="No autenticado")
+class DeleteAccountRequest(BaseModel):
+    user_id: str
 
+
+@app.post("/api/account/delete")
+async def delete_account(body: DeleteAccountRequest):
+    """Delete a user account via Shark Auth admin API."""
     if not SHARK_ADMIN_KEY:
         raise HTTPException(status_code=500, detail="Servicio no configurado")
 
+    if not body.user_id:
+        raise HTTPException(status_code=400, detail="user_id requerido")
+
     async with httpx.AsyncClient() as client:
-        # Identify user from session
-        me_res = await client.get(
-            f"{SHARK_AUTH_URL}/auth/me",
-            cookies={"shark_session": session_cookie},
-        )
-        if me_res.status_code != 200:
-            raise HTTPException(status_code=401, detail="Sesion invalida")
-
-        user_id = me_res.json().get("id")
-        if not user_id:
-            raise HTTPException(status_code=500, detail="No se pudo identificar al usuario")
-
         # Delete via admin API
         del_res = await client.delete(
-            f"{SHARK_AUTH_URL}/users/{user_id}",
+            f"{SHARK_AUTH_URL}/users/{body.user_id}",
             headers={"X-Admin-Key": SHARK_ADMIN_KEY},
         )
         if del_res.status_code not in (200, 204):

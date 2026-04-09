@@ -135,10 +135,11 @@ export async function getRecoveryCodes(): Promise<{ recovery_codes: string[] }> 
 // Account deletion (via backend proxy)
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 
-export async function deleteAccount(): Promise<void> {
-  const res = await fetch(`${BACKEND_URL}/api/account`, {
-    method: "DELETE",
-    credentials: "include",
+export async function deleteAccount(userId: string): Promise<void> {
+  const res = await fetch(`${BACKEND_URL}/api/account/delete`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: userId }),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: `HTTP ${res.status}` }));

@@ -36,7 +36,7 @@ export default function DeleteAccountPage() {
     }
     setSubmitting(true);
     try {
-      await deleteAccount();
+      await deleteAccount(user!.id);
       await logout();
       router.replace("/");
     } catch (err) {
