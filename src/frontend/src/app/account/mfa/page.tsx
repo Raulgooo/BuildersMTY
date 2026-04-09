@@ -13,7 +13,8 @@ export default function MfaPage() {
   const { user, loading, refresh } = useAuth();
   const router = useRouter();
 
-  const [step, setStep] = useState<"idle" | "enroll" | "verify" | "codes" | "view-codes">("idle");
+  const [step, setStep] = useState<"idle" | "enroll" | "verify" | "codes" | "view-codes" | "disable">("idle");
+  const [disableCode, setDisableCode] = useState("");
   const [enrollment, setEnrollment] = useState<MfaEnrollment | null>(null);
   const [code, setCode] = useState("");
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
@@ -68,13 +69,18 @@ export default function MfaPage() {
 
   async function handleDisable() {
     setError("");
+    if (disableCode.length !== 6) {
+      setError("El codigo debe tener 6 digitos");
+      return;
+    }
     setSubmitting(true);
     try {
-      await mfaDisable();
+      await mfaDisable(disableCode);
       await refresh();
+      setDisableCode("");
       setStep("idle");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al desactivar MFA");
+      setError(err instanceof Error ? err.message : "Codigo invalido");
     } finally {
       setSubmitting(false);
     }
@@ -162,11 +168,49 @@ export default function MfaPage() {
                 {submitting ? "..." : "Ver Codigos de Recuperacion"}
               </button>
               <button
+                onClick={() => { setStep("disable"); setError(""); setDisableCode(""); }}
+                className="w-full bg-[#1c1b1b] border border-red-500/20 text-red-400 px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-red-500/40 hover:bg-red-500/5 transition-all"
+              >
+                Desactivar MFA
+              </button>
+            </div>
+          )}
+
+          {/* Disable MFA — prompt for TOTP code */}
+          {step === "disable" && (
+            <div className="space-y-4">
+              <div className="bg-[#1c1b1b] border border-red-500/20 p-5">
+                <p className="text-xs text-[#E5E2E1]/50">
+                  Ingresa el codigo de tu app de autenticacion para confirmar la desactivacion de MFA.
+                </p>
+              </div>
+              <div>
+                <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">
+                  Codigo de Verificacion
+                </label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={6}
+                  value={disableCode}
+                  onChange={(e) => setDisableCode(e.target.value.replace(/\D/g, ""))}
+                  placeholder="000000"
+                  autoFocus
+                  className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] text-center tracking-[0.5em] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors font-mono"
+                />
+              </div>
+              <button
                 onClick={handleDisable}
                 disabled={submitting}
-                className="w-full bg-[#1c1b1b] border border-red-500/20 text-red-400 px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-red-500/40 hover:bg-red-500/5 transition-all disabled:opacity-50"
+                className="w-full bg-red-600 text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-red-700 transition-all disabled:opacity-50"
               >
-                {submitting ? "..." : "Desactivar MFA"}
+                {submitting ? "..." : "Confirmar Desactivacion"}
+              </button>
+              <button
+                onClick={() => { setStep("idle"); setDisableCode(""); setError(""); }}
+                className="w-full bg-[#1c1b1b] border border-[#603e39]/30 text-[#E5E2E1] px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#ff5540]/40 transition-all"
+              >
+                Cancelar
               </button>
             </div>
           )}

@@ -121,8 +121,11 @@ export async function mfaVerify(code: string): Promise<{ recovery_codes: string[
   });
 }
 
-export async function mfaDisable(): Promise<void> {
-  await sharkFetch("/auth/mfa", { method: "DELETE" });
+export async function mfaDisable(code: string): Promise<void> {
+  await sharkFetch("/auth/mfa", {
+    method: "DELETE",
+    body: JSON.stringify({ code }),
+  });
 }
 
 export async function getRecoveryCodes(): Promise<{ recovery_codes: string[] }> {
