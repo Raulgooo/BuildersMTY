@@ -35,7 +35,7 @@ passkeys:
 
 magic_link:
   token_lifetime: "10m"
-  redirect_url: "https://auth.buildersmty.com.mx/auth/callback"
+  redirect_url: "https://buildersmty.com.mx/auth/callback"
 
 smtp:
   host: "smtp.resend.com"

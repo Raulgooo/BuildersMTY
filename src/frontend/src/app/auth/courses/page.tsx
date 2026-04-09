@@ -4,15 +4,16 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { signup, login, mfaChallenge, getOAuthUrl } from "@/lib/shark";
+import { signup, login, mfaChallenge, sendMagicLink, getOAuthUrl } from "@/lib/shark";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AuthCoursesPage() {
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register" | "magic-link">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mfaCode, setMfaCode] = useState("");
   const [mfaRequired, setMfaRequired] = useState(false);
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function AuthCoursesPage() {
         await signup(email, password);
       } else {
         const res = await login(email, password);
+        console.log("Login response:", JSON.stringify(res, null, 2));
         if (res.mfa_required) {
           setMfaRequired(true);
           setSubmitting(false);
@@ -65,6 +67,28 @@ export default function AuthCoursesPage() {
     }
   }
 
+  async function handleMagicLink(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+
+    try {
+      await sendMagicLink(email);
+    } catch {
+      // Always show success (anti-enumeration)
+    }
+    setMagicLinkSent(true);
+    setSubmitting(false);
+  }
+
+  function switchMode(newMode: "login" | "register" | "magic-link") {
+    setMode(newMode);
+    setError("");
+    setMfaRequired(false);
+    setMagicLinkSent(false);
+    setMfaCode("");
+  }
+
   return (
     <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
@@ -83,10 +107,20 @@ export default function AuthCoursesPage() {
 
         <div className="text-center mb-8">
           <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">
-            {mfaRequired ? "Verificacion MFA" : mode === "login" ? "Inicia Sesión" : "Crea tu Cuenta"}
+            {mfaRequired
+              ? "Verificacion MFA"
+              : mode === "magic-link"
+                ? "Magic Link"
+                : mode === "login"
+                  ? "Inicia Sesión"
+                  : "Crea tu Cuenta"}
           </h1>
           <p className="text-xs text-[#E5E2E1]/40">
-            {mfaRequired ? "Ingresa el codigo de tu app de autenticacion" : "Accede a los cursos de la comunidad"}
+            {mfaRequired
+              ? "Ingresa el codigo de tu app de autenticacion"
+              : mode === "magic-link"
+                ? "Te enviaremos un enlace para iniciar sesion"
+                : "Accede a los cursos de la comunidad"}
           </p>
         </div>
 
@@ -97,6 +131,7 @@ export default function AuthCoursesPage() {
           </div>
         )}
 
+        {/* MFA Challenge */}
         {mfaRequired ? (
           <>
             <form onSubmit={handleMfaSubmit} className="space-y-3 mb-5">
@@ -133,6 +168,59 @@ export default function AuthCoursesPage() {
               </button>
             </div>
           </>
+
+        /* Magic Link */
+        ) : mode === "magic-link" ? (
+          <>
+            {magicLinkSent ? (
+              <div className="text-center space-y-4">
+                <div className="px-3 py-3 border border-green-500/30 bg-green-500/10 text-green-400 text-xs">
+                  Si existe una cuenta con ese email, recibiras un enlace para iniciar sesion. Revisa tu bandeja de entrada.
+                </div>
+                <button
+                  onClick={() => switchMode("login")}
+                  className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
+                >
+                  Volver al inicio de sesion
+                </button>
+              </div>
+            ) : (
+              <>
+                <form onSubmit={handleMagicLink} className="space-y-3 mb-5">
+                  <div>
+                    <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {submitting ? "..." : "Enviar Magic Link"}
+                  </button>
+                </form>
+                <div className="text-center">
+                  <button
+                    onClick={() => switchMode("login")}
+                    className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
+                  >
+                    Iniciar sesion con contrasena
+                  </button>
+                </div>
+              </>
+            )}
+          </>
+
+        /* Login / Register */
         ) : (
           <>
             {/* OAuth Buttons */}
@@ -180,11 +268,16 @@ export default function AuthCoursesPage() {
               </button>
             </form>
 
-            {/* Toggle mode */}
-            <div className="text-center">
-              <button onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(""); }} className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
+            {/* Toggle mode + Magic link */}
+            <div className="text-center space-y-2">
+              <button onClick={() => switchMode(mode === "login" ? "register" : "login")} className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
                 {mode === "login" ? "No tienes cuenta? Crea una" : "Ya tienes cuenta? Inicia sesión"}
               </button>
+              <div>
+                <button onClick={() => switchMode("magic-link")} className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
+                  Iniciar sesion con Magic Link
+                </button>
+              </div>
             </div>
           </>
         )}

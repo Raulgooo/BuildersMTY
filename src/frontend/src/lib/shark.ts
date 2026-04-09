@@ -65,6 +65,14 @@ export function getOAuthUrl(provider: "github" | "discord" | "google"): string {
   return `${SHARK_URL}/auth/oauth/${provider}`;
 }
 
+// Magic link
+export async function sendMagicLink(email: string): Promise<void> {
+  await sharkFetch("/auth/magic-link/send", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
 // Password reset (unauthenticated)
 export async function sendPasswordResetLink(email: string): Promise<void> {
   await sharkFetch("/auth/password/send-reset-link", {
