@@ -179,7 +179,7 @@ export default function MfaPage() {
                   Escanea este codigo QR con tu app de autenticacion:
                 </p>
                 <div className="bg-white p-3 inline-block mb-4">
-                  <QRCodeSVG value={enrollment.uri} size={192} />
+                  <QRCodeSVG value={enrollment.qr_uri} size={192} />
                 </div>
                 <div className="text-[9px] text-[#E5E2E1]/30 mb-2 font-label uppercase tracking-wider">
                   O ingresa este codigo manualmente:

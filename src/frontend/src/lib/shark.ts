@@ -91,7 +91,7 @@ export async function changePassword(current_password: string, new_password: str
 // MFA
 export interface MfaEnrollment {
   secret: string;
-  uri: string; // otpauth:// URI for QR generation
+  qr_uri: string; // otpauth:// URI for QR generation
 }
 
 export async function mfaEnroll(): Promise<MfaEnrollment> {
