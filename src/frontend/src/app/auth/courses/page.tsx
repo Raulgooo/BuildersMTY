@@ -4,39 +4,51 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { signup, login, mfaChallenge, sendMagicLink, getOAuthUrl } from "@/lib/shark";
+import { signup, login, mfaChallenge, mfaRecovery, sendMagicLink, getOAuthUrl } from "@/lib/shark";
 import { useAuth } from "@/context/AuthContext";
 
+type AuthState =
+  | { step: "login" }
+  | { step: "register" }
+  | { step: "magic-link" }
+  | { step: "magic-link-sent" }
+  | { step: "mfa-totp" }
+  | { step: "mfa-recovery" };
+
 export default function AuthCoursesPage() {
-  const [mode, setMode] = useState<"login" | "register" | "magic-link">("login");
+  const [state, setState] = useState<AuthState>({ step: "login" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mfaCode, setMfaCode] = useState("");
-  const [mfaRequired, setMfaRequired] = useState(false);
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [recoveryCode, setRecoveryCode] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { user, refresh } = useAuth();
 
-  // Already logged in — redirect
   if (user) {
     router.replace("/");
     return null;
   }
 
-  async function handleSubmit(e: FormEvent) {
+  function go(step: AuthState["step"]) {
+    setState({ step } as AuthState);
+    setError("");
+    setMfaCode("");
+    setRecoveryCode("");
+  }
+
+  async function handleCredentials(e: FormEvent) {
     e.preventDefault();
     setError("");
     setSubmitting(true);
-
     try {
-      if (mode === "register") {
+      if (state.step === "register") {
         await signup(email, password);
       } else {
         const res = await login(email, password);
         if ("mfaRequired" in res && res.mfaRequired) {
-          setMfaRequired(true);
+          setState({ step: "mfa-totp" });
           setSubmitting(false);
           return;
         }
@@ -50,11 +62,10 @@ export default function AuthCoursesPage() {
     }
   }
 
-  async function handleMfaSubmit(e: FormEvent) {
+  async function handleMfaTotp(e: FormEvent) {
     e.preventDefault();
     setError("");
     setSubmitting(true);
-
     try {
       await mfaChallenge(mfaCode);
       await refresh();
@@ -66,163 +77,174 @@ export default function AuthCoursesPage() {
     }
   }
 
+  async function handleMfaRecovery(e: FormEvent) {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      await mfaRecovery(recoveryCode);
+      await refresh();
+      router.push("/");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Codigo de recuperacion invalido");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function handleMagicLink(e: FormEvent) {
     e.preventDefault();
     setError("");
     setSubmitting(true);
-
     try {
       await sendMagicLink(email);
     } catch {
-      // Always show success (anti-enumeration)
+      // anti-enumeration
     }
-    setMagicLinkSent(true);
+    setState({ step: "magic-link-sent" });
     setSubmitting(false);
   }
 
-  function switchMode(newMode: "login" | "register" | "magic-link") {
-    setMode(newMode);
-    setError("");
-    setMfaRequired(false);
-    setMagicLinkSent(false);
-    setMfaCode("");
-  }
+  // --- Shared UI pieces ---
 
-  return (
-    <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
-        {/* Header: BuildersMTY logo + Auth by Shark */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/builderslogo.svg" alt="BuildersMTY" width={28} height={28} />
-            <span className="font-headline font-black text-xs uppercase tracking-tight text-white">Builders</span>
-          </Link>
-          <div className="w-px h-5 bg-[#603e39]/30"></div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[7px] font-label text-[#E5E2E1] tracking-[0.15em] uppercase">Auth by</span>
-            <Image src="/shark_blackbg_whitelogo_text_logo.svg" alt="Shark Auth" width={60} height={24} />
-          </div>
-        </div>
+  const header = (
+    <div className="flex items-center justify-center gap-3 mb-8">
+      <Link href="/" className="flex items-center gap-2">
+        <Image src="/builderslogo.svg" alt="BuildersMTY" width={28} height={28} />
+        <span className="font-headline font-black text-xs uppercase tracking-tight text-white">Builders</span>
+      </Link>
+      <div className="w-px h-5 bg-[#603e39]/30"></div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[7px] font-label text-[#E5E2E1] tracking-[0.15em] uppercase">Auth by</span>
+        <Image src="/shark_blackbg_whitelogo_text_logo.svg" alt="Shark Auth" width={60} height={24} />
+      </div>
+    </div>
+  );
 
-        <div className="text-center mb-8">
-          <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">
-            {mfaRequired
-              ? "Verificacion MFA"
-              : mode === "magic-link"
-                ? "Magic Link"
-                : mode === "login"
-                  ? "Inicia Sesión"
-                  : "Crea tu Cuenta"}
-          </h1>
-          <p className="text-xs text-[#E5E2E1]/40">
-            {mfaRequired
-              ? "Ingresa el codigo de tu app de autenticacion"
-              : mode === "magic-link"
-                ? "Te enviaremos un enlace para iniciar sesion"
-                : "Accede a los cursos de la comunidad"}
-          </p>
-        </div>
+  const errorBanner = error && (
+    <div className="mb-4 px-3 py-2 border border-red-500/30 bg-red-500/10 text-red-400 text-xs">
+      {error}
+    </div>
+  );
 
-        {/* Error display */}
-        {error && (
-          <div className="mb-4 px-3 py-2 border border-red-500/30 bg-red-500/10 text-red-400 text-xs">
-            {error}
-          </div>
-        )}
+  const inputClass = "w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors";
+  const btnPrimary = "w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed";
+  const linkClass = "text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors";
 
-        {/* MFA Challenge */}
-        {mfaRequired ? (
+  // --- Render by state ---
+
+  function renderContent() {
+    switch (state.step) {
+
+      case "mfa-totp":
+        return (
           <>
-            <form onSubmit={handleMfaSubmit} className="space-y-3 mb-5">
+            <div className="text-center mb-8">
+              <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">Verificacion MFA</h1>
+              <p className="text-xs text-[#E5E2E1]/40">Ingresa el codigo de tu app de autenticacion</p>
+            </div>
+            {errorBanner}
+            <form onSubmit={handleMfaTotp} className="space-y-3 mb-5">
               <div>
-                <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">
-                  Codigo de Verificacion
-                </label>
+                <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">Codigo TOTP</label>
                 <input
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={6}
-                  required
-                  value={mfaCode}
-                  onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ""))}
+                  type="text" inputMode="numeric" maxLength={6} required autoFocus
+                  value={mfaCode} onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ""))}
                   placeholder="000000"
-                  autoFocus
-                  className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] text-center tracking-[0.5em] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors font-mono"
+                  className={`${inputClass} text-center tracking-[0.5em] font-mono`}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+              <button type="submit" disabled={submitting} className={btnPrimary}>
                 {submitting ? "..." : "Verificar"}
               </button>
             </form>
-            <div className="text-center">
-              <button
-                onClick={() => { setMfaRequired(false); setMfaCode(""); setError(""); }}
-                className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
-              >
-                Volver al inicio de sesion
-              </button>
+            <div className="text-center space-y-2">
+              <div><button onClick={() => go("mfa-recovery")} className={linkClass}>Usar codigo de recuperacion</button></div>
+              <div><button onClick={() => go("login")} className={linkClass}>Volver al inicio de sesion</button></div>
             </div>
           </>
+        );
 
-        /* Magic Link */
-        ) : mode === "magic-link" ? (
+      case "mfa-recovery":
+        return (
           <>
-            {magicLinkSent ? (
-              <div className="text-center space-y-4">
-                <div className="px-3 py-3 border border-green-500/30 bg-green-500/10 text-green-400 text-xs">
-                  Si existe una cuenta con ese email, recibiras un enlace para iniciar sesion. Revisa tu bandeja de entrada.
-                </div>
-                <button
-                  onClick={() => switchMode("login")}
-                  className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
-                >
-                  Volver al inicio de sesion
-                </button>
+            <div className="text-center mb-8">
+              <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">Codigo de Recuperacion</h1>
+              <p className="text-xs text-[#E5E2E1]/40">Ingresa uno de tus codigos de recuperacion</p>
+            </div>
+            {errorBanner}
+            <form onSubmit={handleMfaRecovery} className="space-y-3 mb-5">
+              <div>
+                <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">Codigo de Recuperacion</label>
+                <input
+                  type="text" required autoFocus
+                  value={recoveryCode} onChange={(e) => setRecoveryCode(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ""))}
+                  placeholder="ab3k9x7m"
+                  className={`${inputClass} text-center tracking-[0.3em] font-mono`}
+                />
               </div>
-            ) : (
-              <>
-                <form onSubmit={handleMagicLink} className="space-y-3 mb-5">
-                  <div>
-                    <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="tu@email.com"
-                      className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {submitting ? "..." : "Enviar Magic Link"}
-                  </button>
-                </form>
-                <div className="text-center">
-                  <button
-                    onClick={() => switchMode("login")}
-                    className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
-                  >
-                    Iniciar sesion con contrasena
-                  </button>
-                </div>
-              </>
-            )}
+              <button type="submit" disabled={submitting} className={btnPrimary}>
+                {submitting ? "..." : "Verificar"}
+              </button>
+            </form>
+            <div className="text-center space-y-2">
+              <div><button onClick={() => go("mfa-totp")} className={linkClass}>Usar codigo TOTP</button></div>
+              <div><button onClick={() => go("login")} className={linkClass}>Volver al inicio de sesion</button></div>
+            </div>
           </>
+        );
 
-        /* Login / Register */
-        ) : (
+      case "magic-link":
+        return (
           <>
-            {/* OAuth Buttons */}
+            <div className="text-center mb-8">
+              <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">Magic Link</h1>
+              <p className="text-xs text-[#E5E2E1]/40">Te enviaremos un enlace para iniciar sesion</p>
+            </div>
+            {errorBanner}
+            <form onSubmit={handleMagicLink} className="space-y-3 mb-5">
+              <div>
+                <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">Email</label>
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" className={inputClass} />
+              </div>
+              <button type="submit" disabled={submitting} className={btnPrimary}>
+                {submitting ? "..." : "Enviar Magic Link"}
+              </button>
+            </form>
+            <div className="text-center">
+              <button onClick={() => go("login")} className={linkClass}>Iniciar sesion con contrasena</button>
+            </div>
+          </>
+        );
+
+      case "magic-link-sent":
+        return (
+          <>
+            <div className="text-center mb-8">
+              <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">Revisa tu Email</h1>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="px-3 py-3 border border-green-500/30 bg-green-500/10 text-green-400 text-xs">
+                Si existe una cuenta con ese email, recibiras un enlace para iniciar sesion. Revisa tu bandeja de entrada.
+              </div>
+              <button onClick={() => go("login")} className={linkClass}>Volver al inicio de sesion</button>
+            </div>
+          </>
+        );
+
+      case "login":
+      case "register":
+      default:
+        return (
+          <>
+            <div className="text-center mb-8">
+              <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">
+                {state.step === "login" ? "Inicia Sesión" : "Crea tu Cuenta"}
+              </h1>
+              <p className="text-xs text-[#E5E2E1]/40">Accede a los cursos de la comunidad</p>
+            </div>
+
+            {/* OAuth */}
             <div className="space-y-2.5 mb-6">
               <a href={getOAuthUrl("github")} className="w-full flex items-center justify-center gap-2.5 bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs font-medium hover:border-[#ff5540]/40 hover:bg-[#201f1f] transition-all">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
@@ -238,48 +260,57 @@ export default function AuthCoursesPage() {
               </a>
             </div>
 
-            {/* Divider */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex-1 h-px bg-[#603e39]/20"></div>
               <span className="text-[9px] font-label text-[#E5E2E1]/20 tracking-[0.2em] uppercase">o</span>
               <div className="flex-1 h-px bg-[#603e39]/20"></div>
             </div>
 
-            {/* Email/Password Form */}
-            <form onSubmit={handleSubmit} className="space-y-3 mb-5">
+            {errorBanner}
+
+            <form onSubmit={handleCredentials} className="space-y-3 mb-5">
               <div>
                 <label className="block text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-1.5">Email</label>
-                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors" />
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" className={inputClass} />
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase">Password</label>
-                  {mode === "login" && (
+                  {state.step === "login" && (
                     <Link href="/auth/forgot-password" className="text-[9px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
                       Olvidaste tu contrasena?
                     </Link>
                   )}
                 </div>
-                <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="w-full bg-[#1c1b1b] border border-[#603e39]/30 px-3 py-2.5 text-xs text-[#E5E2E1] placeholder-[#E5E2E1]/20 focus:border-[#ff5540]/50 focus:outline-none transition-colors" />
+                <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className={inputClass} />
               </div>
-              <button type="submit" disabled={submitting} className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                {submitting ? "..." : mode === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
+              <button type="submit" disabled={submitting} className={btnPrimary}>
+                {submitting ? "..." : state.step === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
               </button>
             </form>
 
-            {/* Toggle mode + Magic link */}
             <div className="text-center space-y-2">
-              <button onClick={() => switchMode(mode === "login" ? "register" : "login")} className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
-                {mode === "login" ? "No tienes cuenta? Crea una" : "Ya tienes cuenta? Inicia sesión"}
-              </button>
               <div>
-                <button onClick={() => switchMode("magic-link")} className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors">
+                <button onClick={() => go(state.step === "login" ? "register" : "login")} className={linkClass}>
+                  {state.step === "login" ? "No tienes cuenta? Crea una" : "Ya tienes cuenta? Inicia sesión"}
+                </button>
+              </div>
+              <div>
+                <button onClick={() => go("magic-link")} className={linkClass}>
                   Iniciar sesion con Magic Link
                 </button>
               </div>
             </div>
           </>
-        )}
+        );
+    }
+  }
+
+  return (
+    <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen flex flex-col items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        {header}
+        {renderContent()}
       </div>
     </div>
   );

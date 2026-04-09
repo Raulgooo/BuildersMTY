@@ -110,6 +110,13 @@ export async function mfaChallenge(code: string): Promise<SharkUser> {
   });
 }
 
+export async function mfaRecovery(code: string): Promise<SharkUser> {
+  return sharkFetch<SharkUser>("/auth/mfa/recovery", {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+}
+
 export async function mfaEnroll(): Promise<MfaEnrollment> {
   return sharkFetch<MfaEnrollment>("/auth/mfa/enroll", { method: "POST" });
 }
