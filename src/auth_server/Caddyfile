@@ -6,6 +6,21 @@
 	}
 	redir @password_reset_get https://buildersmty.com.mx/auth/reset-password?token={query.token} 302
 
+	# OAuth callback: let Shark process it (sets session cookie),
+	# then redirect the user to the frontend instead of showing JSON
+	@oauth_callback {
+		path /api/v1/auth/oauth/*/callback
+	}
+	handle @oauth_callback {
+		reverse_proxy localhost:8081 {
+			@success status 200
+			handle_response @success {
+				header Location https://buildersmty.com.mx/auth/callback
+				respond 302
+			}
+		}
+	}
+
 	# Proxy everything else to shark-auth
 	reverse_proxy localhost:8081
 }
