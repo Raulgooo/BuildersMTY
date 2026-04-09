@@ -3,15 +3,16 @@ const SHARK_URL = process.env.NEXT_PUBLIC_SHARK_AUTH_URL || "https://auth.builde
 export interface SharkUser {
   id: string;
   email: string;
+  emailVerified?: boolean;
   name?: string;
-  avatar_url?: string;
-  mfa_enabled?: boolean;
+  avatarUrl?: string;
+  mfaEnabled?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-interface AuthResponse {
-  user: SharkUser;
-  mfa_required?: boolean;
-}
+// Login returns either { mfaRequired: true } or the full user object
+type LoginResponse = { mfaRequired: true } | SharkUser;
 
 interface SharkError {
   error: string;
@@ -39,15 +40,15 @@ async function sharkFetch<T>(path: string, post?: RequestInit): Promise<T> {
   return res.json();
 }
 
-export async function signup(email: string, password: string): Promise<AuthResponse> {
-  return sharkFetch<AuthResponse>("/auth/signup", {
+export async function signup(email: string, password: string): Promise<SharkUser> {
+  return sharkFetch<SharkUser>("/auth/signup", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
 }
 
-export async function login(email: string, password: string): Promise<AuthResponse> {
-  return sharkFetch<AuthResponse>("/auth/login", {
+export async function login(email: string, password: string): Promise<LoginResponse> {
+  return sharkFetch<LoginResponse>("/auth/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
@@ -102,8 +103,8 @@ export interface MfaEnrollment {
   qr_uri: string; // otpauth:// URI for QR generation
 }
 
-export async function mfaChallenge(code: string): Promise<AuthResponse> {
-  return sharkFetch<AuthResponse>("/auth/mfa/challenge", {
+export async function mfaChallenge(code: string): Promise<SharkUser> {
+  return sharkFetch<SharkUser>("/auth/mfa/challenge", {
     method: "POST",
     body: JSON.stringify({ code }),
   });

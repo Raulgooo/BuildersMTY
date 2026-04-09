@@ -68,7 +68,7 @@ export default function AccountPage() {
             </div>
             <div className="text-sm text-[#E5E2E1]">{user.email}</div>
             {user.name && <div className="text-xs text-[#E5E2E1]/50 mt-1">{user.name}</div>}
-            {user.mfa_enabled && (
+            {user.mfaEnabled && (
               <div className="mt-2 inline-block px-2 py-0.5 bg-green-500/10 border border-green-500/30 text-green-400 text-[9px] font-label uppercase tracking-wider">
                 MFA Activo
               </div>

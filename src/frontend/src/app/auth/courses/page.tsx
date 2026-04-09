@@ -35,8 +35,7 @@ export default function AuthCoursesPage() {
         await signup(email, password);
       } else {
         const res = await login(email, password);
-        console.log("Login response:", JSON.stringify(res, null, 2));
-        if (res.mfa_required) {
+        if ("mfaRequired" in res && res.mfaRequired) {
           setMfaRequired(true);
           setSubmitting(false);
           return;

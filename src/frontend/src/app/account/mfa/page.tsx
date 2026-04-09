@@ -122,7 +122,7 @@ export default function MfaPage() {
           )}
 
           {/* Idle state — MFA not enabled */}
-          {step === "idle" && !user.mfa_enabled && (
+          {step === "idle" && !user.mfaEnabled && (
             <div className="text-center space-y-4">
               <div className="bg-[#1c1b1b] border border-[#603e39]/30 p-5">
                 <span className="material-symbols-outlined text-[#ff5540]/40 text-4xl mb-3 block">
@@ -143,7 +143,7 @@ export default function MfaPage() {
           )}
 
           {/* Idle state — MFA enabled */}
-          {step === "idle" && user.mfa_enabled && (
+          {step === "idle" && user.mfaEnabled && (
             <div className="space-y-3">
               <div className="bg-[#1c1b1b] border border-green-500/20 p-5">
                 <div className="flex items-center gap-2 mb-3">
