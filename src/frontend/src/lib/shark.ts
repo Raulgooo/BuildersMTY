@@ -94,6 +94,13 @@ export interface MfaEnrollment {
   qr_uri: string; // otpauth:// URI for QR generation
 }
 
+export async function mfaChallenge(code: string): Promise<AuthResponse> {
+  return sharkFetch<AuthResponse>("/auth/mfa/challenge", {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+}
+
 export async function mfaEnroll(): Promise<MfaEnrollment> {
   return sharkFetch<MfaEnrollment>("/auth/mfa/enroll", { method: "POST" });
 }
