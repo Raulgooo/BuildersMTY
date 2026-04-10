@@ -20,7 +20,7 @@ export default function Header() {
 
   const navLinks = [
     ["Inicio", "/"],
-    ["Cursos", "/#cursos"],
+    ["Cursos", "/courses"],
     ["Builders Network", "/buildersnetwork"],
     ["Eventos", "/#hackathon"],
     ["Contacto", "/#contacto"],
@@ -83,7 +83,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              href="/auth/courses"
+              href="/auth/login"
               className="font-headline uppercase tracking-widest text-[11px] text-[#ff5540] opacity-80 hover:opacity-100 transition-all"
             >
               Login
@@ -138,7 +138,7 @@ export default function Header() {
           </>
         ) : (
           <Link
-            href="/auth/courses"
+            href="/auth/login"
             onClick={() => setIsMenuOpen(false)}
             className="font-headline uppercase tracking-widest text-[11px] text-[#ff5540] opacity-80 hover:opacity-100 transition-all"
           >

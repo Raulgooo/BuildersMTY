@@ -69,7 +69,7 @@ function ResetPasswordForm() {
               Tu contrasena ha sido actualizada exitosamente.
             </div>
             <Link
-              href="/auth/courses"
+              href="/auth/login"
               className="inline-block bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all"
             >
               Iniciar Sesion

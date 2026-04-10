@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
               Si existe una cuenta con ese email, recibiras un enlace para restablecer tu contrasena.
             </div>
             <Link
-              href="/auth/courses"
+              href="/auth/login"
               className="inline-block text-[11px] text-[#ff5540] hover:text-[#ff5540]/80 transition-colors"
             >
               Volver al inicio de sesion
@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
 
             <div className="text-center">
               <Link
-                href="/auth/courses"
+                href="/auth/login"
                 className="text-[11px] text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors"
               >
                 Volver al inicio de sesion

@@ -27,7 +27,7 @@ export default function ChangePasswordPage() {
   }
 
   if (!user) {
-    router.replace("/auth/courses");
+    router.replace("/auth/login");
     return null;
   }
 

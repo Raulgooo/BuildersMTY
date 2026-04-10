@@ -30,7 +30,7 @@ export default function MfaPage() {
   }
 
   if (!user) {
-    router.replace("/auth/courses");
+    router.replace("/auth/login");
     return null;
   }
 

@@ -138,9 +138,9 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Courses Section */}
-        <section id="cursos" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-32 border-x border-[#ffb4a8]/10">
-          <div className="max-w-3xl mb-16 lg:mb-20">
+        {/* Courses Flywheel Section */}
+        <section id="cursos" className="max-w-[1440px] mx-auto py-20 lg:py-32 border-x border-[#ffb4a8]/10 overflow-hidden">
+          <div className="px-6 max-w-3xl mb-16 lg:mb-20">
             <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
               <span className="w-6 h-[1px] bg-[#ff5540]"></span>
               CURSOS_COMUNITARIOS
@@ -153,108 +153,55 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                icon: "memory",
-                title: "Crea tu Propio Alocador de Memoria en C",
-                difficulty: "AVANZADO",
-                desc: "Construye un memory allocator desde cero. Entiende cómo funciona malloc, free y la gestión de memoria a nivel de sistema operativo.",
-                learns: [
-                  "Gestión de memoria virtual y páginas",
-                  "Implementación de malloc/free con listas libres",
-                  "Fragmentación, coalescing y alineamiento",
-                  "Debugging con Valgrind y AddressSanitizer",
-                ],
-                href: "/auth/courses",
-                cta: "Ir al curso",
-              },
-              {
-                icon: "dns",
-                title: "Crea tu Servidor HTTP con Go",
-                difficulty: "INTERMEDIO",
-                desc: "Implementa un servidor HTTP desde el socket TCP hasta el routing. Sin frameworks, sin magia — solo Go y la standard library.",
-                learns: [
-                  "Sockets TCP y el protocolo HTTP/1.1",
-                  "Goroutines y concurrencia para conexiones simultáneas",
-                  "Parsing de requests y construcción de responses",
-                  "Middleware, routing y manejo de archivos estáticos",
-                ],
-                href: "/auth/courses",
-                cta: "Ir al curso",
-              },
-              {
-                icon: "smart_toy",
-                title: "Crea tu Propio Claude Code",
-                difficulty: "AVANZADO",
-                desc: "Construye un agente de código con IA que lee, edita y ejecuta en tu terminal. Aprende cómo funcionan los coding agents por dentro.",
-                learns: [
-                  "Arquitectura de agentes con tool-use y loops",
-                  "Integración con APIs de LLMs (Claude, OpenAI)",
-                  "Sandboxing y ejecución segura de comandos",
-                  "Context management y streaming de respuestas",
-                ],
-                href: null,
-                cta: "Próximamente",
-              },
-            ].map((course, i) => (
-              <div
-                key={i}
-                className="bg-[#1c1b1b]/50 border border-[#603e39]/20 p-6 lg:p-8 hover:border-[#ff5540]/30 transition-all group relative flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-10 h-10 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:border-[#ff5540] transition-colors">
-                      <span className="material-symbols-outlined text-[#ff5540] text-xl">
-                        {course.icon}
+          {/* Flywheel — infinite horizontal scroll */}
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#131313] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#131313] to-transparent z-10 pointer-events-none" />
+
+            <div className="flex gap-6 animate-flywheel hover:[animation-play-state:paused] w-max px-6">
+              {[...Array(2)].flatMap((_, dupeIdx) =>
+                [
+                  { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO", desc: "Construye un memory allocator desde cero. Entiende malloc, free y gestión de memoria a nivel de OS." },
+                  { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO", desc: "Implementa un servidor HTTP desde el socket TCP hasta el routing. Solo Go y la standard library." },
+                  { icon: "smart_toy", title: "Crea tu Propio Claude Code", difficulty: "AVANZADO", desc: "Construye un agente de código con IA que lee, edita y ejecuta en tu terminal." },
+                  { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO", desc: "Implementa un shell UNIX con pipes, redirección, job control y built-in commands." },
+                  { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO", desc: "Construye un motor de almacenamiento persistente con B-trees, WAL y compactación." },
+                  { icon: "lock", title: "Auth Service con Go", difficulty: "INTERMEDIO", desc: "Implementa un servicio de autenticación con JWT, OAuth, MFA y sesiones seguras." },
+                ].map((course, i) => (
+                  <Link
+                    key={`${dupeIdx}-${i}`}
+                    href="/courses"
+                    className="flex-shrink-0 w-[320px] bg-[#1c1b1b]/50 border border-[#603e39]/20 p-6 hover:border-[#ff5540]/30 transition-all group"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-9 h-9 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:border-[#ff5540] transition-colors">
+                        <span className="material-symbols-outlined text-[#ff5540] text-lg">{course.icon}</span>
+                      </div>
+                      <span className="text-[8px] font-black px-2 py-0.5 bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20 font-label tracking-widest">
+                        {course.difficulty}
                       </span>
                     </div>
-                    <span className="text-[9px] font-black px-2 py-0.5 bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20 font-label tracking-widest">
-                      {course.difficulty}
-                    </span>
-                  </div>
-                  <h3 className="font-headline font-bold text-lg uppercase tracking-tight text-white mb-3 group-hover:text-[#ff5540] transition-colors">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-[#E5E2E1]/50 leading-relaxed mb-4">
-                    {course.desc}
-                  </p>
-                  <div className="mb-6">
-                    <span className="text-[9px] font-label font-bold text-[#ff5540] tracking-[0.2em] uppercase mb-2 block">
-                      APRENDERÁS
-                    </span>
-                    <ul className="space-y-1.5">
-                      {course.learns.map((item, j) => (
-                        <li key={j} className="text-xs text-[#E5E2E1]/40 flex items-start gap-2">
-                          <span className="text-[#ff5540]/60 mt-0.5 text-[8px]">&#9654;</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                <div className="pt-4 border-t border-[#603e39]/10">
-                  {course.href ? (
-                    <Link href={course.href}>
-                      <button className="w-full border border-[#ff5540]/30 text-[#ff5540] px-6 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540] hover:text-white transition-all">
-                        {course.cta}
-                      </button>
-                    </Link>
-                  ) : (
-                    <button disabled className="w-full border border-[#603e39]/20 text-[#E5E2E1]/20 px-6 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed flex items-center justify-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-[#ff5540]/30 animate-pulse"></span>
-                      {course.cta}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+                    <h3 className="font-headline font-bold text-sm uppercase tracking-tight text-white mb-2 group-hover:text-[#ff5540] transition-colors leading-tight">
+                      {course.title}
+                    </h3>
+                    <p className="text-xs text-[#E5E2E1]/40 leading-relaxed">
+                      {course.desc}
+                    </p>
+                  </Link>
+                ))
+              )}
+            </div>
           </div>
 
-          <div className="mt-10 text-center">
+          <div className="mt-12 px-6 flex items-center justify-center gap-6">
+            <Link href="/courses">
+              <button className="bg-[#ff5540] text-white px-8 py-4 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all">
+                Ver todos los cursos
+              </button>
+            </Link>
             <Link href="https://discord.gg/RPqWgsN5H6">
               <button className="border border-[#603e39]/30 text-[#E5E2E1]/60 px-8 py-4 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#ff5540]/40 hover:text-[#ff5540] transition-all">
-                Quiero contribuir un curso
+                Contribuir un curso
               </button>
             </Link>
           </div>

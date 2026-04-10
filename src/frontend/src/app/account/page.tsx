@@ -41,7 +41,7 @@ export default function AccountPage() {
   }
 
   if (!user) {
-    router.replace("/auth/courses");
+    router.replace("/auth/login");
     return null;
   }
 

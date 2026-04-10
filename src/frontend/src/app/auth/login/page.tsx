@@ -15,7 +15,7 @@ type AuthState =
   | { step: "mfa-totp" }
   | { step: "mfa-recovery" };
 
-export default function AuthCoursesPage() {
+export default function AuthLoginPage() {
   const [state, setState] = useState<AuthState>({ step: "login" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

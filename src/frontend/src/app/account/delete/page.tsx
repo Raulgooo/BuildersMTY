@@ -24,7 +24,7 @@ export default function DeleteAccountPage() {
   }
 
   if (!user) {
-    router.replace("/auth/courses");
+    router.replace("/auth/login");
     return null;
   }
 
