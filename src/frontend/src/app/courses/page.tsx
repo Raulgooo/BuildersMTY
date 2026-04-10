@@ -1,124 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useAuth } from "@/context/AuthContext";
-
-const courses = [
-  {
-    id: "memory-allocator-c",
-    icon: "memory",
-    title: "Crea tu Propio Alocador de Memoria en C",
-    difficulty: "AVANZADO" as const,
-    desc: "Construye un memory allocator desde cero. Entiende como funciona malloc, free y la gestion de memoria a nivel de sistema operativo.",
-    learns: [
-      "Gestion de memoria virtual y paginas",
-      "Implementacion de malloc/free con listas libres",
-      "Fragmentacion, coalescing y alineamiento",
-      "Debugging con Valgrind y AddressSanitizer",
-    ],
-    modules: 8,
-    available: true,
-  },
-  {
-    id: "http-server-go",
-    icon: "dns",
-    title: "Crea tu Servidor HTTP con Go",
-    difficulty: "INTERMEDIO" as const,
-    desc: "Implementa un servidor HTTP desde el socket TCP hasta el routing. Sin frameworks, sin magia — solo Go y la standard library.",
-    learns: [
-      "Sockets TCP y el protocolo HTTP/1.1",
-      "Goroutines y concurrencia para conexiones simultaneas",
-      "Parsing de requests y construccion de responses",
-      "Middleware, routing y manejo de archivos estaticos",
-    ],
-    modules: 6,
-    available: true,
-  },
-  {
-    id: "claude-code-agent",
-    icon: "smart_toy",
-    title: "Crea tu Propio Claude Code",
-    difficulty: "AVANZADO" as const,
-    desc: "Construye un agente de codigo con IA que lee, edita y ejecuta en tu terminal. Aprende como funcionan los coding agents por dentro.",
-    learns: [
-      "Arquitectura de agentes con tool-use y loops",
-      "Integracion con APIs de LLMs (Claude, OpenAI)",
-      "Sandboxing y ejecucion segura de comandos",
-      "Context management y streaming de respuestas",
-    ],
-    modules: 10,
-    available: false,
-  },
-  {
-    id: "shell-rust",
-    icon: "terminal",
-    title: "Shell desde Cero en Rust",
-    difficulty: "AVANZADO" as const,
-    desc: "Implementa un shell UNIX completo con pipes, redireccion, job control y built-in commands. Entiende como funciona bash por dentro.",
-    learns: [
-      "Parsing de comandos y tokenizacion",
-      "Fork, exec y manejo de procesos",
-      "Pipes, redireccion y file descriptors",
-      "Job control y senales UNIX",
-    ],
-    modules: 7,
-    available: false,
-  },
-  {
-    id: "kv-database",
-    icon: "database",
-    title: "Base de Datos Key-Value",
-    difficulty: "INTERMEDIO" as const,
-    desc: "Construye un motor de almacenamiento persistente con B-trees, WAL y compactacion. Entiende como funcionan las bases de datos por dentro.",
-    learns: [
-      "Estructuras de datos en disco: B-trees y LSM",
-      "Write-Ahead Log para durabilidad",
-      "Compactacion y garbage collection",
-      "Protocolo de red y cliente CLI",
-    ],
-    modules: 8,
-    available: false,
-  },
-  {
-    id: "auth-service-go",
-    icon: "lock",
-    title: "Auth Service con Go",
-    difficulty: "INTERMEDIO" as const,
-    desc: "Implementa un servicio de autenticacion completo con JWT, OAuth, MFA y sesiones seguras. De cero a produccion.",
-    learns: [
-      "JWT tokens y sesiones con cookies HttpOnly",
-      "Flujos OAuth2 con providers externos",
-      "TOTP MFA y codigos de recuperacion",
-      "Rate limiting y proteccion contra ataques",
-    ],
-    modules: 9,
-    available: false,
-  },
-];
+import { courses } from "@/data/courses";
 
 type Difficulty = "TODOS" | "INTERMEDIO" | "AVANZADO";
 
 export default function CoursesPage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
   const [filter, setFilter] = useState<Difficulty>("TODOS");
-
-  if (loading) {
-    return (
-      <div className="bg-[#131313] min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-2 border-[#ff5540] border-t-transparent animate-spin" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    router.replace("/auth/login");
-    return null;
-  }
 
   const filtered = filter === "TODOS" ? courses : courses.filter((c) => c.difficulty === filter);
 
@@ -164,8 +55,9 @@ export default function CoursesPage() {
           {/* Course Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((course) => (
-              <div
+              <Link
                 key={course.id}
+                href={`/courses/${course.id}`}
                 className={`bg-[#1c1b1b]/50 border p-6 transition-all group relative flex flex-col justify-between ${
                   course.available
                     ? "border-[#603e39]/20 hover:border-[#ff5540]/40 hover:bg-[#1c1b1b]"
@@ -180,17 +72,15 @@ export default function CoursesPage() {
                         {course.icon}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`text-[8px] font-black px-2 py-0.5 font-label tracking-widest border ${
-                          course.difficulty === "AVANZADO"
-                            ? "bg-[#ff5540]/10 text-[#ff5540] border-[#ff5540]/20"
-                            : "bg-[#ffb4a8]/10 text-[#ffb4a8] border-[#ffb4a8]/20"
-                        }`}
-                      >
-                        {course.difficulty}
-                      </span>
-                    </div>
+                    <span
+                      className={`text-[8px] font-black px-2 py-0.5 font-label tracking-widest border ${
+                        course.difficulty === "AVANZADO"
+                          ? "bg-[#ff5540]/10 text-[#ff5540] border-[#ff5540]/20"
+                          : "bg-[#ffb4a8]/10 text-[#ffb4a8] border-[#ffb4a8]/20"
+                      }`}
+                    >
+                      {course.difficulty}
+                    </span>
                   </div>
 
                   {/* Title */}
@@ -222,7 +112,7 @@ export default function CoursesPage() {
                   <div className="flex items-center gap-4 mb-5">
                     <div className="flex items-center gap-1.5 text-[10px] text-[#E5E2E1]/25">
                       <span className="material-symbols-outlined text-sm text-[#ff5540]/30">auto_stories</span>
-                      {course.modules} modulos
+                      {course.modules.length} modulos
                     </div>
                   </div>
                 </div>
@@ -230,23 +120,18 @@ export default function CoursesPage() {
                 {/* CTA */}
                 <div className="pt-4 border-t border-[#603e39]/10">
                   {course.available ? (
-                    <Link href={`/courses/${course.id}`}>
-                      <button className="w-full border border-[#ff5540]/30 text-[#ff5540] px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540] hover:text-white transition-all flex items-center justify-center gap-2">
-                        <span className="material-symbols-outlined text-sm">play_arrow</span>
-                        Ir al curso
-                      </button>
-                    </Link>
+                    <div className="w-full border border-[#ff5540]/30 text-[#ff5540] px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-[#ff5540] group-hover:text-white transition-all flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined text-sm">play_arrow</span>
+                      Ver curso
+                    </div>
                   ) : (
-                    <button
-                      disabled
-                      className="w-full border border-[#603e39]/15 text-[#E5E2E1]/20 px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] cursor-not-allowed flex items-center justify-center gap-2"
-                    >
+                    <div className="w-full border border-[#603e39]/15 text-[#E5E2E1]/20 px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                       <span className="w-1.5 h-1.5 bg-[#ff5540]/30 animate-pulse"></span>
                       Proximamente
-                    </button>
+                    </div>
                   )}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
