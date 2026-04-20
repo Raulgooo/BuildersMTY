@@ -83,11 +83,6 @@ export default function ProfileClient({ username }: ProfileClientProps) {
               <BuilderCard profile={profile} />
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 pt-12 border-t" style={{ borderColor: "var(--border-subtle)" }}>
-                <Link href="https://discord.gg/RPqWgsN5H6">
-                  <button className="bg-[var(--red)] text-white px-8 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all shadow-[0_0_20px_rgba(212,26,26,0.2)] w-full sm:w-auto">
-                    Unirse a BuildersMTY
-                  </button>
-                </Link>
                 <Link href="/">
                   <button className="bg-[var(--surface-1)] text-[var(--text-primary)] px-8 py-4 font-mono text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--surface-2)] transition-all border w-full sm:w-auto" style={{ borderColor: "var(--border)" }}>
                     Volver al Frontend
