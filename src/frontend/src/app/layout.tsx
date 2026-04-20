@@ -1,32 +1,33 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Space_Mono } from "next/font/google";
+import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import { AuthProvider } from "@/context/AuthContext";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-space-mono",
+const archivoBlack = localFont({
+  src: [
+    {
+      path: "../fonts/ArchivoBlack-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-archivo-black",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "BuildersMTY",
-  description: "Una comunidad abierta de estudiantes y desarrolladores en Monterrey enfocada en construir software y compartir conocimiento.",
+  description:
+    "Una comunidad abierta de estudiantes y desarrolladores en Monterrey enfocada en construir software y compartir conocimiento.",
   icons: {
-    icon: "/builderslogo.svg",
+    icon: "/builderslogo2.svg",
   },
 };
 
@@ -36,17 +37,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${spaceMono.variable} dark`}>
+    <html
+      lang="es"
+      className={`${manrope.variable} ${archivoBlack.variable} dark`}
+    >
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

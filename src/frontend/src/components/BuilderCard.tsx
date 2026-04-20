@@ -37,67 +37,109 @@ interface BuilderProfile {
   score_breakdown?: Record<string, number> | null;
 }
 
-const RANK_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; glow: string }> = {
+/* ═══════════════════════════════════════════
+   Rank Tiers — visual escalation per rank
+   ═══════════════════════════════════════════ */
+const RANK_CONFIG: Record<string, {
+  label: string;
+  accent: string;        // OKLCH accent for this tier
+  borderColor: string;
+  glowColor: string;
+  badgeBg: string;
+}> = {
   BUILDER_LEGEND: {
     label: "BUILDER LEGEND",
-    color: "text-[#FFD700]",
-    bg: "bg-[#FFD700]/10",
-    border: "border-[#FFD700]/50",
-    glow: "shadow-[0_0_30px_rgba(255,215,0,0.15)]",
+    accent: "oklch(80% 0.16 85)",      // gold
+    borderColor: "oklch(80% 0.16 85 / 0.6)",
+    glowColor: "0 0 40px oklch(80% 0.16 85 / 0.12)",
+    badgeBg: "oklch(80% 0.16 85)",
   },
   ELITE_BUILDER: {
     label: "ELITE BUILDER",
-    color: "text-[#ff5540]",
-    bg: "bg-[#ff5540]/10",
-    border: "border-[#ff5540]/30",
-    glow: "shadow-[0_0_20px_rgba(255,85,64,0.1)]",
+    accent: "var(--red)",
+    borderColor: "var(--red-dim)",
+    glowColor: "0 0 24px oklch(50% 0.24 25 / 0.1)",
+    badgeBg: "var(--red)",
   },
   BUILDER: {
     label: "BUILDER",
-    color: "text-[#E5E2E1]/60",
-    bg: "bg-[#1c1b1b]",
-    border: "border-[#603e39]/30",
-    glow: "",
+    accent: "var(--text-ghost)",
+    borderColor: "var(--border)",
+    glowColor: "none",
+    badgeBg: "var(--surface-2)",
   },
 };
 
-function ScoreBar({ score }: { score: number }) {
+/* ═══ Score Ring — SVG circular progress ═══ */
+function ScoreRing({ score, accent }: { score: number; accent: string }) {
   const pct = Math.min(100, Math.max(0, score));
+  const radius = 38;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (pct / 100) * circumference;
+
   return (
-    <div className="w-full h-2 bg-[#201f1f] overflow-hidden">
-      <div
-        className="h-full bg-gradient-to-r from-[#ff5540] to-[#FFD700] transition-all duration-1000"
-        style={{ width: `${pct}%` }}
-      />
+    <div className="relative w-24 h-24 shrink-0">
+      <svg viewBox="0 0 96 96" className="w-full h-full -rotate-90">
+        <circle cx="48" cy="48" r={radius} fill="none" strokeWidth="3" stroke="var(--border-subtle)" />
+        <circle
+          cx="48" cy="48" r={radius} fill="none" strokeWidth="3"
+          stroke={accent}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="butt"
+          className="transition-all duration-1000"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-[family-name:var(--font-archivo-black)] text-2xl leading-none">{score}</span>
+        <span className="text-[9px] tracking-wider mt-0.5" style={{ color: "var(--text-ghost)" }}>/100</span>
+      </div>
     </div>
   );
 }
 
-function RepoItem({ repo }: { repo: RepoData }) {
+/* ═══ Stat Pill ═══ */
+function StatPill({ icon, value, label }: { icon: string; value: number; label: string }) {
+  return (
+    <div className="flex items-center gap-2 px-3 py-2" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+      <span className="material-symbols-outlined text-sm" style={{ color: "var(--red)" }}>{icon}</span>
+      <span className="font-[family-name:var(--font-archivo-black)] text-sm">{value.toLocaleString()}</span>
+      <span className="text-[9px] uppercase tracking-wider" style={{ color: "var(--text-ghost)" }}>{label}</span>
+    </div>
+  );
+}
+
+/* ═══ Repo Row ═══ */
+function RepoRow({ repo }: { repo: RepoData }) {
   return (
     <a
       href={repo.html_url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center justify-between gap-3 py-1.5 group"
+      className="flex items-center justify-between gap-3 py-2.5 group transition-colors"
+      style={{ borderBottom: "1px solid var(--border-subtle)" }}
     >
-      <div className="flex items-center gap-2 min-w-0">
-        <span className="text-[10px] font-label text-[#E5E2E1]/80 truncate group-hover:text-[#ff5540] transition-colors">
+      <div className="flex items-center gap-2.5 min-w-0">
+        <span className="text-sm truncate group-hover:text-[var(--red)] transition-colors" style={{ color: "var(--text-secondary)" }}>
           {repo.full_name || repo.name}
         </span>
         {repo.language && (
-          <span className="text-[8px] font-label px-1.5 py-0.5 border border-[#603e39]/20 text-[#ffb4a8]/50 uppercase tracking-widest shrink-0">
+          <span className="text-[9px] px-1.5 py-0.5 uppercase tracking-wider shrink-0" style={{ border: "1px solid var(--border)", color: "var(--text-ghost)" }}>
             {repo.language}
           </span>
         )}
       </div>
-      <span className="text-[9px] font-label text-[#ffb4a8]/40 shrink-0">
-        {repo.stargazers_count}★
-      </span>
+      <div className="flex items-center gap-1 shrink-0">
+        <span className="material-symbols-outlined text-xs" style={{ color: "var(--text-ghost)" }}>star</span>
+        <span className="text-[11px]" style={{ color: "var(--text-ghost)" }}>{repo.stargazers_count}</span>
+      </div>
     </a>
   );
 }
 
+/* ═══════════════════════════════════════════
+   BuilderCard — The Viral Component
+   ═══════════════════════════════════════════ */
 export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState(false);
@@ -107,16 +149,14 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
   const strengths = profile.llm_strengths ?? [];
   const recommendations = profile.llm_recommendations ?? [];
   const languageTags = profile.language_tags ?? [];
-  const avatarUrl = profile.discord_avatar_url || profile.avatar_url || "/builderslogo.svg";
+  const avatarUrl = profile.discord_avatar_url || profile.avatar_url || "/builderslogo2.svg";
 
-  // Top owned repos sorted by stars
   const ownedRepos = (profile.repositories ?? [])
     .filter((r) => !r.full_name || r.full_name.split("/")[0].toLowerCase() === profile.github_username.toLowerCase())
     .sort((a, b) => b.stargazers_count - a.stargazers_count)
-    .slice(0, 5);
+    .slice(0, 4);
 
-  // Contributed repos (not owned)
-  const contributedRepos = (profile.contributed_repos ?? []).slice(0, 5);
+  const contributedRepos = (profile.contributed_repos ?? []).slice(0, 3);
 
   const handleDownloadPng = useCallback(async () => {
     if (!cardRef.current) return;
@@ -139,171 +179,137 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
     <div className="w-full max-w-2xl mx-auto">
       <div
         ref={cardRef}
-        className={`${rank.bg} border ${rank.border} ${rank.glow} p-6 lg:p-8`}
-        style={{ backgroundColor: "#1c1b1b" }}
+        className="p-0 overflow-hidden"
+        style={{
+          background: "var(--surface-0)",
+          border: `2px solid ${rank.borderColor}`,
+          boxShadow: rank.glowColor,
+        }}
       >
-        {/* Header: Avatar + Name + Rank */}
-        <div className="flex items-start gap-5 mb-6">
-          <div className={`w-20 h-20 shrink-0 border ${rank.border} overflow-hidden`}>
-            <img
-              src={avatarUrl}
-              alt={profile.github_username}
-              width={80}
-              height={80}
-              className="w-full h-full object-cover"
-              crossOrigin="anonymous"
-            />
+        {/* ── Top Bar: rank badge ── */}
+        <div className="flex items-center justify-between px-6 py-3" style={{ background: "var(--surface-1)", borderBottom: `1px solid ${rank.borderColor}` }}>
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: rank.accent }}>
+            {rank.label}
+          </span>
+          <div className="flex items-center gap-1.5">
+            {profile.rank === "BUILDER_LEGEND" && <span className="material-symbols-outlined text-base" style={{ color: rank.accent }}>workspace_premium</span>}
+            {profile.rank === "ELITE_BUILDER" && <span className="material-symbols-outlined text-base" style={{ color: "var(--red)" }}>verified</span>}
+            <span className="text-[9px] tracking-wider uppercase" style={{ color: "var(--text-ghost)" }}>BuildersMTY</span>
           </div>
-          <div className="flex-grow min-w-0">
-            <div className="flex items-center gap-3 mb-1">
-              <h2 className="font-headline font-black text-xl lg:text-2xl uppercase tracking-tighter text-[#E5E2E1] truncate">
+        </div>
+
+        <div className="p-6 lg:p-8">
+          {/* ── Identity Row ── */}
+          <div className="flex items-center gap-5 mb-6">
+            <div className="w-16 h-16 shrink-0 overflow-hidden" style={{ border: `2px solid ${rank.borderColor}` }}>
+              <img
+                src={avatarUrl}
+                alt={profile.github_username}
+                width={64}
+                height={64}
+                className="w-full h-full object-cover"
+                crossOrigin="anonymous"
+              />
+            </div>
+            <div className="flex-grow min-w-0">
+              <h2 className="font-[family-name:var(--font-archivo-black)] text-xl lg:text-2xl uppercase tracking-tight truncate leading-none">
                 {profile.discord_display_name || profile.github_username}
               </h2>
-              {profile.rank === "BUILDER_LEGEND" && (
-                <span className="material-symbols-outlined text-[#FFD700] text-xl animate-pulse">
-                  workspace_premium
-                </span>
-              )}
-              {profile.rank === "ELITE_BUILDER" && (
-                <span className="material-symbols-outlined text-[#ff5540] text-lg">
-                  verified
-                </span>
-              )}
+              <p className="text-[11px] mt-1.5 tracking-wider" style={{ color: "var(--text-ghost)" }}>
+                @{profile.github_username}
+              </p>
             </div>
-            <p className="font-label text-[10px] text-[#ffb4a8]/60 tracking-widest uppercase mb-2">
-              @{profile.github_username}
-            </p>
-            <span className={`font-label text-[11px] font-black ${rank.color} tracking-[0.2em] uppercase`}>
-              {rank.label}
+            <ScoreRing score={score} accent={rank.accent} />
+          </div>
+
+          {/* ── Archetype ── */}
+          <div className="mb-5 flex items-center gap-3">
+            <span className="text-[10px] uppercase tracking-wider" style={{ color: "var(--text-ghost)" }}>Arquetipo</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5" style={{ background: rank.badgeBg, color: rank.accent === "var(--text-ghost)" ? "var(--text-primary)" : "var(--surface-0)" }}>
+              {profile.developer_archetype || "Builder"}
             </span>
           </div>
-          <div className="text-right shrink-0">
-            <div className="font-headline font-black text-3xl text-[#E5E2E1]">
-              {score}
-            </div>
-            <div className="font-label text-[9px] text-[#ffb4a8]/40 tracking-widest uppercase">
-              /100
-            </div>
-          </div>
-        </div>
 
-        {/* Score Bar */}
-        <ScoreBar score={score} />
-
-        {/* Archetype */}
-        <div className="mt-5 mb-4">
-          <span className="font-label text-[10px] text-[#ffb4a8]/40 tracking-[0.3em] uppercase">
-            Arquetipo
-          </span>
-          <p className={`font-headline font-bold text-base ${rank.color} uppercase tracking-wide mt-1`}>
-            {profile.developer_archetype || "Builder"}
+          {/* ── LLM Summary ── */}
+          <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
+            {profile.llm_summary || "Perfil en análisis..."}
           </p>
-        </div>
 
-        {/* LLM Summary */}
-        <p className="text-sm text-[#ebbbb4] leading-relaxed mb-5 font-light">
-          {profile.llm_summary || "Perfil en análisis..."}
-        </p>
-
-        {/* Language Tags */}
-        <div className="flex flex-wrap gap-2 mb-5">
-          {languageTags.slice(0, 8).map((lang) => (
-            <span
-              key={lang}
-              className="text-[9px] font-label px-2 py-1 border border-[#603e39]/30 text-[#ffb4a8] uppercase tracking-widest"
-            >
-              {lang}
-            </span>
-          ))}
-        </div>
-
-        {/* Stats Row — Commits, PRs, Stars, Repos */}
-        <div className="grid grid-cols-4 gap-4 mb-5 py-3 border-t border-b border-[#603e39]/15">
-          {[
-            { label: "Commits", value: profile.total_commits ?? 0, icon: "commit" },
-            { label: "PRs", value: profile.total_prs ?? 0, icon: "merge" },
-            { label: "Stars", value: profile.total_stars ?? 0, icon: "star" },
-            { label: "Repos", value: (profile.public_repos_count ?? 0) + (profile.private_repos_count ?? 0), icon: "folder" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="font-headline font-bold text-lg text-[#E5E2E1]">
-                {stat.value}
-              </div>
-              <div className="font-label text-[8px] text-[#ffb4a8]/40 uppercase tracking-widest">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Top Repos (owned) */}
-        {ownedRepos.length > 0 && (
-          <div className="mb-4">
-            <span className="font-label text-[10px] text-[#ffb4a8]/40 tracking-[0.3em] uppercase block mb-2">
-              Top Repos
-            </span>
-            <div className="space-y-0.5">
-              {ownedRepos.map((r) => (
-                <RepoItem key={r.full_name || r.name} repo={r} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Contributed Repos (not owned) */}
-        {contributedRepos.length > 0 && (
-          <div className="mb-4">
-            <span className="font-label text-[10px] text-[#ff5540]/60 tracking-[0.3em] uppercase block mb-2">
-              Contribuciones Externas
-            </span>
-            <div className="space-y-0.5">
-              {contributedRepos.map((r) => (
-                <RepoItem key={r.full_name || r.name} repo={r} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Strengths */}
-        <div className="mb-4">
-          <span className="font-label text-[10px] text-[#ffb4a8]/40 tracking-[0.3em] uppercase block mb-2">
-            Fortalezas
-          </span>
-          <div className="space-y-1.5">
-            {strengths.slice(0, 3).map((s, i) => (
-              <div key={i} className="flex items-start gap-2 text-sm text-[#E5E2E1]/70">
-                <span className="text-[#ff5540] shrink-0 mt-0.5">+</span>
-                <span>{s}</span>
-              </div>
+          {/* ── Language Tags ── */}
+          <div className="flex flex-wrap gap-1.5 mb-6">
+            {languageTags.slice(0, 8).map((lang) => (
+              <span key={lang} className="text-[9px] font-medium px-2 py-1 uppercase tracking-wider" style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}>
+                {lang}
+              </span>
             ))}
           </div>
-        </div>
 
-        {/* Recommendations */}
-        <div>
-          <span className="font-label text-[10px] text-[#ffb4a8]/40 tracking-[0.3em] uppercase block mb-2">
-            Recomendaciones
-          </span>
-          <div className="space-y-1.5">
-            {recommendations.slice(0, 3).map((r, i) => (
-              <div key={i} className="flex items-start gap-2 text-sm text-[#E5E2E1]/50">
-                <span className="text-[#ffb4a8] shrink-0 mt-0.5">→</span>
-                <span>{r}</span>
+          {/* ── Stats Grid ── */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <StatPill icon="commit" value={profile.total_commits ?? 0} label="Commits" />
+            <StatPill icon="merge" value={profile.total_prs ?? 0} label="PRs" />
+            <StatPill icon="star" value={profile.total_stars ?? 0} label="Stars" />
+            <StatPill icon="folder" value={(profile.public_repos_count ?? 0) + (profile.private_repos_count ?? 0)} label="Repos" />
+          </div>
+
+          {/* ── Top Repos ── */}
+          {ownedRepos.length > 0 && (
+            <div className="mb-5">
+              <span className="text-[10px] tracking-wider uppercase block mb-2" style={{ color: "var(--text-ghost)" }}>
+                Top Repos
+              </span>
+              <div>{ownedRepos.map((r) => <RepoRow key={r.full_name || r.name} repo={r} />)}</div>
+            </div>
+          )}
+
+          {/* ── Contributed Repos ── */}
+          {contributedRepos.length > 0 && (
+            <div className="mb-5">
+              <span className="text-[10px] tracking-wider uppercase block mb-2" style={{ color: "var(--red)" }}>
+                Contribuciones Externas
+              </span>
+              <div>{contributedRepos.map((r) => <RepoRow key={r.full_name || r.name} repo={r} />)}</div>
+            </div>
+          )}
+
+          {/* ── Strengths & Recommendations ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+            <div>
+              <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Fortalezas</span>
+              <div className="space-y-2">
+                {strengths.slice(0, 3).map((s, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                    <span className="shrink-0 mt-0.5" style={{ color: "var(--red)" }}>+</span>
+                    <span>{s}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div>
+              <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Recomendaciones</span>
+              <div className="space-y-2">
+                {recommendations.slice(0, 3).map((r, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-tertiary)" }}>
+                    <span className="shrink-0 mt-0.5" style={{ color: "var(--text-ghost)" }}>→</span>
+                    <span>{r}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-[#603e39]/15 flex items-center justify-between">
-          <span className="font-label text-[9px] text-[#ffb4a8]/20 tracking-[0.3em] uppercase">
+        {/* ── Footer ── */}
+        <div className="px-6 py-3 flex items-center justify-between" style={{ background: "var(--surface-1)", borderTop: "1px solid var(--border-subtle)" }}>
+          <span className="text-[9px] tracking-wider uppercase" style={{ color: "var(--text-ghost)" }}>
             BuildersMTY Analysis Engine v1.0
           </span>
           <a
             href={`https://github.com/${profile.github_username}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-label text-[10px] text-[#ff5540] uppercase tracking-widest hover:brightness-125 transition-all flex items-center gap-1"
+            className="text-[11px] uppercase tracking-widest hover:opacity-80 transition-opacity flex items-center gap-1.5 font-bold"
+            style={{ color: "var(--red)" }}
           >
             GitHub
             <span className="material-symbols-outlined text-xs">open_in_new</span>
@@ -311,18 +317,17 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
         </div>
       </div>
 
-      {/* Share Button */}
+      {/* ── Download Button ── */}
       <button
         onClick={handleDownloadPng}
         disabled={saving}
-        className="mt-4 w-full py-3 border border-[#603e39]/30 hover:border-[#ff5540]/40 hover:bg-[#ff5540]/5 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+        className="mt-4 w-full py-3.5 transition-all flex items-center justify-center gap-3 group disabled:opacity-50 text-[12px] font-bold uppercase tracking-widest hover:bg-[var(--surface-1)]"
+        style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}
       >
-        <span className="material-symbols-outlined text-[#ff5540] text-lg group-hover:scale-110 transition-transform">
+        <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform" style={{ color: "var(--red)" }}>
           {saving ? "hourglass_empty" : "download"}
         </span>
-        <span className="font-headline text-[10px] font-bold uppercase tracking-[0.2em] text-[#E5E2E1]/60 group-hover:text-[#E5E2E1]">
-          {saving ? "Generando..." : "Descargar como PNG"}
-        </span>
+        {saving ? "Generando..." : "Descargar como PNG"}
       </button>
     </div>
   );

@@ -5,160 +5,311 @@ import Footer from "@/components/Footer";
 
 export default function LandingPage() {
   return (
-    <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen">
+    <div className="min-h-screen" style={{ background: "var(--surface-0)", color: "var(--text-primary)" }}>
       <Header />
 
-      <main className="ghost-grid pt-20">
-        {/* Hero Section */}
-        <section className="px-6 py-20 lg:py-32 max-w-[1440px] mx-auto min-h-[90vh] flex flex-col justify-center border-x border-[#ffb4a8]/10 relative overflow-hidden">
-          {/* Gopher Mascot */}
-          <div className="absolute -right-20 lg:right-[5%] top-10 lg:top-0 pointer-events-none z-0 opacity-10 lg:opacity-20 transition-all duration-[4000ms]">
-            <img
-              src="/gopher.svg"
-              alt="Gopher Mascot"
-              className="w-[300px] sm:w-[500px] lg:w-[650px] h-auto grayscale filter contrast-125 transition-all"
-            />
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-end justify-between mb-24 relative z-10">
-            <div className="max-w-5xl">
-              <div className="font-label text-[#ffb4a8] text-[9px] sm:text-[10px] tracking-[0.4em] mb-8 uppercase flex items-center gap-3">
-                <span className="w-2 h-2 bg-[#ff5540] animate-pulse"></span>
-                La mejor manera de aprender es ejecutando.
-              </div>
-              <h1 className="text-[16vw] sm:text-[14vw] lg:text-[128px] font-headline font-black leading-[0.85] tracking-tighter uppercase mb-10 overflow-hidden">
-                BUILD <span className="text-[#ff5540]">OR</span> DIE
-              </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl text-[#ebbbb4] max-w-2xl font-light leading-relaxed">
-                Builders MTY es una comunidad iniciada por alumnos de UANL FCFM, con el objetivo de crear una red de talento, conocimiento y herramientas que impulsen el desarrollo de proyectos de estudiantes y profesionales.
-              </p>
-            </div>
-            <div className="flex flex-col gap-2 sm:gap-3 font-label text-[10px] text-[#ffb4a8]/40 uppercase text-left lg:text-right tracking-widest border-l-2 lg:border-l-0 lg:border-r-2 border-[#ff5540]/20 pl-6 lg:pl-0 lg:pr-6 mt-8 lg:mt-0">
-              <span>Lat: 25.675° N</span>
-              <span>Lon: -100.318° W</span>
-              <span>Elev: 540m</span>
-              <span>Temp: 32°C // OPTIMAL</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-[#603e39]/30 bg-[#1c1b1b]/50 backdrop-blur-sm">
-            {[
-              {
-                num: "01",
-                title: "EJECUTAR",
-                subtitle: "PROTOTIPADO RAPIDO",
-                desc: "Nuestra filosofía: Si no funciona, no existe. Fomentamos la creación de herramientas crudas que resuelvan problemas reales de la comunidad antes de siquiera hablar de ellas.",
-              },
-              {
-                num: "02",
-                title: "MOSTRAR",
-                subtitle: "LANZA TU SOFTWARE",
-                desc: "Si tu software funciona pero nadie lo usa, no existe. Queremos ser el spotlight para todos los repositorios de la comunidad.",
-              },
-              {
-                num: "03",
-                title: "ALIANZA",
-                subtitle: "COLABORA Y COFUNDA",
-                desc: "2 cabezas piensan mejor que una. Conecta con otros builders, encuentra cofundadores y lleva tus ideas al siguiente nivel.",
-              },
-            ].map((f, i) => (
-              <div
-                key={i}
-                className={`p-8 lg:p-10 ${i !== 2 ? "md:border-r border-[#603e39]/30 border-b md:border-b-0" : ""
-                  } hover:bg-[#ff5540]/5 transition-colors group`}
-              >
-                <span className="font-label text-[10px] text-[#ffb4a8] block mb-6 tracking-widest">
-                  {f.num} // {f.title}
-                </span>
-                <h3 className="font-label font-bold text-sm mb-4 uppercase tracking-[0.2em] text-[#ffb4a8] group-hover:text-[#ff5540] transition-colors">
-                  {f.subtitle}
-                </h3>
-                <p className="text-sm text-[#E5E2E1]/60 leading-relaxed max-w-full lg:max-w-[280px]">
-                  {f.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Core Mission Section */}
-        <section id="mission" className="bg-[#1c1b1b] border-y border-[#603e39]/20 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full bg-gradient-to-l from-[#ff5540]/5 to-transparent"></div>
-          <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row">
-            <div className="w-full lg:w-[450px] p-10 lg:p-20 border-b lg:border-b-0 lg:border-r border-[#603e39]/20 flex flex-col justify-between min-h-auto lg:min-h-[550px]">
-              <h2 className="text-5xl lg:text-7xl font-headline font-black tracking-tighter uppercase leading-[0.85] mb-12">
-                01
-                <br />
-                NUESTRA
-                <br />
-                MISIÓN
-              </h2>
-              <div className="space-y-4 lg:space-y-6 font-label text-[11px] text-[#ffb4a8] tracking-[0.2em]">
-                {["EL OPEN SOURCE VA PRIMERO"].map((tag) => (
-                  <div key={tag} className="flex items-center gap-4 group">
-                    <span className="w-3 h-[1px] bg-[#ff5540] group-hover:w-6 transition-all"></span>
-                    <span>{tag}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex-grow flex flex-col">
-              <div className="p-6 lg:p-12 border-b border-[#603e39]/10">
-                <div className="aspect-video lg:aspect-[21/9] w-full bg-[#201f1f] relative mb-8 lg:mb-12 overflow-hidden border border-[#603e39]/30">
-                  <Image
-                    className="w-full h-full object-cover grayscale brightness-75 contrast-125 hover:scale-105 transition-transform duration-700"
-                    alt="Builders MTY Demo"
-                    src="/pr1.png"
-                    width={1920}
-                    height={1080}
-                  />
-                  <div className="absolute top-0 left-0 w-full h-full bg-black/20"></div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24">
-                  <div>
-                    <h4 className="font-label font-bold text-lg uppercase mb-4 lg:mb-6 tracking-[0.2em] text-[#ff5540]">
-                      Building in Public
-                    </h4>
-                    <p className="text-[#ebbbb4] leading-relaxed text-base font-light">
-                      Creemos en el "Building in Public". Muestra tu codigo, muestra tus demos. Pide feedback y sigue iterando.
-                      Mostrar tu software al publico es la mejor manera de conseguir feedback, colaboradores y oportunidades.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-label font-bold text-lg uppercase mb-4 lg:mb-6 tracking-[0.2em] text-[#ff5540]">
-                      Go low-level
-                    </h4>
-                    <p className="text-[#ebbbb4] leading-relaxed text-base font-light">
-                      Todos saben importar librerias, invitamos a los builders a construir soluciones personalizadas, a traer cosas que no existen al mundo y a entender el software por debajo.
-                    </p>
-                  </div>
-                </div>
-              </div>
+      <main className="pt-20">
+        <section className="px-6 lg:px-10 py-24 lg:py-48 max-w-[1200px] mx-auto min-h-[90vh] flex flex-col justify-center relative">
+          {/* Dramatic red vertical accent */}
+          <div className="absolute left-0 top-[15%] bottom-[15%] w-1 hidden lg:block" style={{ background: "var(--red)" }} />
+          <div className="max-w-4xl lg:pl-10 animate-fade-up">
+            <p className="text-[13px] font-bold tracking-[0.3em] uppercase mb-8" style={{ color: "var(--red)" }}>
+              Monterrey, México
+            </p>
+            <h1
+              className="font-[family-name:var(--font-archivo-black)] uppercase leading-[0.85] tracking-tighter mb-10"
+              style={{ fontSize: "clamp(4rem, 14vw, 11rem)" }}
+            >
+              BUILD{" "}
+              <span style={{ color: "var(--red)" }}>OR</span>
+              <br />
+              DIE
+            </h1>
+            <p
+              className="text-lg lg:text-xl max-w-xl mb-14"
+              style={{ color: "var(--text-secondary)", lineHeight: "1.7" }}
+            >
+              Comunidad de builders en Monterrey.
+              Red de talento, herramientas y proyectos reales.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="https://discord.gg/RPqWgsN5H6">
+                <button
+                  className="text-white px-10 py-5 text-[13px] font-bold uppercase tracking-[0.25em] hover:scale-[1.02] transition-transform"
+                  style={{ background: "var(--red)" }}
+                >
+                  Unirse a Discord
+                </button>
+              </Link>
+              <Link href="https://github.com/Raulgooo/BuildersMTY">
+                <button
+                  className="px-10 py-5 text-[13px] font-bold uppercase tracking-[0.25em] hover:border-[var(--red)] transition-colors"
+                  style={{ border: "2px solid var(--border)", color: "var(--text-secondary)" }}
+                >
+                  Repositorio
+                </button>
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* Courses Flywheel Section */}
-        <section id="cursos" className="max-w-[1440px] mx-auto py-20 lg:py-32 border-x border-[#ffb4a8]/10 overflow-hidden">
-          <div className="px-6 max-w-3xl mb-16 lg:mb-20">
-            <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
-              <span className="w-6 h-[1px] bg-[#ff5540]"></span>
-              CURSOS_COMUNITARIOS
-            </div>
-            <h2 className="text-[12vw] sm:text-[10vw] lg:text-[80px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8]">
-              APRENDE<br /><span className="text-[#ff5540]">CONSTRUYENDO</span>
+        {/* ═══ Onboarding ═══ */}
+        <section id="onboarding" className="max-w-[1200px] mx-auto px-6 lg:px-10 py-24 lg:py-40">
+          <div className="max-w-3xl mb-16">
+            <p className="text-[12px] font-medium tracking-wide mb-6" style={{ color: "var(--red)" }}>
+              El Sistema de Ingreso
+            </p>
+            <h2
+              className="font-[family-name:var(--font-archivo-black)] uppercase tracking-tighter leading-[0.9] mb-8"
+              style={{ fontSize: "clamp(2rem, 6vw, 4rem)" }}
+            >
+              ¿Cómo<br /><span style={{ color: "var(--red)" }}>Funciona?</span>
             </h2>
-            <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed max-w-2xl">
-              Cursos gratuitos creados por la comunidad. Aprende las herramientas que los builders usan en producción.
+            <p className="text-base leading-relaxed max-w-2xl" style={{ color: "var(--text-secondary)" }}>
+              Al registrarte en Discord, nuestro sistema analiza tu trayectoria técnica para determinar
+              tu nivel y desbloquear los canales adecuados a tu experiencia.
             </p>
           </div>
 
-          {/* Flywheel — infinite horizontal scroll */}
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#131313] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#131313] to-transparent z-10 pointer-events-none" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger">
+            {[
+              { step: "01", title: "Sincronización de Identidad", desc: "Vinculas tu GitHub. El escaneo extensivo de tu impacto técnico comienza.", icon: "hub" },
+              { step: "02", title: "Escaneo Técnico", desc: "Análisis de repositorios, complejidad de código y consistencia.", icon: "troubleshoot" },
+              { step: "03", title: "Nivelación Algorítmica", desc: "Determinamos tu nivel de acceso basado en el impacto de tu trabajo.", icon: "psychology" },
+              { step: "04", title: "Acceso Segmentado", desc: "Canales y herramientas exclusivas según tu nivel técnico.", icon: "lock_open" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="p-6 lg:p-8 group hover:bg-[var(--surface-1)] transition-all relative overflow-hidden"
+                style={{ border: "1px solid var(--border-subtle)" }}
+              >
+                {/* Oversized step number */}
+                <span
+                  className="absolute -bottom-3 -right-1 font-[family-name:var(--font-archivo-black)] leading-none select-none pointer-events-none opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
+                  style={{ fontSize: "6rem" }}
+                >
+                  {item.step}
+                </span>
+                <div className="flex items-center gap-3 mb-5 relative z-10">
+                  <div className="w-10 h-10 flex items-center justify-center" style={{ background: "var(--surface-1)", border: "1px solid var(--border)" }}>
+                    <span className="material-symbols-outlined text-lg" style={{ color: "var(--red)" }}>{item.icon}</span>
+                  </div>
+                  <span className="text-[11px] font-bold tracking-[0.3em] uppercase" style={{ color: "var(--red)" }}>{item.step}</span>
+                </div>
+                <h4 className="text-base font-bold uppercase tracking-wide mb-2 relative z-10">{item.title}</h4>
+                <p className="text-base leading-relaxed relative z-10" style={{ color: "var(--text-tertiary)" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
 
-            <div className="flex gap-6 animate-flywheel hover:[animation-play-state:paused] w-max px-6">
+          {/* ── BuilderCard Preview ── */}
+          <div className="mt-20">
+            <p className="text-[11px] font-medium tracking-wider uppercase mb-6 text-center" style={{ color: "var(--text-ghost)" }}>
+              Así se ve tu perfil después del escaneo
+            </p>
+            <div className="max-w-xl mx-auto">
+              <div className="overflow-hidden" style={{ background: "var(--surface-0)", border: "2px solid var(--red-dim)", boxShadow: "0 0 24px oklch(50% 0.24 25 / 0.08)" }}>
+                {/* Top Bar */}
+                <div className="flex items-center justify-between px-5 py-2.5" style={{ background: "var(--surface-1)", borderBottom: "1px solid var(--red-dim)" }}>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: "var(--red)" }}>Elite Builder</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm" style={{ color: "var(--red)" }}>verified</span>
+                    <span className="text-[9px] tracking-wider uppercase" style={{ color: "var(--text-ghost)" }}>BuildersMTY</span>
+                  </div>
+                </div>
+                <div className="p-5 lg:p-6">
+                  {/* Identity */}
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="w-14 h-14 shrink-0 overflow-hidden flex items-center justify-center" style={{ border: "2px solid var(--red-dim)", background: "var(--surface-1)" }}>
+                      <Image src="/builderslogo2.svg" alt="Builder" width={32} height={32} className="opacity-60" />
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <h5 className="font-[family-name:var(--font-archivo-black)] text-lg uppercase tracking-tight leading-none">TuNombre</h5>
+                      <p className="text-[11px] mt-1" style={{ color: "var(--text-ghost)" }}>@tu-github</p>
+                    </div>
+                    {/* Score Ring */}
+                    <div className="relative w-16 h-16 shrink-0">
+                      <svg viewBox="0 0 96 96" className="w-full h-full -rotate-90">
+                        <circle cx="48" cy="48" r="38" fill="none" strokeWidth="3" stroke="var(--border-subtle)" />
+                        <circle cx="48" cy="48" r="38" fill="none" strokeWidth="3" stroke="var(--red)" strokeDasharray="238.76" strokeDashoffset="62.08" />
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="font-[family-name:var(--font-archivo-black)] text-lg leading-none">74</span>
+                        <span className="text-[7px]" style={{ color: "var(--text-ghost)" }}>/100</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Archetype */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-[9px] uppercase tracking-wider" style={{ color: "var(--text-ghost)" }}>Arquetipo</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 text-white" style={{ background: "var(--red)" }}>Full-Stack Operator</span>
+                  </div>
+                  {/* Summary */}
+                  <p className="text-sm mb-4" style={{ color: "var(--text-tertiary)", lineHeight: "1.6" }}>
+                    Builder con enfoque en infraestructura y desarrollo full-stack. Alta consistencia de contribuciones...
+                  </p>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {["TypeScript", "Go", "Python", "React"].map((t) => (
+                      <span key={t} className="text-[9px] px-2 py-0.5 uppercase tracking-wider" style={{ border: "1px solid var(--border)", color: "var(--text-ghost)" }}>{t}</span>
+                    ))}
+                  </div>
+                  {/* Stats */}
+                  <div className="flex flex-wrap gap-2">
+                    {[{i:"commit",v:"847",l:"Commits"},{i:"merge",v:"42",l:"PRs"},{i:"star",v:"126",l:"Stars"}].map((s) => (
+                      <div key={s.l} className="flex items-center gap-1.5 px-2.5 py-1.5" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+                        <span className="material-symbols-outlined text-xs" style={{ color: "var(--red)" }}>{s.i}</span>
+                        <span className="font-[family-name:var(--font-archivo-black)] text-xs">{s.v}</span>
+                        <span className="text-[8px] uppercase tracking-wider" style={{ color: "var(--text-ghost)" }}>{s.l}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Footer */}
+                <div className="px-5 py-2.5 flex items-center justify-between" style={{ background: "var(--surface-1)", borderTop: "1px solid var(--border-subtle)" }}>
+                  <span className="text-[8px] tracking-wider uppercase" style={{ color: "var(--text-ghost)" }}>Analysis Engine v1.0</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-1" style={{ color: "var(--red)" }}>
+                    GitHub <span className="material-symbols-outlined text-xs">open_in_new</span>
+                  </span>
+                </div>
+              </div>
+              <p className="text-center mt-4 text-[11px]" style={{ color: "var(--text-ghost)" }}>
+                Descargable como PNG. Compártelo en redes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+
+        {/* ═══ Hackathon ═══ */}
+        <section id="hackathon" className="py-24 lg:py-48 relative overflow-hidden" style={{ background: "var(--surface-1)", borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)" }}>
+          {/* Brutalist grid background noise */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: "linear-gradient(var(--text-ghost) 1px, transparent 1px), linear-gradient(90deg, var(--text-ghost) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+          
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
+              
+              <div className="lg:col-span-7">
+                <div className="mb-8 flex items-center gap-4">
+                  <div className="h-[1px] w-12" style={{ background: "var(--red)" }} />
+                  <p className="text-[12px] font-bold tracking-[0.3em] uppercase" style={{ color: "var(--red)" }}>
+                    Eventos Físicos
+                  </p>
+                </div>
+                
+                <h2 className="font-[family-name:var(--font-archivo-black)] uppercase tracking-tighter leading-[0.85] mb-10 group">
+                  <span className="block text-white" style={{ fontSize: "clamp(3.5rem, 8vw, 7rem)" }}>12 HORAS</span>
+                  <span className="block text-transparent" style={{ WebkitTextStroke: "2px var(--red)", fontSize: "clamp(3.5rem, 8vw, 7rem)" }}>
+                    1 GANADOR
+                  </span>
+                </h2>
+                
+                <p className="text-lg lg:text-xl leading-relaxed max-w-lg mb-12" style={{ color: "var(--text-secondary)" }}>
+                  Hackathons, Game Jams, y Hacks de Pentesting en Monterrey. Eventos cortos, intensos y presenciales. Aquí la ejecución cruda es tu única ventaja.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-4 max-w-md mb-12">
+                  <div className="p-4" style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-0)" }}>
+                    <span className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-ghost)" }}>Entrada</span>
+                    <span className="font-[family-name:var(--font-archivo-black)] text-xl">$110 MXN</span>
+                  </div>
+                  <div className="p-4" style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-0)" }}>
+                    <span className="block text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-ghost)" }}>Formatos</span>
+                    <span className="font-[family-name:var(--font-archivo-black)] text-xl">Solo / Squad</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-4 items-center">
+                  <Link href="/notify">
+                    <button className="text-white px-10 py-5 font-bold uppercase tracking-[0.2em] text-[12px] hover:scale-[1.02] transition-transform" style={{ background: "var(--red)" }}>
+                      Notifícame
+                    </button>
+                  </Link>
+                  <div className="flex gap-2">
+                    {["Game Jams", "Cyber"].map((tag) => (
+                      <span key={tag} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest" style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Terminal-inspired event log */}
+              <div className="lg:col-span-5 relative">
+                {/* Visual anchor point */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 pointer-events-none" style={{ borderTop: "2px solid var(--red)", borderLeft: "2px solid var(--red)" }} />
+                
+                <div className="p-8 lg:p-10" style={{ background: "var(--surface-0)", border: "1px solid var(--border-subtle)" }}>
+                  <div className="flex justify-between items-end mb-10 pb-4" style={{ borderBottom: "1px solid var(--border)" }}>
+                    <span className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "var(--text-primary)" }}>Radar de Eventos</span>
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "var(--red)" }}></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "var(--red)" }}></span>
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-0 relative">
+                    {/* Vertical connecting line */}
+                    <div className="absolute left-[3.5px] top-4 bottom-4 w-[1px]" style={{ background: "var(--border)" }} />
+                    
+                    {[
+                      { id: "MTYGPT", detail: "Agentes IA y observabilidad", date: "SOON", type: "HACKATHON" },
+                      { id: "WADSWASM", detail: "Rust & WASM Game Jam", date: "SOON", type: "GAME JAM" },
+                      { id: "PWN2DAY", detail: "Competencia Pentesting CTF", date: "SOON", type: "CYBER" },
+                    ].map((item, i) => (
+                      <div key={i} className="relative pl-6 py-5 group hover:bg-[var(--surface-1)] transition-colors cursor-crosshair">
+                        {/* Node timeline dot */}
+                        <div className="absolute left-[0px] top-[26px] w-2 h-2 rounded-full group-hover:bg-[var(--red)] transition-colors" style={{ background: "var(--border)" }} />
+                        
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <div className="flex items-center gap-3 mb-1">
+                              <span className="font-[family-name:var(--font-archivo-black)] text-xl tracking-tight group-hover:text-[var(--red)] transition-colors">{item.id}</span>
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-widest" style={{ color: "var(--text-ghost)", border: "1px solid var(--border-subtle)" }}>{item.type}</span>
+                            </div>
+                            <div className="text-[12px] tracking-wide" style={{ color: "var(--text-tertiary)" }}>
+                              {item.detail}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-[12px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-ghost)" }}>{item.date}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ Courses Flywheel ═══ */}
+        <section id="cursos" className="py-24 lg:py-40 overflow-hidden">
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-16">
+            <p className="text-[12px] font-medium tracking-wide mb-6" style={{ color: "var(--red)" }}>
+              Próximamente
+            </p>
+            <h2
+              className="font-[family-name:var(--font-archivo-black)] uppercase tracking-tighter leading-[0.9] mb-6"
+              style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
+            >
+              Build<span style={{ color: "var(--red)" }}>Mancer</span>
+            </h2>
+            <p className="text-lg max-w-xl" style={{ color: "var(--text-secondary)", lineHeight: "1.75" }}>
+              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador — sin dependencias, sin setup. Guías paso a paso para construir desde cero. Al terminar, el repositorio completo con historial de commits se sube a tu perfil de GitHub.
+            </p>
+          </div>
+
+          {/* Infinite scroll */}
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, var(--surface-0), transparent)" }} />
+            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, var(--surface-0), transparent)" }} />
+
+            <div className="flex gap-5 animate-flywheel hover:[animation-play-state:paused] w-max px-6">
               {[...Array(2)].flatMap((_, dupeIdx) =>
                 [
                   { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO", desc: "Construye un memory allocator desde cero. Entiende malloc, free y gestión de memoria a nivel de OS." },
@@ -168,617 +319,369 @@ export default function LandingPage() {
                   { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO", desc: "Construye un motor de almacenamiento persistente con B-trees, WAL y compactación." },
                   { icon: "lock", title: "Auth Service con Go", difficulty: "INTERMEDIO", desc: "Implementa un servicio de autenticación con JWT, OAuth, MFA y sesiones seguras." },
                 ].map((course, i) => (
-                  <Link
+                  <div
                     key={`${dupeIdx}-${i}`}
-                    href="/courses"
-                    className="flex-shrink-0 w-[320px] bg-[#1c1b1b]/50 border border-[#603e39]/20 p-6 hover:border-[#ff5540]/30 transition-all group"
+                    className="flex-shrink-0 w-[300px] p-6 cursor-default group transition-colors hover:bg-[var(--surface-1)]"
+                    style={{ border: "1px solid var(--border-subtle)" }}
                   >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-9 h-9 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:border-[#ff5540] transition-colors">
-                        <span className="material-symbols-outlined text-[#ff5540] text-lg">{course.icon}</span>
+                    <div className="flex items-center justify-between mb-5">
+                      <div
+                        className="w-9 h-9 flex items-center justify-center transition-colors"
+                        style={{ background: "var(--surface-2)", border: "1px solid var(--border)" }}
+                      >
+                        <span className="material-symbols-outlined text-lg" style={{ color: "var(--red)" }}>
+                          {course.icon}
+                        </span>
                       </div>
-                      <span className="text-[8px] font-black px-2 py-0.5 bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20 font-label tracking-widest">
-                        {course.difficulty}
+                      <span
+                        className="text-[9px] font-bold px-2 py-0.5 tracking-widest uppercase animate-pulse"
+                        style={{ color: "var(--text-ghost)", background: "var(--surface-2)", border: "1px solid var(--border)" }}
+                      >
+                        Próximamente
                       </span>
                     </div>
-                    <h3 className="font-headline font-bold text-sm uppercase tracking-tight text-white mb-2 group-hover:text-[#ff5540] transition-colors leading-tight">
+                    <h3 className="font-[family-name:var(--font-archivo-black)] text-[13px] uppercase tracking-tight mb-2 group-hover:text-[var(--red)] transition-colors">
                       {course.title}
                     </h3>
-                    <p className="text-xs text-[#E5E2E1]/40 leading-relaxed">
+                    <p className="text-[12px] leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
                       {course.desc}
                     </p>
-                  </Link>
+                  </div>
                 ))
               )}
             </div>
           </div>
 
-          <div className="mt-12 px-6 flex items-center justify-center gap-6">
+          <div className="mt-12 px-6 flex items-center justify-center gap-4">
             <Link href="/courses">
-              <button className="bg-[#ff5540] text-white px-8 py-4 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all">
+              <button
+                className="text-white px-8 py-4 text-[12px] font-bold uppercase tracking-widest hover:opacity-90 transition-opacity"
+                style={{ background: "var(--red)" }}
+              >
                 Ver todos los cursos
               </button>
             </Link>
             <Link href="https://discord.gg/RPqWgsN5H6">
-              <button className="border border-[#603e39]/30 text-[#E5E2E1]/60 px-8 py-4 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#ff5540]/40 hover:text-[#ff5540] transition-all">
+              <button
+                className="px-8 py-4 text-[12px] font-bold uppercase tracking-widest hover:text-[var(--red)] transition-colors"
+                style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}
+              >
                 Contribuir un curso
               </button>
             </Link>
           </div>
         </section>
 
-        {/* FindMyPal Section */}
-        <section id="findmypal" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-32 border-x border-[#ffb4a8]/10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <div className="font-label text-[#ffb4a8] text-[10px] tracking-[0.4em] mb-4 uppercase flex items-center gap-2">
-                <span className="w-4 h-[1px] bg-[#ff5540]"></span>
-                Directorio de Élite
+        <section id="opensource" className="py-24 lg:py-40" style={{ background: "var(--surface-0)", borderTop: "1px solid var(--border-subtle)" }}>
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-16">
+              <div className="max-w-2xl animate-fade-up">
+                <p className="text-[12px] font-bold tracking-[0.3em] uppercase mb-6" style={{ color: "var(--red)" }}>
+                  Construye en Público
+                </p>
+                <h2
+                  className="font-[family-name:var(--font-archivo-black)] uppercase tracking-tighter leading-[0.9] mb-6"
+                  style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+                >
+                  El Código<br /><span style={{ color: "var(--red)" }}>Es Ley</span>
+                </h2>
+                <p className="text-base lg:text-lg leading-relaxed mt-8" style={{ color: "var(--text-secondary)" }}>
+                  El software cerrado muere en la oscuridad. Construimos nuestra infraestructura, 
+                  lenguajes y plataformas a la vista de todos. Aporta o muere intentándolo.
+                </p>
               </div>
-              <h2 className="text-[12vw] sm:text-[10vw] lg:text-[90px] font-headline font-black tracking-tighter uppercase mb-6 leading-[0.8] transition-all hover:tracking-[-0.05em]">
-                BUILDERS<br /><span className="text-[#ff5540]">NETWORK</span>
-              </h2>
-              <div className="font-label text-[12px] text-[#ff5540] tracking-[0.2em] uppercase mb-10 block font-bold">
-                Vuelvete un Top Builder en MTY. Se indexado.
-              </div>
-              <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed max-w-xl">
-                Nuestra red indexa tu actividad real: repositorios, contribuciones y consistencia técnica.
-                Encuentra co-founders y colaboradores basados en ejecución. Si construyes valor, tu perfil hablará por ti.
-              </p>
-              <div className="space-y-10 lg:space-y-12 mt-12 lg:mt-16">
-                {[
-                  { icon: "sync_alt", title: "Sincroniza tu perfil de GitHub ", desc: "Análisis profundo de repositorios, stack tecnológico y consistencia de commits. Tu código es tu única referencia." },
-                  { icon: "military_tech", title: "Hackathons", desc: "Insignias de Veteran y Elite en hackathons de BuildersMTY." },
-                  { icon: "leaderboard", title: "Ranking ", desc: "Algoritmo que clasifica a los mejores builders" }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-6 lg:gap-8 group">
-                    <div className="shrink-0 w-12 lg:w-14 h-12 lg:h-14 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:border-[#ff5540] transition-colors">
-                      <span className="material-symbols-outlined text-[#ff5540] text-2xl lg:text-3xl transition-transform group-hover:scale-110">
-                        {item.icon}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="font-label font-bold text-sm uppercase tracking-[0.3em] mb-2 text-[#E5E2E1]">
-                        {item.title}
-                      </h4>
-                      <p className="text-sm text-[#E5E2E1]/50 leading-relaxed font-light">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {["Backend", "Sistemas", "Compiladores", "Auth", "AI"].map((tag) => (
+                  <span key={tag} className="text-[10px] font-bold tracking-wide px-3 py-1.5 uppercase" style={{ background: "var(--surface-1)", border: "1px solid var(--border)", color: "var(--text-tertiary)" }}>
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-7 space-y-8 lg:space-y-10">
-              <div className="font-label text-[10px] uppercase text-right opacity-30 tracking-[0.5em] mb-6">
-                Sample_Builder_Nodes
-              </div>
-
-              {/* Tier 1: Builder */}
-              <div className="bg-[#1c1b1b] border border-[#603e39]/20 p-6 lg:p-8 flex items-center gap-6 lg:gap-8 relative hover:border-[#603e39] transition-all group">
-                <div className="w-20 lg:w-24 h-20 lg:h-24 bg-[#201f1f] shrink-0 border border-[#603e39]/30 overflow-hidden">
-                  <Image
-                    alt="Builder Avatar"
-                    className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
-                    src="/image.png"
-                    width={96}
-                    height={96}
-                  />
-                </div>
-                <div className="flex-grow min-w-0">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="truncate">
-                      <h5 className="font-headline font-bold text-lg lg:text-xl uppercase tracking-widest truncate">
-                        PEDRO RAMSES
-                      </h5>
-                      <p className="font-label text-[9px] text-[#ffb4a8] tracking-widest mt-1">
-                        BUILDER
-                      </p>
-                    </div>
-                    <div className="hidden sm:flex gap-1.5 pt-1">
-                      {[20, 40, 10, 60].map((op, i) => (
-                        <div key={i} className="heatmap-cell bg-[#ff5540]" style={{ opacity: op / 100 }}></div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex gap-2 lg:gap-3 overflow-x-auto no-scrollbar">
-                    {["React", "Node.js"].map(tag => (
-                      <span key={tag} className="text-[9px] lg:text-[10px] font-label px-2 lg:px-3 py-1 border border-[#603e39]/30 uppercase text-[#E5E2E1]/50 tracking-widest whitespace-nowrap">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Tier 2: Verified */}
-              <div className="bg-[#1c1b1b] border border-[#ff5540]/30 p-6 lg:p-8 flex items-center gap-6 lg:gap-8 relative hover:bg-[#ff5540]/5 transition-all group">
-                <div className="w-20 lg:w-24 h-20 lg:h-24 bg-[#201f1f] shrink-0 border border-[#ff5540]/20 overflow-hidden">
-                  <Image
-                    alt="Verified Avatar"
-                    className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all"
-                    src="/dog2.png"
-                    width={96}
-                    height={96}
-                  />
-                </div>
-                <div className="flex-grow min-w-0">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="truncate">
-                      <h5 className="font-headline font-bold text-lg lg:text-xl uppercase tracking-widest truncate">
-                        VILETHIAGO
-                      </h5>
-                      <p className="font-label text-[9px] text-[#ffb4a8] tracking-widest mt-1">
-                        ELITE BUILDER
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-2 pt-1">
-                      <span className="material-symbols-outlined text-[#ff5540] text-lg">
-                        verified
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 lg:gap-3">
-                    <span className="text-[9px] lg:text-[10px] font-label px-2 lg:px-3 py-1 border border-[#ff5540]/40 text-[#ffb4a8] uppercase tracking-widest">
-                      HACKATHON 2X
-                    </span>
-                    {["Rust", "Solana"].map(tag => (
-                      <span key={tag} className="text-[9px] lg:text-[10px] font-label px-2 lg:px-3 py-1 border border-[#603e39]/30 uppercase text-[#E5E2E1]/50 tracking-widest">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Tier 3: Winner/Champion */}
-              <div className="bg-[#201f1f] border-2 glow-gold p-6 lg:p-10 flex flex-col sm:flex-row items-center gap-6 lg:gap-10 relative group lg:scale-[1.03] shadow-2xl">
-                <div className="absolute -top-4 right-4 sm:-right-4 bg-[#FFD700] text-black font-label text-[10px] lg:text-[11px] px-4 py-1.5 lg:px-5 lg:py-2 font-black uppercase tracking-[0.2em] shadow-xl">
-                  TOP 1%
-                </div>
-                <div className="w-24 lg:w-32 h-24 lg:h-32 bg-[#353534] shrink-0 border border-[#FFD700]/50 overflow-hidden shadow-[0_0_30px_rgba(255,215,0,0.15)] group-hover:shadow-[0_0_50px_rgba(255,215,0,0.3)] transition-all">
-                  <Image
-                    alt="Champion Avatar"
-                    className="w-full h-full object-cover contrast-150 brightness-110 group-hover:scale-110 transition-transform duration-500"
-                    src="/dog3.png"
-                    width={128}
-                    height={128}
-                  />
-                </div>
-                <div className="flex-grow w-full">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="truncate">
-                      <h5 className="font-headline font-black text-2xl lg:text-3xl uppercase tracking-tighter text-[#E5E2E1] truncate">
-                        ROLANDO OBREGÓN
-                      </h5>
-                      <p className="font-label text-[10px] lg:text-[12px] text-[#FFD700] font-bold tracking-[0.2em] mt-1">
-                        BUILDER LEGEND
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-3 pt-1">
-                      <span className="material-symbols-outlined text-[#FFD700] text-2xl lg:text-3xl fill-1 animate-pulse">
-                        workspace_premium
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 lg:gap-4">
-                    <span className="text-[9px] lg:text-[11px] font-label px-3 py-1 lg:px-4 lg:py-1.5 bg-[#FFD700] text-black font-black uppercase tracking-[0.1em]">
-                      CONTRIBUIDOR YC
-                    </span>
-                    <span className="text-[9px] lg:text-[11px] font-label px-3 py-1 lg:px-4 lg:py-1.5 border border-[#FFD700]/40 text-[#FFD700] uppercase tracking-[0.1em]">
-                      GANADOR HACKATHON
+            {/* Asymmetrical Impeccable Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* 1. Flagship: Runes Compiler (Spans 8 columns, visually dominant) */}
+              <a
+                href="https://github.com/raulgooo/runes-programming-language"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lg:col-span-8 p-8 lg:p-12 flex flex-col justify-between group hover:border-[var(--red)] transition-all relative overflow-hidden"
+                style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}
+              >
+                {/* Visual noise / accent */}
+                <div className="absolute right-0 top-0 bottom-0 w-1/3 pointer-events-none opacity-[0.03] group-hover:opacity-[0.08] transition-opacity" style={{ background: "repeating-linear-gradient(45deg, transparent, transparent 10px, var(--red) 10px, var(--red) 20px)" }} />
+                
+                <div>
+                  <div className="flex justify-between items-start mb-10 relative z-10">
+                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--red)" }}>Herramienta Experimental</span>
+                    <span
+                      className="text-[10px] font-bold px-3 py-1 uppercase tracking-widest"
+                      style={{ background: "var(--red)", color: "var(--surface-0)" }}
+                    >
+                      PRE-ALPHA
                     </span>
                   </div>
-                </div>
-              </div>
-              <Link href="/buildersnetwork">
-                <button className="w-full py-5 lg:py-6 mt-4 lg:mt-6 border border-[#ffb4a8]/20 hover:bg-[#ff5540]/5 font-headline font-bold uppercase tracking-[0.2em] lg:tracking-[0.4em] text-xs lg:text-sm transition-all flex items-center justify-center gap-4 group">
-                  UNETE Y MIRA EL DIRECTORIO
-                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
-                </button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Hackathon Section */}
-        <section id="hackathon" className="bg-[#ff5540] text-white py-20 lg:py-48 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="grid grid-cols-6 lg:grid-cols-12 h-full w-full">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="border-r border-black h-full"></div>
-              ))}
-            </div>
-          </div>
-          <div className="max-w-[1440px] mx-auto px-6 relative z-10">
-            <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-start">
-              <div className="lg:w-1/2">
-                <h2 className="text-[14vw] lg:text-[100px] font-headline font-black leading-none uppercase tracking-tighter mb-10 overflow-hidden">
-                  12 HORAS.<br />1 GANADOR.
-                </h2>
-                <div className="space-y-8 lg:space-y-10 mb-12 lg:mb-16">
-                  <p className="text-xl lg:text-3xl font-light max-w-xl leading-snug">
-                    Hackathons, Game Jams, y Hacks de Pentesting.
-                    Eventos cortos e intensos donde la ejecución es lo único que importa.
+                  <Image src="/runes_true.svg" alt="Runes Programming Language" width={160} height={60} className="mb-6 relative z-10 group-hover:scale-[1.02] transform origin-left transition-transform duration-500" />
+                  <h3 className="font-[family-name:var(--font-archivo-black)] text-3xl lg:text-5xl uppercase tracking-tighter mb-4 relative z-10 group-hover:scale-[1.02] transform origin-left transition-transform duration-500 hidden">
+                    Compilador<br/>Runes
+                  </h3>
+                  <p className="text-sm leading-relaxed mb-4 font-bold relative z-10" style={{ color: "var(--text-primary)" }}>
+                    La estrategia de memoria pertenece a la función, no a los datos.
                   </p>
-                  <div className="flex flex-col gap-4 lg:gap-6 font-label text-sm lg:text-base uppercase tracking-widest border-l-4 border-white/30 pl-6 lg:pl-10 py-2 lg:py-4">
-                    <div className="flex items-center gap-4 lg:gap-6">
-                      <span className="material-symbols-outlined text-2xl lg:text-3xl">pagos</span>
-                      <span className="font-black">Costo de entrada: $110 MXN</span>
-                    </div>
-                    <div className="flex items-center gap-4 lg:gap-6">
-                      <span className="material-symbols-outlined text-2xl lg:text-3xl">grupos</span>
-                      <span className="font-black">Modos: Solo / Duo / Squad</span>
+                  <p className="text-base leading-relaxed mb-6 max-w-2xl relative z-10" style={{ color: "var(--text-secondary)" }}>
+                    Un lenguaje a nivel de sistemas diseñado para escribir SOs, compiladores y tooling sin sacrificar expresividad. Tú eliges stack, arena, heap o GC en el callsite.
+                  </p>
+
+                  <div className="relative z-10 mb-10 w-full min-w-0 rounded-md overflow-hidden p-5 sm:p-6" style={{ background: "oklch(10% 0.005 25)", border: "1px solid var(--border-subtle)", boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)" }}>
+                    {/* Code body */}
+                    <div className="overflow-x-hidden text-[11px] sm:text-xs">
+                      <pre className="font-mono leading-[1.8] whitespace-pre-wrap w-full" style={{ color: "var(--text-secondary)", wordBreak: "break-word" }}>
+<span className="opacity-40">-- The memory strategy lives on the function</span>{"\n"}
+<span className="opacity-40">-- This one uses a bump-allocator arena</span>{"\n"}
+<span className="font-bold tracking-wide" style={{ color: "var(--red)" }}>regional</span> <span className="text-white">f</span> <span className="opacity-90 text-white">setup_paging</span>() {"{\n"}
+{"  "}<span className="text-white">PageTable</span> pml4 = <span className="text-white">PageTable</span>.new(){"\n"}
+{"  "}<span className="font-bold tracking-wide" style={{ color: "var(--red)" }}>try</span> pml4.map(0xFFFF800000000000, 0x0, 0x3){"\n"}
+{"}\n\n"}
+<span className="opacity-40">-- This one is GC-tracked</span>{"\n"}
+<span className="font-bold tracking-wide" style={{ color: "var(--red)" }}>gc</span> <span className="text-white">f</span> <span className="opacity-90 text-white">run_userspace</span>() {"{\n"}
+{"  "}<span className="text-white">Task</span> t = <span className="text-white">Task</span>.spawn(shell_main){"\n"}
+{"  "}scheduler.add(t){"\n"}
+{"}"}
+                      </pre>
                     </div>
                   </div>
+
+                  <p className="text-sm leading-relaxed mb-10 max-w-2xl relative z-10" style={{ color: "var(--text-tertiary)" }}>
+                    <strong style={{ color: "var(--text-ghost)" }}>Status:</strong> El compilador bootstrap (C) está completado hasta type checking. La generación de código es el próximo hito. Aún no listo para producción.
+                  </p>
                 </div>
-                <div className="flex flex-col gap-6 lg:gap-8 items-start">
-                  <div className="flex flex-wrap gap-2 lg:gap-4">
-                    {["HACKATHONS", "GAME JAMS", "PENTESTING", "Por lanzamiento, el premio en efectivo inicia en $2,000 MXN", "1 Registro = $100 MXN mas en la bolsa", "Impuesto de $10 MXN por registro"].map(tag => (
-                      <span key={tag} className="px-4 py-1.5 bg-[#131313] text-[#ffb4a8] text-[10px] font-label font-bold uppercase tracking-[0.2em]">
-                        {tag}
+                <div className="space-y-6 relative z-10">
+                  <div className="flex flex-wrap gap-2">
+                    {["C", "LLVM", "Runes"].map((s) => (
+                      <span key={s} className="text-[11px] font-medium tracking-wider px-3 py-1 uppercase" style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}>
+                        {s}
                       </span>
                     ))}
                   </div>
-                  <Link href="/notify" className="w-full sm:w-auto">
-                    <button className="bg-[#131313] text-white px-8 lg:px-10 py-5 lg:py-6 font-headline font-bold text-xs lg:text-sm uppercase tracking-[0.2em] lg:tracking-[0.3em] border border-transparent hover:border-[#ffb4a8] transition-all duration-300 active:scale-95 shadow-2xl w-full">
-                      Notificame para el primer evento!
-                    </button>
-                  </Link>
-                </div>
-              </div>
-              <div className="lg:w-1/2 bg-[#131313] p-8 lg:p-20 self-stretch border-l-[12px] lg:border-l-[16px] border-[#ff5540] shadow-2xl">
-                <div className="font-label text-xs lg:text-sm mb-10 lg:mb-12 text-[#ffb4a8] flex items-center gap-4 uppercase tracking-[0.3em] lg:tracking-[0.5em]">
-                  <span className="block-cursor h-4"></span>
-                  Próximos Eventos
-                </div>
-                <ul className="space-y-8 lg:space-y-10">
-                  {[
-                    { id: "mtygpt", detail: "Agentes y observabilidad.", date: "Soon", loc: "MTY / REMOTO" },
-                    { id: "wadswasm", detail: "WASM Game Jam", date: "Soon", loc: "MTY / REMOTO" },
-                    { id: "pwn2day", detail: "Competencia de Pentesting.", date: "Soon", loc: "MTY / REMOTO" }
-                  ].map((item, i) => (
-                    <li key={i} className="flex justify-between items-center border-b border-[#603e39]/20 pb-6 lg:pb-8 opacity-40">
-                      <div>
-                        <div className="font-headline font-bold text-xl lg:text-2xl uppercase tracking-tighter mb-1">
-                          {item.id}
-                        </div>
-                        <div className="text-[9px] lg:text-[11px] text-[#ffb4a8] font-label tracking-widest uppercase">
-                          {item.detail}
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-xl lg:text-2xl text-[#ff5540]">{item.date}</div>
-                        <div className="text-[9px] opacity-40 uppercase tracking-widest mt-1 font-label">
-                          {item.loc}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Onboarding Section */}
-        <section id="onboarding" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 border-x border-[#ffb4a8]/10 bg-[#131313] relative overflow-hidden">
-          {/* Background Decorative Element */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#ff5540]/5 to-transparent pointer-events-none"></div>
-
-          <div className="relative z-10 flex flex-col gap-16 lg:gap-24">
-            <div className="max-w-4xl">
-              <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
-                <span className="w-6 h-[1px] bg-[#ff5540]"></span>
-                EL_SISTEMA_DE_INGRESO
-              </div>
-              <h2 className="text-[12vw] sm:text-[10vw] lg:text-[86px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8] mb-10 text-white">
-                ONBOARDING:<br /><span className="text-[#ff5540]">¿CÓMO FUNCIONA?</span>
-              </h2>
-              <p className="text-xl lg:text-3xl text-[#ebbbb4] font-light leading-relaxed max-w-3xl">
-                Al registrarte en Discord, nuestro sistema analiza tu trayectoria técnica para determinar tu nivel y desbloquear los canales adecuados a tu experiencia.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-              {/* Left Side: Steps (lg:col-span-5) */}
-              <div className="lg:col-span-5 space-y-4">
-                {[
-                  {
-                    step: "01",
-                    title: "Sincronización de Identidad",
-                    desc: "Al entrar, vinculas tu GitHub. No es solo un login; es el inicio del escaneo extensivo de tu impacto técnico.",
-                    icon: "hub"
-                  },
-                  {
-                    step: "02",
-                    title: "Escaneo Técnico",
-                    desc: "Análisis de repositorios, complejidad de código y consistencia. Reconocemos tu stack y perfil real.",
-                    icon: "troubleshoot"
-                  },
-                  {
-                    step: "03",
-                    title: "Nivelación Algorítmica",
-                    desc: "Determinamos tu nivel de acceso basado en el impacto y la consistencia de tu trabajo previo.",
-                    icon: "psychology"
-                  },
-                  {
-                    step: "04",
-                    title: "Acceso Segmentado",
-                    desc: "Seccionamos canales VIP y herramientas exclusivas según tu nivel técnico. Calidad garantizada.",
-                    icon: "lock_open"
-                  }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-6 p-6 border border-[#603e39]/20 hover:border-[#ff5540]/40 hover:bg-[#ff5540]/5 transition-all group">
-                    <div className="shrink-0 w-12 h-12 bg-[#201f1f] flex items-center justify-center border border-[#603e39]/30 group-hover:bg-[#ff5540] group-hover:border-[#ff5540] transition-all">
-                      <span className="font-headline font-black text-lg text-[#ff5540] group-hover:text-white transition-colors">{item.step}</span>
-                    </div>
-                    <div className="flex-grow">
-                      <div className="flex items-center gap-3 mb-1">
-                        <span className="material-symbols-outlined text-[#ff5540] text-lg">{item.icon}</span>
-                        <h4 className="font-label font-bold text-xs lg:text-sm uppercase tracking-[0.2em] text-white">{item.title}</h4>
-                      </div>
-                      <p className="text-xs lg:text-sm text-[#E5E2E1]/50 leading-relaxed font-light">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Right Side: Discord Premium Mockup (lg:col-span-7) */}
-              <div className="lg:col-span-7 relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-[#ff5540]/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
-
-                {/* Discord UI Mockup Shell */}
-                <div className="relative bg-[#1e1f22] rounded-xl overflow-hidden shadow-2xl border border-white/5 aspect-[16/10] flex flex-col scale-[1.02] hover:scale-[1.03] transition-transform duration-500">
-                  {/* Top Bar */}
-                  <div className="h-12 border-b border-black/20 bg-[#1e1f22] flex items-center px-4 justify-between">
+                  <div className="flex justify-between items-center pt-6" style={{ borderTop: "1px solid var(--border-subtle)" }}>
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[#949ba4] text-lg">tag</span>
-                      <span className="font-bold text-[#f2f3f5] text-sm uppercase tracking-wider font-label">hall-of-builders</span>
+                      <span className="material-symbols-outlined text-sm" style={{ color: "var(--red)" }}>warning</span>
+                      <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: "var(--red)" }}>Diff: EXTREMO</span>
                     </div>
-                    <div className="flex items-center gap-4 text-[#b5bac1]">
-                      <span className="material-symbols-outlined text-xl">notifications</span>
-                      <span className="material-symbols-outlined text-xl">push_pin</span>
-                      <span className="material-symbols-outlined text-xl">group</span>
-                    </div>
-                  </div>
-
-                  {/* Body */}
-                  <div className="flex-grow flex overflow-hidden">
-                    {/* Sidebar Channels */}
-                    <div className="w-56 bg-[#2b2d31] hidden sm:flex flex-col p-3 gap-2 overflow-hidden shrink-0">
-                      <div className="h-6 w-3/4 bg-[#ff5540]/20 rounded mb-4 animate-pulse"></div>
-                      {[
-                        { icon: "tag", label: "GENERAL" },
-                        { icon: "tag", label: "RESOURCES" },
-                        { icon: "lock", label: "BUILDERS-ONLY", premium: true },
-                        { icon: "lock", label: "CORE-TEAM", premium: true },
-                        { icon: "rocket_launch", label: "HACKATHONS" }
-                      ].map((ch, i) => (
-                        <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md ${ch.premium ? "text-[#ff5540]/60" : "text-[#949ba4]"} group/ch cursor-default`}>
-                          <span className="material-symbols-outlined text-lg">{ch.icon}</span>
-                          <span className="text-[11px] font-bold uppercase tracking-widest">{ch.label}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Chat Area */}
-                    <div className="flex-grow bg-[#313338] p-6 flex flex-col justify-end gap-6 relative">
-                      {/* Decorative Mock Messages */}
-                      <div className="space-y-6">
-                        <div className="flex gap-4 items-start opacity-40">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-800 shrink-0"></div>
-                          <div className="space-y-2 w-full">
-                            <div className="h-3 w-1/4 bg-gray-700 rounded"></div>
-                            <div className="h-3 w-3/4 bg-gray-700 rounded"></div>
-                          </div>
-                        </div>
-
-                        {/* Analysis Trigger Message */}
-                        <div className="p-6 bg-[#ff5540]/10 border border-[#ff5540]/30 rounded-lg relative overflow-hidden backdrop-blur-md">
-                          <div className="flex gap-4 items-center mb-4">
-                            <div className="w-12 h-12 bg-[#ff5540] flex items-center justify-center rounded-xl shadow-[0_0_20px_rgba(255,85,64,0.4)]">
-                              <span className="material-symbols-outlined text-white text-2xl">terminal</span>
-                            </div>
-                            <div>
-                              <div className="font-bold text-white text-sm font-label uppercase tracking-widest">System Analysis</div>
-                              <div className="text-[10px] text-[#ff5540] font-black uppercase tracking-[0.2em]">Authenticating Github...</div>
-                            </div>
-                          </div>
-                          <div className="space-y-2 font-mono text-[10px] text-[#ffb4a8]/80 leading-tight">
-                            <div>{">"} SCANNING_REPOS: 42_FOUND</div>
-                            <div>{">"} ANALYZING_COMPLEXITY: SUCCESS</div>
-                            <div>{">"} LEVEL_DETERMINED: [ ELITE_BUILDER ]</div>
-                          </div>
-                          <div className="absolute -right-8 -bottom-8 opacity-10">
-                            <img src="/gopher.svg" alt="" className="w-32 rotate-12 grayscale invert" />
-                          </div>
-                        </div>
-
-                        <div className="flex gap-4 items-start pb-4">
-                          <div className="w-10 h-10 rounded-full bg-[#ff5540] flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-white text-xl">robot_2</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="font-bold text-white text-sm">Builders Assistant <span className="bg-[#5865f2] text-[10px] px-1.5 py-0.5 rounded ml-1">BOT</span></div>
-                            <p className="text-[#dbdee1] text-sm leading-relaxed">
-                              ¡Bienvenido! He analizado tu perfil. Tienes acceso a <span className="text-[#ff5540] font-bold">#builders-only</span> y <span className="text-[#ff5540] font-bold">#elite-devs</span>.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Input Bar Placeholder */}
-                      <div className="bg-[#383a40] h-10 rounded-lg flex items-center px-4 gap-4">
-                        <span className="material-symbols-outlined text-[#b5bac1]">add_circle</span>
-                        <div className="text-[11px] text-[#949ba4] font-label uppercase tracking-widest">Escribir en #hall-of-builders</div>
-                        <div className="flex-grow"></div>
-                        <span className="material-symbols-outlined text-[#b5bac1]">redeem</span>
-                        <span className="material-symbols-outlined text-[#b5bac1]">gif</span>
-                        <span className="material-symbols-outlined text-[#b5bac1]">sentiment_satisfied</span>
-                      </div>
-                    </div>
+                    <span className="text-[11px] font-bold tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2" style={{ color: "var(--red)" }}>
+                      Ver Source <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </span>
                   </div>
                 </div>
+              </a>
 
-                {/* Floating Badge (Extra Premium Detail) */}
+              {/* 2. Shark Auth (Spans 4 columns, tall) */}
+              <a
+                href="https://github.com/shark-auth/shark"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lg:col-span-4 p-8 lg:p-10 flex flex-col justify-between group hover:bg-[var(--surface-2)] transition-colors"
+                style={{ background: "oklch(13% 0.008 25)", border: "1px solid var(--border-subtle)" }}
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-10">
+                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-ghost)" }}>Auth Server</span>
+                  </div>
+                  <Image src="/shark_blackbg_whitelogo_text_logo.svg" alt="Shark Auth" width={140} height={50} className="mb-6 opacity-90 group-hover:opacity-100 transition-opacity" />
+                  <p className="text-sm leading-relaxed mb-4 font-bold" style={{ color: "var(--text-primary)" }}>
+                    Auth ya no es solo para humanos.
+                  </p>
+                  <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--text-secondary)" }}>
+                    La capa de identidad común para la era Agentic. Gestiona humanos (MFA, SSO, AUTHn) y Agentes de IA como ciudadanos de primera clase bajo el mismo binario.
+                  </p>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex flex-wrap gap-2">
+                    {["Go", "Agent Auth", "SSO"].map((s) => (
+                      <span key={s} className="text-[10px] tracking-wider px-2.5 py-1.5 uppercase" style={{ background: "var(--surface-0)", color: "var(--text-secondary)" }}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="pt-6" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+                    <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "var(--text-secondary)" }}>Status: ACTIVE</span>
+                  </div>
+                </div>
+              </a>
 
-              </div>
+              {/* 3. Infra (Spans 12 columns, horizontal banner) */}
+              <a
+                href="https://github.com/raulgooo/BuildersMTY"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lg:col-span-12 p-8 lg:p-10 flex flex-col md:flex-row items-stretch md:items-center justify-between group hover:border-[var(--text-ghost)] transition-colors gap-8"
+                style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}
+              >
+                <div className="max-w-2xl">
+                  <div className="flex items-center gap-4 mb-4">
+                    <Image src="/builderslogo2.svg" alt="BuildersMTY" width={32} height={32} className="opacity-70 group-hover:opacity-100 transition-opacity object-contain" />
+                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-primary)" }}>Builders Infra</span>
+                  </div>
+                  <p className="text-sm leading-relaxed mb-4 font-bold" style={{ color: "var(--text-primary)" }}>
+                    El motor de la red.
+                  </p>
+                  <p className="text-sm lg:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    Plataforma full-stack conectada al algoritmo de ranking, Discord, y el scanner de GitHub.
+                  </p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end lg:items-center gap-6 shrink-0">
+                  <div className="flex flex-col items-end gap-3">
+                    <div className="flex flex-wrap lg:flex-nowrap gap-2 justify-end mb-2">
+                      {["Next.js", "Python", "GraphQL", "Supabase"].map((s) => (
+                        <span key={s} className="text-[10px] tracking-wider px-3 py-1.5 uppercase" style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}>
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "var(--text-secondary)" }}>Status: ACTIVE</span>
+                  </div>
+                  <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full group-hover:bg-[var(--red)] group-hover:text-white transition-all transform group-hover:translate-x-2" style={{ border: "1px solid var(--border)" }}>
+                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </section>
 
-        {/* Proyectos Open Source Section */}
-        <section id="opensource" className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 border-x border-[#ffb4a8]/10 bg-[#0E0E0E] relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none">
-            <div className="grid grid-cols-20 h-full w-full">
-              {Array.from({ length: 40 }).map((_, i) => (
-                <div key={i} className="border-r border-white h-full"></div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative z-10">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-20 lg:mb-24">
-              <div className="max-w-3xl">
-                <div className="font-label text-[#ff5540] text-[10px] sm:text-[11px] tracking-[0.4em] mb-6 uppercase flex items-center gap-3 font-bold">
-                  <span className="w-8 h-[2px] bg-[#ff5540]"></span>
-                  CÓDIGO_ABIERTO_REAL
-                </div>
-                <h2 className="text-[12vw] sm:text-[10vw] lg:text-[80px] font-headline font-black tracking-tighter uppercase mb-8 leading-[0.8] text-white">
-                  PROYECTOS<br /><span className="text-[#ff5540]">OPEN SOURCE</span>
-                </h2>
-                <p className="text-xl lg:text-2xl text-[#ebbbb4] font-light leading-relaxed max-w-2xl">
-                  ¿Quieres ganar experiencia real? Únete al equipo de BuildersMTY y colabora en herramientas que la comunidad usa a diario. Sin burocracia, solo código con impacto.
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 border-l-2 border-[#ff5540]/20 pl-8 py-2">
-                <div className="font-label text-xs uppercase tracking-[0.2em] text-[#ffb4a8]">Áreas de Contribución:</div>
-                <div className="flex flex-wrap gap-3">
-                  {["BACKEND", "FRONTEND", "DEVOPS", "SECURITY", "AI_AGENTS"].map(tag => (
-                    <span key={tag} className="text-[10px] font-bold tracking-widest text-white/40 border border-white/10 px-3 py-1 bg-white/5">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  id: "Herramientas Internas",
-                  title: "BuildersMTY Infra",
-                  status: "ACTIVE",
-                  desc: "El motor de infraestructura para la red BuildersMTY: landing, Builders Network, integraciones de Discord/Github, Pasarela de pagos.",
-                  stack: ["Nextjs", "PostgreSQL/Supabase", "Python/FastAPI", "GraphQL"],
-                  level: "MEDIO",
-                  githubUrl: "https://github.com/raulgooo/BuildersMTY"
-                },
-                {
-                  id: "Herramienta Experimental",
-                  title: "Compilador Runes",
-                  status: "PRE-ALPHA",
-                  desc: "Compilador para el lenguaje de programación Runes. Runes es un lenguaje de programación de sistemas que utiliza un sistema de memory realms para el manejo de la memoria.",
-                  stack: ["C", "LLVM", "Runes"],
-                  level: "EXTREMO",
-                  githubUrl: "https://github.com/raulgooo/runes-programming-language"
-                },
-                {
-                  id: "Auth Server",
-                  title: "Shark",
-                  logo: "/shark_blackbg_whitelogo_text_logo.svg",
-                  status: "PLANEACION: Unete para formar parte del Core-Team.",
-                  desc: "Servidor de autenticación open-source en un solo binario: passkeys, MFA, SSO, RBAC. Self-host en 3 minutos.",
-                  stack: ["Golang", "Typescript", "SQLite"],
-                  level: "DIFICIL",
-                  githubUrl: "https://github.com/raulgooo/shark"
-                }
-              ].map((project, i) => (
-                <div key={i} className="bg-[#1c1b1b]/50 border border-[#603e39]/20 p-8 hover:border-[#ff5540]/50 transition-all duration-500 group relative flex flex-col justify-between group h-full">
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-symbols-outlined text-[#ff5540] text-sm">open_in_new</span>
-                  </a>
-                  <div>
-                    <div className="flex justify-between items-center mb-6">
-                      <span className="font-mono text-[10px] text-[#ffb4a8] tracking-[0.3em] uppercase">{project.id}</span>
-                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-sm ${project.status === "ACTIVE" ? "bg-green-500/10 text-green-500 border border-green-500/20" :
-                        project.status === "BETA" ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" :
-                          "bg-[#ff5540]/10 text-[#ff5540] border border-[#ff5540]/20"
-                        }`}>{project.status}</span>
-                    </div>
-                    {project.logo && (
-                      <Image src={project.logo} alt={project.title} width={100} height={40} className="mb-4" />
-                    )}
-                    <h3 className="font-headline font-bold text-2xl uppercase tracking-tight text-white mb-4 group-hover:text-[#ff5540] transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-[#E5E2E1]/60 leading-relaxed mb-8">
-                      {project.desc}
-                    </p>
-                  </div>
-                  <div className="space-y-6">
-                    <div className="flex flex-wrap gap-2">
-                      {project.stack.map(s => (
-                        <span key={s} className="text-[9px] font-label border border-[#603e39]/30 px-2 py-1 text-[#E5E2E1]/40 uppercase tracking-widest">{s}</span>
-                      ))}
-                    </div>
-                    <div className="pt-6 border-t border-[#603e39]/10 flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff5540] animate-pulse"></span>
-                        <span className="font-label text-[10px] text-[#ffb4a8] tracking-widest uppercase font-bold">Diff: {project.level}</span>
-                      </div>
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="font-label text-[10px] text-white/50 uppercase tracking-[0.2em] hover:text-[#ff5540] transition-all flex items-center gap-2">
-                        README <span className="material-symbols-outlined text-xs">arrow_forward</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              {/* Recruitment Card */}
-              <div className="bg-[#ff5540] border border-[#ff5540] p-8 flex flex-col justify-center items-center text-center gap-6 group hover:brightness-110 transition-all cursor-pointer">
-                <div className="w-16 h-16 bg-[#131313] flex items-center justify-center rounded-full mb-2">
-                  <span className="material-symbols-outlined text-[#ff5540] text-3xl animate-bounce">add_box</span>
-                </div>
-                <h3 className="font-headline font-black text-2xl uppercase tracking-tighter text-white">
-                  ¿TIENES UNA IDEA?<br />PITCH IT HERE.
+        {/* ═══ Pillars ═══ */}
+        <section className="max-w-[1200px] mx-auto px-6 lg:px-10 pb-32 lg:pb-48">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 stagger" style={{ border: "1px solid var(--border-subtle)" }}>
+            {[
+              {
+                num: "01",
+                title: "Ejecutar",
+                desc: "Si no funciona, no existe. Herramientas crudas que resuelvan problemas reales antes de hablar de ellas.",
+              },
+              {
+                num: "02",
+                title: "Mostrar",
+                desc: "Si tu software funciona pero nadie lo usa, no existe. Somos el spotlight para los repos de la comunidad.",
+              },
+              {
+                num: "03",
+                title: "Alianza",
+                desc: "Conecta con otros builders, encuentra cofundadores y lleva tus ideas al siguiente nivel.",
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className={`p-8 lg:p-12 group hover:bg-[var(--surface-1)] transition-all relative overflow-hidden ${
+                  i !== 2 ? "md:border-r border-b md:border-b-0" : ""
+                }`}
+                style={{ borderColor: "var(--border-subtle)" }}
+              >
+                {/* Dramatic oversized number */}
+                <span
+                  className="absolute -top-4 -right-2 font-[family-name:var(--font-archivo-black)] leading-none select-none pointer-events-none opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
+                  style={{ fontSize: "8rem" }}
+                >
+                  {f.num}
+                </span>
+                <span
+                  className="block text-[11px] font-bold tracking-[0.3em] uppercase mb-8 relative z-10"
+                  style={{ color: "var(--red)" }}
+                >
+                  {f.num}
+                </span>
+                <h3
+                  className="font-[family-name:var(--font-archivo-black)] text-2xl uppercase tracking-tight mb-4 relative z-10 group-hover:text-[var(--red)] transition-colors"
+                >
+                  {f.title}
                 </h3>
-                <p className="text-white/80 text-sm font-light leading-snug">
-                  Buscamos fundadores y mantenedores para nuevos proyectos. El equipo te apoya con recursos y red.
+                <p className="text-base leading-relaxed max-w-[300px] relative z-10" style={{ color: "var(--text-tertiary)" }}>
+                  {f.desc}
                 </p>
-                <div className="w-full h-[1px] bg-white/30 my-2"></div>
-                <div className="font-label text-[10px] font-black uppercase tracking-[0.3em] text-white">ÚNETE AL EQUIPO CORE</div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ Mission ═══ */}
+        <section id="mission" className="overflow-hidden" style={{ background: "var(--surface-0)", borderTop: "1px solid var(--border-subtle)", borderBottom: "1px solid var(--border-subtle)" }}>
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-24 lg:py-48">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+              
+              {/* Massive Typographic Anchor */}
+              <div className="lg:col-span-12 mb-4 lg:mb-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-[1px] w-12" style={{ background: "var(--red)" }} />
+                  <p className="text-[12px] font-bold tracking-[0.3em] uppercase" style={{ color: "var(--red)" }}>
+                    La Filosofía
+                  </p>
+                </div>
+                
+                <h2 className="font-[family-name:var(--font-archivo-black)] uppercase tracking-tighter leading-[0.85] text-transparent select-none" style={{ fontSize: "clamp(3.5rem, 11vw, 10rem)", WebkitTextStroke: "1px var(--text-ghost)" }}>
+                  OPEN SOURCE <br />
+                  <span style={{ color: "var(--text-primary)", WebkitTextStroke: "0px" }}>VA PRIMERO</span>
+                </h2>
+              </div>
+
+              {/* Aggressive Grid Columns */}
+              <div className="lg:col-span-6 p-8 lg:p-12 hover:bg-[var(--surface-1)] transition-colors group" style={{ borderTop: "2px solid var(--red)" }}>
+                <div className="flex justify-between items-start mb-10">
+                  <span className="text-[12px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-ghost)" }}>Punto Uno</span>
+                  <span className="material-symbols-outlined text-xl" style={{ color: "var(--red)" }}>public</span>
+                </div>
+                <h3 className="font-[family-name:var(--font-archivo-black)] text-3xl lg:text-4xl uppercase tracking-tight mb-8 group-hover:text-[var(--red)] transition-colors">
+                  Build In<br/>Public
+                </h3>
+                <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  El software hermético es irrelevante. Muestra tu código crudo, haz demos públicas y enfrenta el escrutinio de la red. Mostrar software compilando es la única moneda de cambio válida hoy en día para atraer talento y capital.
+                </p>
+              </div>
+
+              <div className="lg:col-span-6 p-8 lg:p-12 hover:bg-[var(--surface-1)] transition-colors group" style={{ borderTop: "2px solid var(--border)" }}>
+                <div className="flex justify-between items-start mb-10">
+                  <span className="text-[12px] font-bold tracking-[0.2em] uppercase" style={{ color: "var(--text-ghost)" }}>Punto Dos</span>
+                  <span className="material-symbols-outlined text-xl group-hover:text-[var(--text-primary)] transition-colors" style={{ color: "var(--border)" }}>terminal</span>
+                </div>
+                <h3 className="font-[family-name:var(--font-archivo-black)] text-3xl lg:text-4xl uppercase tracking-tight mb-8 group-hover:text-[var(--text-primary)] transition-colors" style={{ color: "var(--text-ghost)" }}>
+                  Go Low,<br/>Go Hard
+                </h3>
+                <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  Cualquiera sabe hacer un `npm install`. Exigimos que los builders desciendan a la infraestructura: crea tus sistemas, diseña arquitecturas, entiende de memoria y empuja el metal al límite.
+                </p>
+              </div>
+
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="max-w-[1440px] mx-auto px-6 py-20 lg:py-48 text-center border-x border-[#ffb4a8]/10">
-          <div className="bg-[#1c1b1b] p-8 lg:p-32 border border-[#ff5540]/10 relative group overflow-hidden">
-            {/* Corner Brackets */}
-            <div className="absolute top-0 left-0 w-12 h-12 lg:w-20 lg:h-20 border-t-4 border-l-4 border-[#ff5540] transition-all group-hover:w-full group-hover:h-full group-hover:opacity-10"></div>
-            <div className="absolute top-0 right-0 w-12 h-12 lg:w-20 lg:h-20 border-t-4 border-r-4 border-[#ff5540] transition-all"></div>
-            <div className="absolute bottom-0 left-0 w-12 h-12 lg:w-20 lg:h-20 border-b-4 border-l-4 border-[#ff5540] transition-all"></div>
-            <div className="absolute bottom-0 right-0 w-12 h-12 lg:w-20 lg:h-20 border-b-4 border-r-4 border-[#ff5540] transition-all"></div>
-
-            <h2 className="text-[12vw] lg:text-[90px] font-headline font-black tracking-tighter uppercase mb-8 lg:mb-10 leading-none relative z-10 overflow-hidden">
-              LA RED ES<br /><span className="text-[#ff5540]">TODO</span>
+        {/* ═══ Final CTA — Full-bleed red ═══ */}
+        <section className="relative overflow-hidden" style={{ background: "var(--red)" }}>
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-24 lg:py-40 text-center relative z-10">
+            <h2
+              className="font-[family-name:var(--font-archivo-black)] text-white uppercase tracking-tighter leading-[0.85] mb-8"
+              style={{ fontSize: "clamp(3.5rem, 12vw, 8rem)" }}
+            >
+              La Red Es<br />Todo
             </h2>
-            <p className="text-[#ebbbb4] text-lg lg:text-2xl max-w-2xl mx-auto mb-12 lg:mb-16 font-light leading-relaxed relative z-10">
-              Accede a canales privados, con builders serios y de nivel.
+            <p className="text-lg lg:text-xl max-w-xl mx-auto mb-14 text-white/80" style={{ lineHeight: "1.7" }}>
+              Accede a canales privados con builders serios y de nivel.
               Asegura tu lugar en la próxima competencia.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 lg:gap-10 relative z-10">
-              <Link href="https://discord.gg/RPqWgsN5H6" className="w-full sm:w-auto">
-                <button className="w-full bg-[#ff5540] text-white px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:brightness-110 active:scale-95 transition-all shadow-2xl">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="https://discord.gg/RPqWgsN5H6">
+                <button
+                  className="px-12 py-5 font-bold text-base uppercase tracking-[0.25em] hover:scale-[1.02] transition-transform"
+                  style={{ background: "var(--surface-0)", color: "white" }}
+                >
                   Unirse a Discord
                 </button>
               </Link>
-              <Link href="https://github.com/Raulgooo/BuildersMTY" className="w-full sm:w-auto">
-                <button className="w-full border border-[#603e39] text-[#E5E2E1] px-10 lg:px-16 py-5 lg:py-6 font-headline font-bold text-base lg:text-lg uppercase tracking-[0.2em] lg:tracking-[0.3em] hover:bg-white/5 active:scale-95 transition-all">
+              <Link href="https://github.com/Raulgooo/BuildersMTY">
+                <button
+                  className="px-12 py-5 font-bold text-base uppercase tracking-[0.25em] hover:bg-white/10 transition-colors text-white"
+                  style={{ border: "2px solid white" }}
+                >
                   Repositorio
                 </button>
               </Link>

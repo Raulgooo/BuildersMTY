@@ -4,36 +4,51 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer id="contacto" className="w-full px-6 py-20 lg:py-32 flex flex-col lg:flex-row justify-between items-end gap-12 bg-[#0E0E0E] border-t border-[#201F1F] relative z-10">
-      <div className="flex flex-col gap-6 w-full lg:w-auto">
-        <div className="text-3xl font-black text-[#E5E2E1] font-headline uppercase tracking-tighter">
-          Builders MTY
-        </div>
-        <div className="space-y-4">
-          <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
-            Fundador: Raúl R. González
-
-          </p>
-          <p className="font-label text-sm uppercase tracking-widest text-[#ebbbb4]">
-            Conecta conmigo directamente: <a href="mailto:raul@buildersmty.com.mx" className="text-[#ff5540] hover:underline">raul@buildersmty.com.mx</a>
-          </p>
-          <div className="flex gap-8">
-            <Link href="https://www.linkedin.com/in/ra%C3%BAl-r-gonz%C3%A1lez-a39a03347/" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">
-              Linkedin
+    <footer
+      id="contacto"
+      className="w-full px-6 lg:px-10 py-16 lg:py-24 bg-[var(--surface-0)] border-t border-[var(--border-subtle)]"
+    >
+      <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row justify-between gap-12">
+        <div className="space-y-6">
+          <div className="font-[family-name:var(--font-archivo-black)] text-2xl text-[var(--text-primary)] uppercase tracking-tight">
+            BuildersMTY
+          </div>
+          <div className="space-y-3">
+            <p className="text-sm text-[var(--text-secondary)]">
+              Fundador: Raúl R. González
+            </p>
+            <p className="text-sm text-[var(--text-secondary)]">
+              <a
+                href="mailto:raul@buildersmty.com.mx"
+                className="text-[var(--red)] hover:text-[var(--red-light)] transition-colors"
+              >
+                raul@buildersmty.com.mx
+              </a>
+            </p>
+          </div>
+          <div className="flex gap-6">
+            <Link
+              href="https://www.linkedin.com/in/ra%C3%BAl-r-gonz%C3%A1lez-a39a03347/"
+              className="text-[13px] text-[var(--text-tertiary)] hover:text-[var(--red)] transition-colors"
+            >
+              LinkedIn
             </Link>
-            <Link href="https://github.com/Raulgooo" className="font-label text-[10px] uppercase tracking-[0.4em] text-[#E5E2E1] hover:text-[#ff5540] transition-colors">
-              Github
+            <Link
+              href="https://github.com/Raulgooo"
+              className="text-[13px] text-[var(--text-tertiary)] hover:text-[var(--red)] transition-colors"
+            >
+              GitHub
             </Link>
           </div>
         </div>
-        <p className="font-label text-[10px] uppercase tracking-[0.4em] text-[#ff5540]/60">
-          ©2026 Builders MTY
-        </p>
-      </div>
 
-      <div className="hidden lg:block">
-        <div className="font-label text-[10px] text-[#ffb4a8]/20 uppercase tracking-[0.8em]">
-          Building In Public Always
+        <div className="flex flex-col justify-end items-start lg:items-end gap-4">
+          <p className="text-[12px] text-[var(--text-ghost)] uppercase tracking-widest">
+            Building in public, always.
+          </p>
+          <p className="text-[12px] text-[var(--text-ghost)]">
+            © 2026 BuildersMTY
+          </p>
         </div>
       </div>
     </footer>
