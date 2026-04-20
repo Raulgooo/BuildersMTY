@@ -306,20 +306,30 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
         </div>
 
         {/* ── Footer ── */}
-        <div className="px-6 py-3 flex items-center justify-between" style={{ background: "var(--surface-1)", borderTop: "1px solid var(--border-subtle)" }}>
-          <span className="text-[9px] tracking-wider uppercase" style={{ color: "var(--text-ghost)" }}>
-            BuildersMTY Analysis Engine v1.0
-          </span>
-          <a
-            href={`https://github.com/${profile.github_username}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[11px] uppercase tracking-widest hover:opacity-80 transition-opacity flex items-center gap-1.5 font-bold"
-            style={{ color: "var(--red)" }}
-          >
-            GitHub
-            <span className="material-symbols-outlined text-xs">open_in_new</span>
-          </a>
+        <div className="px-6 py-4 flex items-center justify-between" style={{ background: "var(--surface-1)", borderTop: "1px solid var(--border-subtle)" }}>
+          <div className="flex items-center gap-3">
+            <img src="/builderslogo2.svg" alt="BuildersMTY Logo" className="w-5 h-5 opacity-70" />
+            <span className="text-[9px] tracking-wider uppercase mt-0.5" style={{ color: "var(--text-ghost)" }}>
+              Analysis Engine v1.0
+            </span>
+          </div>
+          
+          {saving ? (
+            <span className="text-[10px] uppercase font-bold tracking-widest" style={{ color: "var(--text-primary)" }}>
+              buildersmty.com.mx
+            </span>
+          ) : (
+            <a
+              href={`https://github.com/${profile.github_username}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] uppercase tracking-widest hover:opacity-80 transition-opacity flex items-center gap-1.5 font-bold"
+              style={{ color: "var(--red)" }}
+            >
+              GitHub
+              <span className="material-symbols-outlined text-xs">open_in_new</span>
+            </a>
+          )}
         </div>
       </div>
 
