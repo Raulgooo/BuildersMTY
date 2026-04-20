@@ -257,7 +257,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           </div>
 
           {/* ── Top Repos ── */}
-          {ownedRepos.length > 0 && (
+          {!saving && ownedRepos.length > 0 && (
             <div className="mb-5">
               <span className="text-[10px] tracking-wider uppercase block mb-2" style={{ color: "var(--text-ghost)" }}>
                 Top Repos
@@ -267,7 +267,7 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           )}
 
           {/* ── Contributed Repos ── */}
-          {contributedRepos.length > 0 && (
+          {!saving && contributedRepos.length > 0 && (
             <div className="mb-5">
               <span className="text-[10px] tracking-wider uppercase block mb-2" style={{ color: "var(--red)" }}>
                 Contribuciones Externas
