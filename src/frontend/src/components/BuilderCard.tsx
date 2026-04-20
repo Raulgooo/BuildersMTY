@@ -161,18 +161,22 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
   const handleDownloadPng = useCallback(async () => {
     if (!cardRef.current) return;
     setSaving(true);
-    try {
-      await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 });
-      const link = document.createElement("a");
-      link.download = `${profile.github_username}-buildersmty.png`;
-      link.href = dataUrl;
-      link.click();
-    } catch (err) {
-      console.error("Failed to generate PNG:", err);
-    } finally {
-      setSaving(false);
-    }
+    
+    // Give React 150ms to unmount the 'Strengths' section so the card resizes smaller
+    setTimeout(async () => {
+      try {
+        await toPng(cardRef.current!, { cacheBust: true, pixelRatio: 2 });
+        const dataUrl = await toPng(cardRef.current!, { cacheBust: true, pixelRatio: 2 });
+        const link = document.createElement("a");
+        link.download = `${profile.github_username}-buildersmty.png`;
+        link.href = dataUrl;
+        link.click();
+      } catch (err) {
+        console.error("Failed to generate PNG:", err);
+      } finally {
+        setSaving(false);
+      }
+    }, 150);
   }, [profile.github_username]);
 
   return (
@@ -273,30 +277,32 @@ export default function BuilderCard({ profile }: { profile: BuilderProfile }) {
           )}
 
           {/* ── Strengths & Recommendations ── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5" style={{ borderTop: "1px solid var(--border-subtle)" }}>
-            <div>
-              <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Fortalezas</span>
-              <div className="space-y-2">
-                {strengths.slice(0, 3).map((s, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    <span className="shrink-0 mt-0.5" style={{ color: "var(--red)" }}>+</span>
-                    <span>{s}</span>
-                  </div>
-                ))}
+          {!saving && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6 pt-5" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+              <div>
+                <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Fortalezas</span>
+                <div className="space-y-2">
+                  {strengths.slice(0, 3).map((s, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+                      <span className="shrink-0 mt-0.5" style={{ color: "var(--red)" }}>+</span>
+                      <span>{s}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Recomendaciones</span>
+                <div className="space-y-2">
+                  {recommendations.slice(0, 3).map((r, i) => (
+                    <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-tertiary)" }}>
+                      <span className="shrink-0 mt-0.5" style={{ color: "var(--text-ghost)" }}>→</span>
+                      <span>{r}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-            <div>
-              <span className="text-[10px] tracking-wider uppercase block mb-3" style={{ color: "var(--text-ghost)" }}>Recomendaciones</span>
-              <div className="space-y-2">
-                {recommendations.slice(0, 3).map((r, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-tertiary)" }}>
-                    <span className="shrink-0 mt-0.5" style={{ color: "var(--text-ghost)" }}>→</span>
-                    <span>{r}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* ── Footer ── */}

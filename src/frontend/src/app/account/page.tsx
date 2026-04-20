@@ -46,67 +46,67 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen">
+    <div className="bg-[var(--surface-0)] font-sans selection:bg-[var(--red)] selection:text-white min-h-screen">
       <Header />
-      <main className="ghost-grid pt-28 pb-20 px-6">
+      <main className="pt-28 pb-20 px-6">
         <div className="max-w-lg mx-auto">
-          <div className="text-center mb-10">
-            <div className="font-label text-[#ff5540] text-[10px] tracking-[0.4em] mb-3 uppercase flex items-center justify-center gap-2">
-              <span className="w-4 h-[1px] bg-[#ff5540]" />
+          <div className="text-center mb-12">
+            <div className="text-[var(--red)] font-mono text-[10px] tracking-[0.4em] mb-4 uppercase drop-shadow-[0_0_15px_rgba(212,26,26,0.3)]">
               MI_CUENTA
-              <span className="w-4 h-[1px] bg-[#ff5540]" />
             </div>
-            <h1 className="font-headline font-black text-2xl uppercase tracking-tight mb-2">
-              Configuracion
+            <h1 className="font-[family-name:var(--font-archivo-black)] text-3xl uppercase tracking-tighter mb-2" style={{ color: "var(--text-primary)" }}>
+              Configuración
             </h1>
           </div>
 
           {/* User info */}
-          <div className="bg-[#1c1b1b] border border-[#603e39]/30 p-5 mb-6">
-            <div className="text-[9px] font-label font-bold text-[#E5E2E1]/40 tracking-[0.15em] uppercase mb-2">
-              Cuenta
+          <div className="p-6 mb-8 group transition-colors" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+            <div className="text-[10px] font-bold tracking-[0.2em] uppercase mb-4" style={{ color: "var(--text-ghost)" }}>
+              Sesión Activa
             </div>
-            <div className="text-sm text-[#E5E2E1]">{user.email}</div>
-            {user.name && <div className="text-xs text-[#E5E2E1]/50 mt-1">{user.name}</div>}
+            <div className="text-base mb-1" style={{ color: "var(--text-primary)" }}>{user.email}</div>
+            {user.name && <div className="text-sm" style={{ color: "var(--text-secondary)" }}>{user.name}</div>}
             {user.mfaEnabled && (
-              <div className="mt-2 inline-block px-2 py-0.5 bg-green-500/10 border border-green-500/30 text-green-400 text-[9px] font-label uppercase tracking-wider">
+              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 border border-green-500/20 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase tracking-widest">
+                <span className="material-symbols-outlined text-[14px]">verified_user</span>
                 MFA Activo
               </div>
             )}
           </div>
 
           {/* Settings links */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             {settingsItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <div
-                  className={`bg-[#1c1b1b] border p-4 flex items-center gap-4 transition-all hover:bg-[#201f1f] ${
+                  className={`p-6 flex items-center gap-5 transition-all group ${
                     item.danger
-                      ? "border-red-500/20 hover:border-red-500/40"
-                      : "border-[#603e39]/30 hover:border-[#ff5540]/40"
+                      ? "hover:bg-red-500/5 hover:border-red-500/40"
+                      : "hover:bg-[var(--surface-2)] hover:border-[var(--red)]"
                   }`}
+                  style={{ background: "var(--surface-1)", border: item.danger ? "1px solid rgba(239, 68, 68, 0.2)" : "1px solid var(--border-subtle)" }}
                 >
                   <span
-                    className={`material-symbols-outlined text-xl ${
-                      item.danger ? "text-red-500/60" : "text-[#ff5540]/60"
+                    className={`material-symbols-outlined text-2xl ${
+                      item.danger ? "text-red-500/60 group-hover:text-red-500" : "text-[var(--red)] opacity-60 group-hover:opacity-100"
                     }`}
                   >
                     {item.icon}
                   </span>
                   <div>
                     <div
-                      className={`text-xs font-bold ${
-                        item.danger ? "text-red-400" : "text-[#E5E2E1]"
+                      className={`text-sm font-bold tracking-wide uppercase mb-1 ${
+                        item.danger ? "text-red-400" : "text-[var(--text-primary)]"
                       }`}
                     >
                       {item.title}
                     </div>
-                    <div className="text-[10px] text-[#E5E2E1]/30 mt-0.5">
+                    <div className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
                       {item.description}
                     </div>
                   </div>
-                  <span className="material-symbols-outlined text-[#E5E2E1]/20 ml-auto text-sm">
-                    chevron_right
+                  <span className={`material-symbols-outlined ml-auto text-lg transition-transform transform group-hover:translate-x-1 ${item.danger ? "text-red-500/40" : "text-[var(--text-tertiary)]"}`}>
+                    arrow_forward
                   </span>
                 </div>
               </Link>

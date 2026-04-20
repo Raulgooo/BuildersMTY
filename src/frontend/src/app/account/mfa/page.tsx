@@ -23,8 +23,8 @@ export default function MfaPage() {
 
   if (loading) {
     return (
-      <div className="bg-[#131313] min-h-screen flex items-center justify-center">
-        <div className="w-12 h-12 border-2 border-[#ff5540] border-t-transparent animate-spin" />
+      <div className="bg-[var(--surface-0)] min-h-screen flex items-center justify-center">
+        <div className="w-12 h-12 border-2 border-[var(--red)] border-t-transparent animate-spin" />
       </div>
     );
   }
@@ -101,24 +101,25 @@ export default function MfaPage() {
   }
 
   return (
-    <div className="bg-[#131313] text-[#E5E2E1] font-sans selection:bg-[#ff5540] selection:text-white min-h-screen">
+    <div className="bg-[var(--surface-0)] font-sans selection:bg-[var(--red)] selection:text-white min-h-screen">
       <Header />
-      <main className="ghost-grid pt-28 pb-20 px-6">
+      <main className="pt-28 pb-20 px-6">
         <div className="max-w-sm mx-auto">
-          <div className="mb-6">
+          <div className="mb-8">
             <Link
               href="/account"
-              className="text-[10px] font-label text-[#E5E2E1]/30 hover:text-[#ff5540] transition-colors uppercase tracking-wider"
+              className="text-[10px] font-mono text-[var(--text-ghost)] hover:text-[var(--red)] transition-colors uppercase tracking-widest inline-flex items-center gap-2"
             >
-              &larr; Mi Cuenta
+              <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+              Volver a Mi Cuenta
             </Link>
           </div>
 
-          <div className="text-center mb-8">
-            <h1 className="font-headline font-black text-xl uppercase tracking-tight mb-1.5">
-              Autenticacion MFA
+          <div className="text-center mb-10">
+            <h1 className="font-[family-name:var(--font-archivo-black)] text-3xl uppercase tracking-tighter mb-2" style={{ color: "var(--text-primary)" }}>
+              Autenticación MFA
             </h1>
-            <p className="text-xs text-[#E5E2E1]/40">Protege tu cuenta con autenticacion de dos factores</p>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>Protege tu cuenta con autenticación de dos factores</p>
           </div>
 
           {error && (
@@ -130,19 +131,19 @@ export default function MfaPage() {
           {/* Idle state — MFA not enabled */}
           {step === "idle" && !user.mfaEnabled && (
             <div className="text-center space-y-4">
-              <div className="bg-[#1c1b1b] border border-[#603e39]/30 p-5">
-                <span className="material-symbols-outlined text-[#ff5540]/40 text-4xl mb-3 block">
+              <div className="p-6 transition-colors" style={{ background: "var(--surface-1)", border: "1px solid var(--border-subtle)" }}>
+                <span className="material-symbols-outlined text-[var(--red)] opacity-40 text-4xl mb-4 block">
                   shield
                 </span>
-                <p className="text-xs text-[#E5E2E1]/50 mb-4">
-                  MFA agrega una capa extra de seguridad. Necesitaras una app como Google Authenticator o Authy.
+                <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
+                  MFA agrega una capa extra de seguridad. Necesitarás una app como Google Authenticator o Authy.
                 </p>
                 <button
                   onClick={handleEnroll}
                   disabled={submitting}
-                  className="w-full bg-[#ff5540] text-white px-5 py-3 font-headline text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ff5540]/80 transition-all disabled:opacity-50"
+                  className="w-full bg-[var(--red)] text-white px-5 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(212,26,26,0.2)]"
                 >
-                  {submitting ? "..." : "Activar MFA"}
+                  {submitting ? "ACTIVANDO..." : "ACTIVAR MFA"}
                 </button>
               </div>
             </div>
