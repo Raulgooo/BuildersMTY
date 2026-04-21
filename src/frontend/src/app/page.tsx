@@ -306,10 +306,10 @@ export default function LandingPage() {
           </div>
 
           {/* BuildMancer Workspace Preview */}
-          <div className="max-w-[1300px] mx-auto px-6 lg:px-10 mb-16 animate-fade-up">
+          <div className="max-w-[1300px] mx-auto px-4 md:px-6 lg:px-10 mb-16 animate-fade-up">
             <div 
-              className="relative overflow-hidden w-full group"
-              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", minHeight: "600px", height: "70vh" }}
+              className="relative overflow-hidden w-full group min-h-[450px] sm:min-h-[600px] h-[70vh]"
+              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)" }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
               <div className="absolute inset-0 w-full h-full overflow-hidden">
