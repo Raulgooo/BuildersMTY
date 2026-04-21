@@ -306,13 +306,13 @@ export default function LandingPage() {
           </div>
 
           {/* BuildMancer Workspace Preview */}
-          <div className="max-w-[1300px] mx-auto px-4 md:px-6 lg:px-10 mb-16 animate-fade-up">
+          <div className="max-w-[1000px] mx-auto px-6 mb-20 animate-fade-up">
             <div 
               className="relative overflow-hidden w-full group @container bg-[var(--surface-0)]"
-              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", aspectRatio: "16/10", maxHeight: "750px" }}
+              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", aspectRatio: "16/10" }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
-              <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left [transform:scale(calc(100cqw/1000))] lg:w-full lg:h-full lg:[transform:none] overflow-hidden">
+              <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left [transform:scale(calc(100cqw/1000))] overflow-hidden">
                 <WorkspacePreview />
               </div>
             </div>
@@ -325,12 +325,12 @@ export default function LandingPage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
+                { icon: "psychology", title: "Construye tu propio ChatGPT desde 0", difficulty: "PRÓXIMAMENTE" },
                 { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO" },
                 { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO" },
                 { icon: "smart_toy", title: "Crea tu Propio Claude Code", difficulty: "AVANZADO" },
                 { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO" },
                 { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO" },
-                { icon: "lock", title: "Auth Service con Go", difficulty: "INTERMEDIO" },
               ].map((course, i) => (
                 <div key={i} className="p-6 transition-colors hover:bg-[var(--surface-1)] group" style={{ border: "1px solid var(--border-subtle)" }}>
                   <div className="flex items-center justify-between mb-8">
@@ -341,7 +341,7 @@ export default function LandingPage() {
                       className="text-[8px] font-bold tracking-[0.2em] uppercase px-2 py-1" 
                       style={{ 
                         border: "1px solid var(--border)", 
-                        color: course.difficulty === "AVANZADO" ? "var(--red)" : "var(--text-secondary)",
+                        color: (course.difficulty === "AVANZADO" || course.difficulty === "PRÓXIMAMENTE") ? "var(--red)" : "var(--text-secondary)",
                       }}
                     >
                       {course.difficulty}
@@ -352,31 +352,6 @@ export default function LandingPage() {
                   </h4>
                 </div>
               ))}
-              
-              {/* Highlight Course: ChatGPT */}
-              <div className="col-span-1 sm:col-span-2 lg:col-span-3 p-6 md:p-8 lg:p-10 relative overflow-hidden group transition-colors cursor-default" style={{ border: "1px solid var(--red-dim)", background: "var(--surface-0)" }}>
-                <div className="absolute inset-0 bg-[var(--red-wash)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-[var(--red)] text-3xl animate-pulse">
-                        psychology
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase px-3 py-1" style={{ border: "1px solid var(--red)", color: "var(--red)", background: "var(--red-wash)" }}>
-                        Masterclass Especial
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="font-[family-name:var(--font-archivo-black)] text-xl sm:text-2xl lg:text-3xl uppercase tracking-tighter mb-2" style={{ color: "var(--text-primary)" }}>
-                        Construye tu propio ChatGPT desde 0
-                      </h4>
-                      <p className="text-sm max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.6" }}>
-                        Un masterclass inmersivo basado en el legendario video "Let's build GPT" de Andrej Karpathy (ex-Director de IA en Tesla y fundador de OpenAI). Entiende la arquitectura matemática de los Transformers desde los tensores base.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           
