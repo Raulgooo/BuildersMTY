@@ -301,7 +301,7 @@ export default function LandingPage() {
               Build<span style={{ color: "var(--red)" }}>Mancer</span>
             </h2>
             <p className="text-lg mx-auto max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.75" }}>
-              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador, sin dependencias, sin setup. Guías paso a paso para construir desde cero.
+              Nuestra plataforma interactiva pensada para todos los niveles. Programa tus primeros sistemas complejos directo en el navegador, sin instalaciones raras ni setup. Te llevamos paso a paso, desde tu primer bloque de código hasta la maestría técnica.
             </p>
           </div>
 
@@ -334,7 +334,7 @@ export default function LandingPage() {
                 { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO", desc: "Forja tu propia UNIX shell operando system calls nativas, manejo de PIDs, file descriptors y ejecución inter-proceso." },
                 { icon: "database", title: "Bases de Datos Key-Value", difficulty: "INTERMEDIO", desc: "Diseña un motor persistente de almacenamiento de baja latencia con estructuras B-Tree, Write-Ahead Logs y binarios." },
               ].map((course, i) => (
-                <div key={i} className="flex flex-col justify-between p-6 transition-colors hover:bg-[var(--surface-1)] group h-full" style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-0)" }}>
+                <div key={i} className="animate-fade-up flex flex-col justify-between p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--surface-1)] group h-full" style={{ animationDelay: `${i * 100}ms`, border: "1px solid var(--border-subtle)", background: "var(--surface-0)" }}>
                   <div>
                     <div className="flex items-start justify-between mb-8">
                       <div className="w-10 h-10 flex items-center justify-center transition-colors group-hover:border-[var(--red)] group-hover:bg-[var(--red-wash)]" style={{ background: "var(--surface-2)", border: "1px solid var(--border)" }}>
@@ -367,8 +367,12 @@ export default function LandingPage() {
           <div className="px-6 flex items-center justify-center">
             <Link href="https://discord.gg/RPqWgsN5H6">
               <button
-                className="text-white px-10 py-5 text-[12px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all shadow-[0_0_20px_rgba(212,26,26,0.15)]"
-                style={{ background: "var(--red)", border: "1px solid var(--red-light)" }}
+                className="text-white px-10 py-5 text-[12px] font-bold uppercase tracking-[0.2em] transition-all hover:-translate-y-1 active:translate-y-0"
+                style={{ 
+                  background: "var(--red)", 
+                  border: "1px solid var(--red-light)", 
+                  boxShadow: "4px 4px 0px rgba(130, 0, 0, 1)" 
+                }}
               >
                 Inscribirse al Beta Privado
               </button>
