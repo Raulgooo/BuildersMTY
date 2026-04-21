@@ -306,14 +306,14 @@ export default function LandingPage() {
           </div>
 
           {/* BuildMancer Workspace Preview */}
-          <div className="mx-auto mb-20 animate-fade-up w-full px-4 flex justify-center">
-            <div className="w-full max-w-[340px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px]">
+          <div className="mx-auto mb-20 animate-fade-up w-full px-4 xl:px-0 flex justify-center">
+            <div className="w-full max-w-[350px] sm:max-w-[600px] md:max-w-[768px] lg:max-w-[1000px] xl:max-w-[1240px]">
               <div 
                 className="relative overflow-hidden w-full group bg-[var(--surface-0)] mx-auto"
-                style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", aspectRatio: "16/10" }}
+                style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 80px rgba(212,26,26,0.12)", aspectRatio: "16/10" }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
-                <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left scale-[0.34] sm:scale-[0.6] md:scale-[0.75] lg:scale-100 overflow-hidden">
+                <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left scale-[0.35] sm:scale-[0.6] md:scale-[0.768] lg:scale-100 xl:scale-[1.24] overflow-hidden">
                   <WorkspacePreview />
                 </div>
               </div>
