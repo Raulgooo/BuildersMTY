@@ -207,7 +207,7 @@ export default function LandingPage() {
                 </h2>
                 
                 <p className="text-lg lg:text-xl leading-relaxed max-w-lg mb-12" style={{ color: "var(--text-secondary)" }}>
-                  Hackathons, Game Jams, y Hacks de Pentesting en Monterrey. Eventos cortos, intensos y presenciales. Aquí la ejecución cruda es tu única ventaja.
+                  Hackathons, Game Jams, y Hacks de Pentesting en Monterrey. Eventos virtuales cortos e intensos, explorando hacerlos presenciales. Aquí la ejecución cruda es tu única ventaja.
                 </p>
                 
                 <div className="grid grid-cols-2 gap-4 max-w-md mb-12">
