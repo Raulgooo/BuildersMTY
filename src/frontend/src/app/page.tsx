@@ -371,7 +371,7 @@ export default function LandingPage() {
                         Construye tu propio ChatGPT desde 0
                       </h4>
                       <p className="text-sm max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.6" }}>
-                        Un masterclass inmersivo construyendo la arquitectura de un LLM comercial: desde la ingesta de pesos tensoriales hasta una UI ultra-rápida nativa. Backend en Go, streaming por WebSockets e inferencia CUDA.
+                        Un masterclass inmersivo basado en el legendario video "Let's build GPT" de Andrej Karpathy (ex-Director de IA en Tesla y fundador de OpenAI). Entiende la arquitectura matemática de los Transformers desde los tensores base.
                       </p>
                     </div>
                   </div>
