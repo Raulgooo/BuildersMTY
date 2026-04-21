@@ -301,7 +301,7 @@ export default function LandingPage() {
               Build<span style={{ color: "var(--red)" }}>Mancer</span>
             </h2>
             <p className="text-lg mx-auto max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.75" }}>
-              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador — sin dependencias, sin setup. Guías paso a paso para construir desde cero.
+              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador, sin dependencias, sin setup. Guías paso a paso para construir desde cero.
             </p>
           </div>
 
