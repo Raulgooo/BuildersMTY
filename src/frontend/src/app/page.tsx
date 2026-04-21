@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { WorkspacePreview } from "@/components/WorkspacePreview";
 
 export default function LandingPage() {
   return (
@@ -287,10 +288,10 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ═══ Courses Flywheel ═══ */}
+        {/* ═══ Courses / BuildMancer Preview ═══ */}
         <section id="cursos" className="py-24 lg:py-40 overflow-hidden">
-          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-16">
-            <p className="text-[12px] font-medium tracking-wide mb-6" style={{ color: "var(--red)" }}>
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-16 text-center">
+            <p className="text-[12px] font-bold tracking-[0.3em] uppercase mb-6" style={{ color: "var(--red)" }}>
               Próximamente
             </p>
             <h2
@@ -299,74 +300,31 @@ export default function LandingPage() {
             >
               Build<span style={{ color: "var(--red)" }}>Mancer</span>
             </h2>
-            <p className="text-lg max-w-xl" style={{ color: "var(--text-secondary)", lineHeight: "1.75" }}>
-              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador — sin dependencias, sin setup. Guías paso a paso para construir desde cero. Al terminar, el repositorio completo con historial de commits se sube a tu perfil de GitHub.
+            <p className="text-lg mx-auto max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.75" }}>
+              Nuestra plataforma propietaria de cursos. Programa proyectos complejos directo en el navegador — sin dependencias, sin setup. Guías paso a paso para construir desde cero.
             </p>
           </div>
 
-          {/* Infinite scroll */}
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, var(--surface-0), transparent)" }} />
-            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, var(--surface-0), transparent)" }} />
-
-            <div className="flex gap-5 animate-flywheel hover:[animation-play-state:paused] w-max px-6">
-              {[...Array(2)].flatMap((_, dupeIdx) =>
-                [
-                  { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO", desc: "Construye un memory allocator desde cero. Entiende malloc, free y gestión de memoria a nivel de OS." },
-                  { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO", desc: "Implementa un servidor HTTP desde el socket TCP hasta el routing. Solo Go y la standard library." },
-                  { icon: "smart_toy", title: "Crea tu Propio Claude Code", difficulty: "AVANZADO", desc: "Construye un agente de código con IA que lee, edita y ejecuta en tu terminal." },
-                  { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO", desc: "Implementa un shell UNIX con pipes, redirección, job control y built-in commands." },
-                  { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO", desc: "Construye un motor de almacenamiento persistente con B-trees, WAL y compactación." },
-                  { icon: "lock", title: "Auth Service con Go", difficulty: "INTERMEDIO", desc: "Implementa un servicio de autenticación con JWT, OAuth, MFA y sesiones seguras." },
-                ].map((course, i) => (
-                  <div
-                    key={`${dupeIdx}-${i}`}
-                    className="flex-shrink-0 w-[300px] p-6 cursor-default group transition-colors hover:bg-[var(--surface-1)]"
-                    style={{ border: "1px solid var(--border-subtle)" }}
-                  >
-                    <div className="flex items-center justify-between mb-5">
-                      <div
-                        className="w-9 h-9 flex items-center justify-center transition-colors"
-                        style={{ background: "var(--surface-2)", border: "1px solid var(--border)" }}
-                      >
-                        <span className="material-symbols-outlined text-lg" style={{ color: "var(--red)" }}>
-                          {course.icon}
-                        </span>
-                      </div>
-                      <span
-                        className="text-[9px] font-bold px-2 py-0.5 tracking-widest uppercase animate-pulse"
-                        style={{ color: "var(--text-ghost)", background: "var(--surface-2)", border: "1px solid var(--border)" }}
-                      >
-                        Próximamente
-                      </span>
-                    </div>
-                    <h3 className="font-[family-name:var(--font-archivo-black)] text-[13px] uppercase tracking-tight mb-2 group-hover:text-[var(--red)] transition-colors">
-                      {course.title}
-                    </h3>
-                    <p className="text-[12px] leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
-                      {course.desc}
-                    </p>
-                  </div>
-                ))
-              )}
+          {/* BuildMancer Workspace Preview */}
+          <div className="max-w-[1300px] mx-auto px-6 lg:px-10 mb-16 animate-fade-up">
+            <div 
+              className="relative overflow-hidden w-full group"
+              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", minHeight: "600px", height: "70vh" }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
+              <div className="absolute inset-0 w-full h-full overflow-hidden">
+                <WorkspacePreview />
+              </div>
             </div>
           </div>
-
-          <div className="mt-12 px-6 flex items-center justify-center gap-4">
-            <Link href="/courses">
-              <button
-                className="text-white px-8 py-4 text-[12px] font-bold uppercase tracking-widest hover:opacity-90 transition-opacity"
-                style={{ background: "var(--red)" }}
-              >
-                Ver todos los cursos
-              </button>
-            </Link>
+          
+          <div className="px-6 flex items-center justify-center">
             <Link href="https://discord.gg/RPqWgsN5H6">
               <button
-                className="px-8 py-4 text-[12px] font-bold uppercase tracking-widest hover:text-[var(--red)] transition-colors"
-                style={{ border: "1px solid var(--border)", color: "var(--text-tertiary)" }}
+                className="text-white px-10 py-5 text-[12px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all shadow-[0_0_20px_rgba(212,26,26,0.15)]"
+                style={{ background: "var(--red)", border: "1px solid var(--red-light)" }}
               >
-                Contribuir un curso
+                Inscribirse al Beta Privado
               </button>
             </Link>
           </div>
