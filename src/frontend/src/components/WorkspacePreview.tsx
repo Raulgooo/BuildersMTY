@@ -62,7 +62,7 @@ export function WorkspacePreview() {
         </div>
 
         {/* Modules panel */}
-        <div className="hidden sm:flex w-[180px] flex-shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--surface-1)]">
+        <div className="flex w-[180px] flex-shrink-0 flex-col border-r border-[var(--border-subtle)] bg-[var(--surface-1)]">
           <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-[var(--border-subtle)] px-3 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-ghost)]">
             <span>Modules</span>
             <span className="rounded-sm bg-[var(--surface-0)] px-1 py-[1px] text-[8px] normal-case text-[var(--text-secondary)]">
@@ -124,7 +124,7 @@ export function WorkspacePreview() {
               ))}
             </div>
             {/* Code */}
-            <pre className="m-0 flex-1 overflow-x-auto whitespace-pre pt-2 pr-3 pb-8 custom-scrollbar">
+            <pre className="m-0 flex-1 overflow-hidden whitespace-pre pt-2 pr-3">
               <CodeLine>
                 <K>for</K> {"{"}
               </CodeLine>
