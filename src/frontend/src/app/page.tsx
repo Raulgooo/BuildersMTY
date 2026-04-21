@@ -327,7 +327,7 @@ export default function LandingPage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
-                { icon: "psychology", title: "Construye tu propio ChatGPT desde 0", difficulty: "PRÓXIMAMENTE", desc: "Entiende la arquitectura matemática de Transformers y crúzalos con Go, WebSockets y CUDA para un LLM nativo ultra-rápido." },
+                { icon: "psychology", title: "Construye tu propio ChatGPT desde 0", difficulty: "PRÓXIMAMENTE", desc: "Basado en el legendario video \"Let's build GPT\" de Andrej Karpathy. Entrena tu propio modelo GPT desde cero." },
                 { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO", desc: "Construye malloc/free. Administra memoria granularmente desde cero entendiendo el mapeo directo a syscalls de OS UNIX." },
                 { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO", desc: "Implementa peticiones HTTP/1.1 desde un socket TCP crudo manejando concurrencia masiva utilizando solo la standard library." },
                 { icon: "smart_toy", title: "Crea tu Claude Code", difficulty: "AVANZADO", desc: "Desarrolla un agente CLI interconectado que escanea repositorios, edita código local y se enlaza con LLMs en tiempo real." },
