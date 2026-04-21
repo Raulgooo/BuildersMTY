@@ -306,14 +306,16 @@ export default function LandingPage() {
           </div>
 
           {/* BuildMancer Workspace Preview */}
-          <div className="max-w-[1000px] mx-auto px-6 mb-20 animate-fade-up">
-            <div 
-              className="relative overflow-hidden w-full group @container bg-[var(--surface-0)]"
-              style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", aspectRatio: "16/10" }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
-              <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left [transform:scale(calc(100cqw/1000))] overflow-hidden">
-                <WorkspacePreview />
+          <div className="mx-auto mb-20 animate-fade-up w-full px-4 flex justify-center">
+            <div className="w-full max-w-[340px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px]">
+              <div 
+                className="relative overflow-hidden w-full group bg-[var(--surface-0)] mx-auto"
+                style={{ border: "1px solid var(--border-subtle)", boxShadow: "0 0 60px rgba(212,26,26,0.08)", aspectRatio: "16/10" }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--red)]/5 to-transparent pointer-events-none mix-blend-overlay z-10 transition-opacity opacity-50 group-hover:opacity-100" />
+                <div className="absolute top-0 left-0 w-[1000px] h-[625px] origin-top-left scale-[0.34] sm:scale-[0.6] md:scale-[0.75] lg:scale-100 overflow-hidden">
+                  <WorkspacePreview />
+                </div>
               </div>
             </div>
           </div>
@@ -325,31 +327,38 @@ export default function LandingPage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
-                { icon: "psychology", title: "Construye tu propio ChatGPT desde 0", difficulty: "PRÓXIMAMENTE" },
-                { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO" },
-                { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO" },
-                { icon: "smart_toy", title: "Crea tu Propio Claude Code", difficulty: "AVANZADO" },
-                { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO" },
-                { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO" },
+                { icon: "psychology", title: "Construye tu propio ChatGPT desde 0", difficulty: "PRÓXIMAMENTE", desc: "Entiende la arquitectura matemática de Transformers y crúzalos con Go, WebSockets y CUDA para un LLM nativo ultra-rápido." },
+                { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO", desc: "Construye malloc/free. Administra memoria granularmente desde cero entendiendo el mapeo directo a syscalls de OS UNIX." },
+                { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO", desc: "Implementa peticiones HTTP/1.1 desde un socket TCP crudo manejando concurrencia masiva utilizando solo la standard library." },
+                { icon: "smart_toy", title: "Crea tu Claude Code", difficulty: "AVANZADO", desc: "Desarrolla un agente CLI interconectado que escanea repositorios, edita código local y se enlaza con LLMs en tiempo real." },
+                { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO", desc: "Forja tu propia UNIX shell operando system calls nativas, manejo de PIDs, file descriptors y ejecución inter-proceso." },
+                { icon: "database", title: "Bases de Datos Key-Value", difficulty: "INTERMEDIO", desc: "Diseña un motor persistente de almacenamiento de baja latencia con estructuras B-Tree, Write-Ahead Logs y binarios." },
               ].map((course, i) => (
-                <div key={i} className="p-6 transition-colors hover:bg-[var(--surface-1)] group" style={{ border: "1px solid var(--border-subtle)" }}>
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="material-symbols-outlined text-[var(--red)] opacity-50 group-hover:opacity-100 transition-opacity text-2xl">
-                      {course.icon}
-                    </span>
-                    <span 
-                      className="text-[8px] font-bold tracking-[0.2em] uppercase px-2 py-1" 
-                      style={{ 
-                        border: "1px solid var(--border)", 
-                        color: (course.difficulty === "AVANZADO" || course.difficulty === "PRÓXIMAMENTE") ? "var(--red)" : "var(--text-secondary)",
-                      }}
-                    >
-                      {course.difficulty}
-                    </span>
+                <div key={i} className="flex flex-col justify-between p-6 transition-colors hover:bg-[var(--surface-1)] group h-full" style={{ border: "1px solid var(--border-subtle)", background: "var(--surface-0)" }}>
+                  <div>
+                    <div className="flex items-start justify-between mb-8">
+                      <div className="w-10 h-10 flex items-center justify-center transition-colors group-hover:border-[var(--red)] group-hover:bg-[var(--red-wash)]" style={{ background: "var(--surface-2)", border: "1px solid var(--border)" }}>
+                        <span className="material-symbols-outlined text-[var(--red)] opacity-70 group-hover:opacity-100 transition-opacity text-[20px]">
+                          {course.icon}
+                        </span>
+                      </div>
+                      <span 
+                        className="text-[9px] font-bold tracking-[0.2em] uppercase px-2 py-1 mt-1" 
+                        style={{ 
+                          border: "1px solid var(--border)", 
+                          color: (course.difficulty === "AVANZADO" || course.difficulty === "PRÓXIMAMENTE") ? "var(--red)" : "var(--text-secondary)",
+                        }}
+                      >
+                        {course.difficulty}
+                      </span>
+                    </div>
+                    <h4 className="font-[family-name:var(--font-archivo-black)] text-[14px] leading-[1.2] uppercase tracking-tight mb-3" style={{ color: "var(--text-primary)" }}>
+                      {course.title}
+                    </h4>
+                    <p className="text-[12px] leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
+                      {course.desc}
+                    </p>
                   </div>
-                  <h4 className="font-[family-name:var(--font-archivo-black)] text-[13px] leading-tight uppercase tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    {course.title}
-                  </h4>
                 </div>
               ))}
             </div>
