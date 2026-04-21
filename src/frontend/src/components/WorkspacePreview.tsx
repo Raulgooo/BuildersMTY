@@ -31,14 +31,14 @@ export function WorkspacePreview() {
         </div>
         <div className="flex flex-shrink-0 items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="tabular-nums text-[var(--text-secondary)]">18</span>
-            <span className="text-border">/</span>
+            <span className="tabular-nums" style={{ color: "var(--text-secondary)" }}>10</span>
+            <span style={{ color: "var(--border-subtle)" }}>/</span>
             <span className="tabular-nums">15</span>
-            <span className="ml-1 h-[3px] w-16 bg-[var(--border)]">
-              <span className="block h-full w-[80%] bg-[var(--red)]" />
+            <span className="ml-1 h-[3px] w-16" style={{ background: "var(--border-subtle)" }}>
+              <span className="block h-full w-[66%]" style={{ background: "var(--red)" }} />
             </span>
           </div>
-          <span className="rounded border border-[var(--border-subtle)] px-1.5 py-[1px] text-[9px] tracking-widest">
+          <span className="rounded px-1.5 py-[1px] text-[9px] tracking-widest" style={{ border: "1px solid var(--border-subtle)" }}>
             ⌘K
           </span>
         </div>

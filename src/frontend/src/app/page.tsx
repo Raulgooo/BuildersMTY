@@ -195,7 +195,7 @@ export default function LandingPage() {
                 <div className="mb-8 flex items-center gap-4">
                   <div className="h-[1px] w-12" style={{ background: "var(--red)" }} />
                   <p className="text-[12px] font-bold tracking-[0.3em] uppercase" style={{ color: "var(--red)" }}>
-                    Eventos Físicos
+                    Eventos Virtuales
                   </p>
                 </div>
                 
@@ -315,6 +315,43 @@ export default function LandingPage() {
               <div className="absolute inset-0 w-full h-full overflow-hidden">
                 <WorkspacePreview />
               </div>
+            </div>
+          </div>
+
+          {/* Courses Sneak Peek */}
+          <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-20 animate-fade-up" style={{ animationDelay: "200ms" }}>
+            <h3 className="font-[family-name:var(--font-archivo-black)] text-lg lg:text-xl uppercase tracking-tighter mb-8" style={{ color: "var(--text-primary)" }}>
+              SNEAK PEEK / <span style={{ color: "var(--text-ghost)" }}>THE CURRICULUM</span>
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[
+                { icon: "memory", title: "Alocador de Memoria en C", difficulty: "AVANZADO" },
+                { icon: "dns", title: "Servidor HTTP con Go", difficulty: "INTERMEDIO" },
+                { icon: "smart_toy", title: "Crea tu Propio Claude Code", difficulty: "AVANZADO" },
+                { icon: "terminal", title: "Shell desde Cero en Rust", difficulty: "AVANZADO" },
+                { icon: "database", title: "Base de Datos Key-Value", difficulty: "INTERMEDIO" },
+                { icon: "lock", title: "Auth Service con Go", difficulty: "INTERMEDIO" },
+              ].map((course, i) => (
+                <div key={i} className="p-6 transition-colors hover:bg-[var(--surface-1)] group" style={{ border: "1px solid var(--border-subtle)" }}>
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="material-symbols-outlined text-[var(--red)] opacity-50 group-hover:opacity-100 transition-opacity text-2xl">
+                      {course.icon}
+                    </span>
+                    <span 
+                      className="text-[8px] font-bold tracking-[0.2em] uppercase px-2 py-1" 
+                      style={{ 
+                        border: "1px solid var(--border)", 
+                        color: course.difficulty === "AVANZADO" ? "var(--red)" : "var(--text-secondary)",
+                      }}
+                    >
+                      {course.difficulty}
+                    </span>
+                  </div>
+                  <h4 className="font-[family-name:var(--font-archivo-black)] text-[13px] leading-tight uppercase tracking-tight" style={{ color: "var(--text-primary)" }}>
+                    {course.title}
+                  </h4>
+                </div>
+              ))}
             </div>
           </div>
           
